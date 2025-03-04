@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WEBの基礎知識 - グラフィックレコーディング</title>
+  <link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Zen+Kurenaido&family=Kaisei+Decol&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fashion-1: #593C47;
+      --fashion-2: #F2E63D;
+      --fashion-3: #F2C53D;
+      --fashion-4: #F25C05;
+      --fashion-5: #F24405;
+      --bg-color: #FFFCF7;
+      --text-main: #334155;
+      --text-title: #1e293b;
+      --text-heading: #1e40af;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Kaisei Decol', serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.4;
+      padding: 2rem;
+    }
+    
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      position: relative;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23593c47' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid var(--fashion-3);
+      position: relative;
+    }
+    
+    .header:after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--fashion-4);
+      border-radius: 50%;
+    }
+    
+    .title {
+      font-family: 'Yomogi', cursive;
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--text-title);
+      text-shadow: 2px 2px 0 rgba(242, 197, 61, 0.3);
+      background: linear-gradient(90deg, var(--fashion-1), var(--fashion-4));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+    
+    .date {
+      font-family: 'Zen Kurenaido', sans-serif;
+      font-size: 16px;
+      color: var(--fashion-1);
+    }
+    
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      position: relative;
+    }
+    
+    .section {
+      flex: 1 1 30%;
+      min-width: 300px;
+      margin-bottom: 2rem;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 
+                  0 1px 3px rgba(0, 0, 0, 0.1), 
+                  inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--fashion-2), var(--fashion-4));
+    }
+    
+    .heading {
+      font-family: 'Zen Kurenaido', sans-serif;
+      font-size: 18px;
+      color: var(--text-heading);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px dashed var(--fashion-3);
+      display: flex;
+      align-items: center;
+    }
+    
+    .heading i {
+      margin-right: 0.5rem;
+      font-size: 1.2em;
+    }
+    
+    .concept {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    
+    .concept-title {
+      font-family: 'Yomogi', cursive;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--fashion-1);
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .concept-title:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: var(--fashion-2);
+      opacity: 0.4;
+      border-radius: 3px;
+      z-index: -1;
+    }
+    
+    .concept-desc {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .keyword {
+      font-weight: bold;
+      color: var(--fashion-5);
+      position: relative;
+      display: inline-block;
+    }
+    
+    .keyword:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--fashion-3);
+      opacity: 0.5;
+      border-radius: 2px;
+      z-index: -1;
+    }
+    
+    .hand-arrow {
+      position: absolute;
+      transform: rotate(30deg);
+      color: var(--fashion-4);
+      font-family: 'Yomogi', cursive;
+      font-size: 1.5rem;
+      opacity: 0.8;
+    }
+    
+    .bubble {
+      background: rgba(242, 197, 61, 0.2);
+      border: 2px solid var(--fashion-3);
+      border-radius: 20px;
+      padding: 0.8rem;
+      position: relative;
+      margin: 1rem 0;
+    }
+    
+    .bubble:after {
+      content: "";
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      border-width: 0 12px 12px;
+      border-style: solid;
+      border-color: var(--fashion-3) transparent;
+      opacity: 0.8;
+    }
+    
+    .code-block {
+      font-family: monospace;
+      background: rgba(89, 60, 71, 0.1);
+      padding: 0.8rem;
+      border-radius: 6px;
+      border-left: 3px solid var(--fashion-1);
+      white-space: pre-wrap;
+      font-size: 12px;
+      margin: 0.5rem 0;
+    }
+    
+    .icon-container {
+      display: flex;
+      justify-content: space-around;
+      margin: 1rem 0;
+    }
+    
+    .icon-item {
+      text-align: center;
+    }
+    
+    .icon-item span {
+      display: block;
+      font-size: 12px;
+      margin-top: 0.5rem;
+    }
+    
+    .connection {
+      display: none;
+    }
+    
+    .connector {
+      position: absolute;
+      border-top: 2px dashed var(--fashion-4);
+      opacity: 0.7;
+      transform-origin: 0 0;
+    }
+    
+    .dot-pattern {
+      background-image: radial-gradient(var(--fashion-1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      position: absolute;
+      opacity: 0.1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+    
+    .check-list {
+      list-style: none;
+      margin-left: 0.5rem;
+    }
+    
+    .check-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .check-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--fashion-4);
+      font-weight: bold;
+    }
+    
+    .emoji-icon {
+      font-size: 1.2em;
+      margin-right: 0.3rem;
+      vertical-align: middle;
+    }
+    
+    .banner {
+      position: relative;
+      background: var(--fashion-3);
+      color: var(--fashion-1);
+      padding: 0.5rem 1rem;
+      margin: 1rem -1rem;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .marker {
+      font-family: 'Yomogi', cursive;
+      background: rgba(242, 197, 61, 0.3);
+      padding: 0 4px;
+      border-radius: 3px;
+    }
+    
+    .footer {
+      font-size: 12px;
+      color: var(--fashion-1);
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--fashion-3);
+    }
+    
+    @media (max-width: 768px) {
+      .section {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="dot-pattern"></div>
+    
+    <header class="header">
+      <h1 class="title">🌟 WEBの基礎知識グラフィックノート 🌟</h1>
+      <div class="date">2025年3月5日作成</div>
+    </header>
+    
+    <main class="content">
+      <!-- HTML概要セクション -->
+      <section class="section">
+        <div class="card">
+          <h2 class="heading">📝 1. 初心者でもわかるHTML概要</h2>
+          
+          <div class="concept">
+            <h3 class="concept-title">HTMLとは？</h3>
+            <p class="concept-desc">
+              <span class="keyword">HTML</span>（HyperText Markup Language）は、Webページを作成するための<span class="marker">マークアップ言語</span>です。テキストの構造や意味を示す<span class="emoji-icon">🏷️</span>タグを使って記述します。
+            </p>
+          </div>
+          
+          <div class="bubble">
+            HTMLはWebページの<span class="keyword">骨組み</span>のようなもの！
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">基本構造</h3>
+            <div class="code-block">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;ページタイトル&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    ここに表示したい内容を書きます
+  &lt;/body&gt;
+&lt;/html&gt;</div>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">よく使う要素</h3>
+            <ul class="check-list">
+              <li><span class="keyword">&lt;h1&gt;〜&lt;h6&gt;</span>: 見出し</li>
+              <li><span class="keyword">&lt;p&gt;</span>: 段落</li>
+              <li><span class="keyword">&lt;a&gt;</span>: リンク</li>
+              <li><span class="keyword">&lt;img&gt;</span>: 画像</li>
+              <li><span class="keyword">&lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;</span>: リスト</li>
+            </ul>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">HTML5の特徴</h3>
+            <p class="concept-desc">
+              <span class="emoji-icon">🚀</span>セマンティック要素（&lt;header&gt;, &lt;nav&gt;, &lt;section&gt;など）<br>
+              <span class="emoji-icon">🎥</span>マルチメディアサポート（&lt;video&gt;, &lt;audio&gt;）<br>
+              <span class="emoji-icon">📊</span>グラフィックス（&lt;canvas&gt;, &lt;svg&gt;）<br>
+              <span class="emoji-icon">📱</span>レスポンシブデザイン対応
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Webサイトの仕組みセクション -->
+      <section class="section">
+        <div class="card">
+          <h2 class="heading">🌐 2. Webサイトの仕組み概要</h2>
+          
+          <div class="concept">
+            <h3 class="concept-title">クライアント-サーバーモデル</h3>
+            <p class="concept-desc">
+              Webサイトは<span class="keyword">クライアント</span>（ブラウザ）と<span class="keyword">サーバー</span>の通信で成り立っています。
+            </p>
+          </div>
+          
+          <div class="icon-container">
+            <div class="icon-item">
+              <span class="emoji-icon" style="font-size: 2rem;">💻</span>
+              <span>クライアント</span>
+            </div>
+            <div style="font-size: 1.5rem;">⟷</div>
+            <div class="icon-item">
+              <span class="emoji-icon" style="font-size: 2rem;">🖥️</span>
+              <span>サーバー</span>
+            </div>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">フロントエンドとバックエンド</h3>
+            <ul class="check-list">
+              <li><span class="keyword">フロントエンド</span>: ユーザーが直接見る部分
+                <br>（HTML, CSS, JavaScript）</li>
+              <li><span class="keyword">バックエンド</span>: サーバー側の処理
+                <br>（PHP, Ruby, Python, Node.js等）</li>
+            </ul>
+          </div>
+          
+          <div class="banner">
+            3つの言語がフロントエンドを支えています！
+          </div>
+          
+          <div class="icon-container">
+            <div class="icon-item">
+              <span class="emoji-icon" style="font-size: 1.5rem;">🏗️</span>
+              <span>HTML<br>構造</span>
+            </div>
+            <div class="icon-item">
+              <span class="emoji-icon" style="font-size: 1.5rem;">🎨</span>
+              <span>CSS<br>見た目</span>
+            </div>
+            <div class="icon-item">
+              <span class="emoji-icon" style="font-size: 1.5rem;">⚙️</span>
+              <span>JavaScript<br>動き</span>
+            </div>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">ドメインとホスティング</h3>
+            <p class="concept-desc">
+              <span class="keyword">ドメイン名</span>はウェブサイトの住所（例：example.com）<br>
+              <span class="keyword">ホスティング</span>はウェブサイトのファイルを保存するサーバー
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- HTTP/HTTPSセクション -->
+      <section class="section">
+        <div class="card">
+          <h2 class="heading">🔒 3. HTTP/HTTPS概要</h2>
+          
+          <div class="concept">
+            <h3 class="concept-title">HTTPとは？</h3>
+            <p class="concept-desc">
+              <span class="keyword">HTTP</span>（HyperText Transfer Protocol）は、Webサーバーとクライアントがデータをやりとりするためのプロトコル（通信規約）です。
+            </p>
+          </div>
+          
+          <div class="bubble">
+            HTTPは手紙を送るための「<span class="marker">ルール</span>」のようなもの！
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">リクエスト-レスポンスサイクル</h3>
+            <div class="icon-container">
+              <div class="icon-item">
+                <span class="emoji-icon" style="font-size: 1.5rem;">📤</span>
+                <span>リクエスト</span>
+              </div>
+              <div style="font-size: 1.5rem;">➡️</div>
+              <div class="icon-item">
+                <span class="emoji-icon" style="font-size: 1.5rem;">🖥️</span>
+                <span>処理</span>
+              </div>
+              <div style="font-size: 1.5rem;">➡️</div>
+              <div class="icon-item">
+                <span class="emoji-icon" style="font-size: 1.5rem;">📥</span>
+                <span>レスポンス</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">HTTPメソッド</h3>
+            <ul class="check-list">
+              <li><span class="keyword">GET</span>: データの取得</li>
+              <li><span class="keyword">POST</span>: データの送信・作成</li>
+              <li><span class="keyword">PUT</span>: データの更新</li>
+              <li><span class="keyword">DELETE</span>: データの削除</li>
+            </ul>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">ステータスコード</h3>
+            <p class="concept-desc">
+              <span class="emoji-icon">✅</span> <span class="keyword">200</span>: 成功<br>
+              <span class="emoji-icon">🔄</span> <span class="keyword">301/302</span>: リダイレクト<br>
+              <span class="emoji-icon">❓</span> <span class="keyword">404</span>: 見つからない<br>
+              <span class="emoji-icon">⚠️</span> <span class="keyword">500</span>: サーバーエラー
+            </p>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">HTTPSとは？</h3>
+            <p class="concept-desc">
+              <span class="keyword">HTTPS</span>はHTTPの<span class="marker">セキュア版</span>。SSL/TLS暗号化により、データを安全にやりとりできます。
+            </p>
+            <div class="icon-container">
+              <div class="icon-item">
+                <span class="emoji-icon" style="font-size: 1.5rem;">🔓</span>
+                <span>HTTP</span>
+              </div>
+              <div style="font-size: 1.5rem;">➡️</div>
+              <div class="icon-item">
+                <span class="emoji-icon" style="font-size: 1.5rem;">🔒</span>
+                <span>HTTPS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- REST APIセクション -->
+      <section class="section">
+        <div class="card">
+          <h2 class="heading">🔌 4. REST API概要</h2>
+          
+          <div class="concept">
+            <h3 class="concept-title">REST APIとは？</h3>
+            <p class="concept-desc">
+              <span class="keyword">REST</span>（Representational State Transfer）は、Webサービス間でデータをやりとりするための<span class="marker">アーキテクチャスタイル</span>です。
+            </p>
+          </div>
+          
+          <div class="bubble">
+            REST APIは異なるサービス同士の「<span class="marker">共通言語</span>」のようなもの！
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">RESTの原則</h3>
+            <ul class="check-list">
+              <li><span class="keyword">ステートレス</span>: リクエストごとに必要な情報をすべて含む</li>
+              <li><span class="keyword">リソース指向</span>: すべてのものはリソース（名詞）として扱う</li>
+              <li><span class="keyword">統一インターフェース</span>: HTTPメソッドを一貫して使用</li>
+              <li><span class="keyword">キャッシュ可能</span>: レスポンスはキャッシュ可能に</li>
+            </ul>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">RESTfulなURL設計</h3>
+            <div class="code-block"># ユーザー情報の取得
+GET /users/123
+
+# 新しい記事の作成
+POST /articles
+
+# 記事の更新
+PUT /articles/456
+
+# 記事の削除
+DELETE /articles/456</div>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">データフォーマット</h3>
+            <p class="concept-desc">
+              一般的に<span class="keyword">JSON</span>形式でデータをやりとりします。
+            </p>
+            <div class="code-block">{
+  "id": 123,
+  "name": "山田太郎",
+  "email": "yamada@example.com"
+}</div>
+          </div>
+          
+          <div class="concept">
+            <h3 class="concept-title">APIの認証</h3>
+            <ul class="check-list">
+              <li><span class="keyword">APIキー</span>: リクエストに特別なキーを含める</li>
+              <li><span class="keyword">OAuth</span>: 第三者アプリに権限を安全に付与</li>
+              <li><span class="keyword">JWT</span>: JSON Web Tokenを使った認証</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <footer class="footer">
+      グラフィックレコーディング風インフォグラフィック | Web開発基礎知識まとめ | 2025年3月作成
+    </footer>
+  </div>
+</body>
+</html>

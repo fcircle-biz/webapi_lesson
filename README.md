@@ -43,4 +43,4 @@
 
 ## 使用方法
 
-インフォグラフィックを閲覧するには、任意の最新ブラウザでHTMLファイルを開いてください。
+https://fcircle-biz.github.io/webapi_lesson/graphic-recording-infographic.html

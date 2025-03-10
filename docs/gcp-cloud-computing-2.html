@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クラウドコンピューティングとGoogleサービスの入門ガイド</title>
+    <title>GCPガイド</title>
     <style>
         :root {
             --primary-color: #4285F4;
@@ -33,48 +33,95 @@
         
         .sidebar {
             width: var(--sidebar-width);
-            background-color: var(--light-gray);
+            background-color: #f8f9fa;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
             border-right: 1px solid #ddd;
             padding: 20px 0;
             transition: transform 0.3s ease;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
         }
         
         .logo {
             text-align: center;
-            padding: 0 20px 20px;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
+            padding: 15px 20px 20px;
+            border-bottom: 2px solid #4285F4;
+            margin-bottom: 25px;
+            background-color: #ffffff;
         }
         
         .logo h2 {
             color: var(--primary-color);
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
         }
         
         .nav-menu {
             list-style: none;
+            padding: 0 10px;
         }
         
         .nav-menu li {
-            margin-bottom: 5px;
+            margin-bottom: 12px;
         }
         
         .nav-menu a {
-            display: block;
-            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
             color: var(--dark-gray);
             text-decoration: none;
-            border-left: 3px solid transparent;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 500;
             transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-icon {
+            display: none;
+        }
+        
+        .nav-menu .main-item {
+            font-weight: 600;
+            background-color: #f1f3f4;
+            border-left: 4px solid #4285F4;
+            border-radius: 4px;
+        }
+        
+        .sub-menu {
+            list-style: none;
+            margin: 8px 0 15px 15px;
+            padding: 0;
+            display: block;
+        }
+        
+        .sub-menu a {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: #555;
+            border-left: 2px solid #e0e0e0;
+        }
+        
+        .sub-menu a:hover {
+            background-color: rgba(66, 133, 244, 0.05);
+            color: #4285F4;
+            border-left-color: #4285F4;
         }
         
         .nav-menu a:hover, .nav-menu a.active {
             background-color: rgba(66, 133, 244, 0.1);
             border-left-color: var(--primary-color);
             color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        .nav-menu a.active {
+            background-color: rgba(66, 133, 244, 0.15);
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(66, 133, 244, 0.2);
         }
         
         .sub-menu {
@@ -266,28 +313,63 @@
     
     <aside class="sidebar" id="sidebar">
         <div class="logo">
-            <h2>クラウドコンピューティングガイド</h2>
+            <h2>GCP ガイド</h2>
         </div>
         
         <ul class="nav-menu">
-            <li><a href="#intro" class="active">1. クラウドコンピューティング入門</a></li>
-            <li><a href="#service-models">2. IaaS、PaaS、SaaSの違い</a></li>
-            <li><a href="#gcp">3. Google Cloud Platform (GCP)</a></li>
-            <li><a href="#maps">4. Google Maps Platform</a></li>
-            <li><a href="#free-tier">5. 無料枠について</a></li>
-            <li><a href="#routes-api">6. Routes API について</a></li>
+            <li><a href="#intro" class="active main-item">クラウドコンピューティング入門</a>
+                <ul class="sub-menu">
+                    <li><a href="#cloud-benefits">クラウドの主なメリット</a></li>
+                    <li><a href="#cloud-types">クラウドの種類</a></li>
+                </ul>
+            </li>
+            <li><a href="#service-models" class="main-item">IaaS、PaaS、SaaSの違い</a>
+                <ul class="sub-menu">
+                    <li><a href="#iaas">IaaS (Infrastructure as a Service)</a></li>
+                    <li><a href="#paas">PaaS (Platform as a Service)</a></li>
+                    <li><a href="#saas">SaaS (Software as a Service)</a></li>
+                </ul>
+            </li>
+            <li><a href="#gcp" class="main-item">Google Cloud Platform (GCP)</a>
+                <ul class="sub-menu">
+                    <li><a href="#gcp-services">主なサービスカテゴリ</a></li>
+                    <li><a href="#gcp-features">GCPの特徴</a></li>
+                </ul>
+            </li>
+            <li><a href="#maps" class="main-item">Google Maps Platform</a>
+                <ul class="sub-menu">
+                    <li><a href="#maps-api">主なAPI</a></li>
+                    <li><a href="#maps-use-cases">活用例</a></li>
+                </ul>
+            </li>
+            <li><a href="#free-tier" class="main-item">無料枠について</a>
+                <ul class="sub-menu">
+                    <li><a href="#gcp-free">GCP無料枠</a></li>
+                    <li><a href="#maps-free">Maps Platform無料枠</a></li>
+                    <li><a href="#free-tier-tips">無料枠利用のポイント</a></li>
+                </ul>
+            </li>
+            <li><a href="#routes-api" class="main-item">Routes API について</a>
+                <ul class="sub-menu">
+                    <li><a href="#routes-features">主な機能</a></li>
+                    <li><a href="#routes-spec">API仕様の詳細</a></li>
+                    <li><a href="#routes-code">サンプルコード</a></li>
+                    <li><a href="#routes-pricing">料金体系</a></li>
+                    <li><a href="#routes-practices">実装のベストプラクティス</a></li>
+                </ul>
+            </li>
         </ul>
     </aside>
     
     <main class="main-content">
-        <h1>クラウドコンピューティングとGoogleサービスの入門ガイド</h1>
+        <h1>GCPガイド</h1>
         
         <section id="intro" class="card">
             <h2>1. クラウドコンピューティング入門</h2>
             
             <p>クラウドコンピューティングとは、インターネットを通じてコンピューティングリソース（サーバー、ストレージ、データベース、ネットワーク、ソフトウェアなど）を必要に応じて利用できるサービスモデルです。</p>
             
-            <h3>クラウドの主なメリット</h3>
+            <h3 id="cloud-benefits">クラウドの主なメリット</h3>
             <ul>
                 <li><strong>柔軟なスケーラビリティ</strong>: 需要に応じてリソースを増減できる</li>
                 <li><strong>コスト効率</strong>: 初期投資が少なく、使った分だけ支払う従量課金制</li>
@@ -296,7 +378,7 @@
                 <li><strong>最新技術へのアクセス</strong>: 常に最新のテクノロジーを利用できる</li>
             </ul>
             
-            <h3>クラウドの種類</h3>
+            <h3 id="cloud-types">クラウドの種類</h3>
             <div class="service-types">
                 <div class="service-type">
                     <h4>パブリッククラウド</h4>
@@ -324,7 +406,7 @@
             
             <div class="service-types">
                 <div class="service-type">
-                    <h4>IaaS (Infrastructure as a Service)</h4>
+                    <h4 id="iaas">IaaS (Infrastructure as a Service)</h4>
                     <p><strong>仮想的なハードウェアを提供</strong></p>
                     <ul>
                         <li><strong>例</strong>: Google Compute Engine、AWS EC2</li>
@@ -335,7 +417,7 @@
                 </div>
                 
                 <div class="service-type">
-                    <h4>PaaS (Platform as a Service)</h4>
+                    <h4 id="paas">PaaS (Platform as a Service)</h4>
                     <p><strong>アプリケーション開発・実行環境を提供</strong></p>
                     <ul>
                         <li><strong>例</strong>: Google App Engine、Heroku</li>
@@ -346,7 +428,7 @@
                 </div>
                 
                 <div class="service-type">
-                    <h4>SaaS (Software as a Service)</h4>
+                    <h4 id="saas">SaaS (Software as a Service)</h4>
                     <p><strong>完成したソフトウェアアプリケーションを提供</strong></p>
                     <ul>
                         <li><strong>例</strong>: Google Workspace、Salesforce</li>
@@ -372,7 +454,7 @@
             
             <p>Google Cloud Platform (GCP) は、Googleが提供するクラウドコンピューティングサービスの総称です。</p>
             
-            <h3>主なサービスカテゴリ</h3>
+            <h3 id="gcp-services">主なサービスカテゴリ</h3>
             <ul>
                 <li><strong>コンピューティング</strong>: Compute Engine (IaaS)、App Engine (PaaS)、Cloud Functions (FaaS)</li>
                 <li><strong>ストレージ</strong>: Cloud Storage、Persistent Disk</li>
@@ -382,7 +464,7 @@
                 <li><strong>AI・機械学習</strong>: Vertex AI、Vision AI、Natural Language</li>
             </ul>
             
-            <h3>GCPの特徴</h3>
+            <h3 id="gcp-features">GCPの特徴</h3>
             <ul>
                 <li><strong>グローバルインフラ</strong>: 世界中の多数のリージョンとゾーンでサービスを提供</li>
                 <li><strong>高性能ネットワーク</strong>: Googleの独自光ファイバーネットワークを利用</li>
@@ -397,7 +479,7 @@
             
             <p>Google Maps Platformは、GCPの一部として提供される地図・位置情報サービスのAPIコレクションです。</p>
             
-            <h3>主なAPI</h3>
+            <h3 id="maps-api">主なAPI</h3>
             <ul>
                 <li><strong>Maps API</strong>: インタラクティブな地図表示機能</li>
                 <li><strong>Routes API</strong>: 経路計算、配送ルート最適化</li>
@@ -406,7 +488,7 @@
                 <li><strong>Street View API</strong>: 360度パノラマビュー</li>
             </ul>
             
-            <h3>活用例</h3>
+            <h3 id="maps-use-cases">活用例</h3>
             <div class="service-types">
                 <div class="service-type">
                     <h4>ウェブサイト・アプリへの地図機能追加</h4>
@@ -428,7 +510,7 @@
             
             <p>Google Cloud PlatformとGoogle Maps Platformでは、初期利用や小規模利用を支援するための無料枠が用意されています。</p>
             
-            <h3>Google Cloud Platform無料枠</h3>
+            <h3 id="gcp-free">Google Cloud Platform無料枠</h3>
             <div class="highlight">
                 <h4>Always Free: 利用量制限内で永続的に無料で使えるサービス</h4>
                 <ul>
@@ -442,7 +524,7 @@
                 <p>新規ユーザーに$300分のクレジット（90日間有効）</p>
             </div>
             
-            <h3>Google Maps Platform無料枠</h3>
+            <h3 id="maps-free">Google Maps Platform無料枠</h3>
             <ul>
                 <li><strong>毎月$200分の無料クレジット</strong></li>
                 <li>主な無料利用量の目安:
@@ -459,7 +541,7 @@
                 <p>詳細は<a href="https://www.zenrin-datacom.net/solution/gmapsapi/gmpupdate_202412" target="_blank">こちら</a>をご確認ください。</p>
             </div>
             
-            <h3>無料枠利用のポイント</h3>
+            <h3 id="free-tier-tips">無料枠利用のポイント</h3>
             <ul>
                 <li><strong>請求アラート設定</strong>: 予算超過を防ぐための通知設定</li>
                 <li><strong>API利用量の監視</strong>: Google Cloud Consoleで使用状況を確認</li>
@@ -473,7 +555,7 @@
             
             <p>Routes APIは、Google Maps Platformの中でも特に移動・輸送に関する機能を提供するAPIです。</p>
             
-            <h3>主な機能</h3>
+            <h3 id="routes-features">主な機能</h3>
             <ul>
                 <li><strong>ルート計算</strong>: 出発地から目的地までの最適ルート検索</li>
                 <li><strong>距離・所要時間の計算</strong>: 複数の交通手段での移動時間予測</li>
@@ -481,6 +563,205 @@
                 <li><strong>複数地点経由ルート</strong>: 複数の目的地を最適順序で訪問するルート計算</li>
                 <li><strong>配送ルート最適化</strong>: 配送効率を高めるルートプランニング</li>
             </ul>
+            
+            <h3 id="routes-spec">Routes API 仕様の詳細</h3>
+            
+            <h4>エンドポイント</h4>
+            <div class="code-block">
+https://routes.googleapis.com/directions/v2:computeRoutes  // 基本的なルート計算
+https://routes.googleapis.com/v2:computeRouteMatrix        // ルートマトリックス計算
+https://routes.googleapis.com/v2:snapToRoads              // 座標列を道路にスナップ
+            </div>
+            
+            <h4>リクエストパラメータ（computeRoutes）</h4>
+            <table>
+                <tr>
+                    <th>パラメータ</th>
+                    <th>必須</th>
+                    <th>説明</th>
+                    <th>例・有効値</th>
+                </tr>
+                <tr>
+                    <td>origin</td>
+                    <td>必須</td>
+                    <td>出発地点の情報</td>
+                    <td>
+                        location.latLng（緯度経度）<br>
+                        placeId（Google Place ID）<br>
+                        address（住所文字列）
+                    </td>
+                </tr>
+                <tr>
+                    <td>destination</td>
+                    <td>必須</td>
+                    <td>目的地の情報</td>
+                    <td>originと同様のフォーマット</td>
+                </tr>
+                <tr>
+                    <td>intermediates</td>
+                    <td>任意</td>
+                    <td>経由地点の配列</td>
+                    <td>最大25箇所まで指定可能</td>
+                </tr>
+                <tr>
+                    <td>travelMode</td>
+                    <td>必須</td>
+                    <td>移動手段</td>
+                    <td>
+                        DRIVE（車）<br>
+                        BICYCLE（自転車）<br>
+                        WALK（徒歩）<br>
+                        TWO_WHEELER（バイク）<br>
+                        TRANSIT（公共交通機関）
+                    </td>
+                </tr>
+                <tr>
+                    <td>routingPreference</td>
+                    <td>任意</td>
+                    <td>ルート計算の最適化方法</td>
+                    <td>
+                        TRAFFIC_AWARE（交通状況考慮）<br>
+                        TRAFFIC_AWARE_OPTIMAL（最適交通ルート）<br>
+                        FUEL_EFFICIENT（燃費効率）
+                    </td>
+                </tr>
+                <tr>
+                    <td>departureTime</td>
+                    <td>任意</td>
+                    <td>出発時刻</td>
+                    <td>ISO 8601形式（例: 2023-03-10T15:01:23Z）</td>
+                </tr>
+                <tr>
+                    <td>arrivalTime</td>
+                    <td>任意</td>
+                    <td>到着時刻</td>
+                    <td>ISO 8601形式</td>
+                </tr>
+                <tr>
+                    <td>computeAlternativeRoutes</td>
+                    <td>任意</td>
+                    <td>代替ルートも計算するか</td>
+                    <td>true/false（デフォルトはfalse）</td>
+                </tr>
+                <tr>
+                    <td>routeModifiers</td>
+                    <td>任意</td>
+                    <td>ルート計算の追加条件</td>
+                    <td>
+                        avoidTolls（有料道路回避）<br>
+                        avoidHighways（高速道路回避）<br>
+                        avoidFerries（フェリー回避）
+                    </td>
+                </tr>
+                <tr>
+                    <td>languageCode</td>
+                    <td>任意</td>
+                    <td>レスポンスの言語</td>
+                    <td>ja（日本語）、en-US（英語）など</td>
+                </tr>
+                <tr>
+                    <td>units</td>
+                    <td>任意</td>
+                    <td>距離の単位</td>
+                    <td>METRIC（メートル法）、IMPERIAL（ヤード・ポンド法）</td>
+                </tr>
+            </table>
+            
+            <h4>レスポンスフィールド</h4>
+            <table>
+                <tr>
+                    <th>フィールド</th>
+                    <th>説明</th>
+                </tr>
+                <tr>
+                    <td>routes[]</td>
+                    <td>計算されたルートの配列</td>
+                </tr>
+                <tr>
+                    <td>routes[].duration</td>
+                    <td>所要時間（秒）</td>
+                </tr>
+                <tr>
+                    <td>routes[].distanceMeters</td>
+                    <td>距離（メートル）</td>
+                </tr>
+                <tr>
+                    <td>routes[].polyline.encodedPolyline</td>
+                    <td>ルートを表すエンコードされたポリライン</td>
+                </tr>
+                <tr>
+                    <td>routes[].legs[]</td>
+                    <td>ルートの各区間（始点から終点までの経路）</td>
+                </tr>
+                <tr>
+                    <td>routes[].legs[].steps[]</td>
+                    <td>各区間の詳細なナビゲーション手順</td>
+                </tr>
+                <tr>
+                    <td>routes[].travelAdvisory</td>
+                    <td>通行料、交通規制などの注意情報</td>
+                </tr>
+                <tr>
+                    <td>routes[].staticDuration</td>
+                    <td>通常時の所要時間（交通状況なし）</td>
+                </tr>
+                <tr>
+                    <td>routes[].trafficDensity</td>
+                    <td>交通密度情報</td>
+                </tr>
+            </table>
+            
+            <h4>FieldMask オプション</h4>
+            <p>X-Goog-FieldMask ヘッダーを使用して、必要なフィールドのみを取得することで効率化できます。</p>
+            <div class="code-block">
+// 基本情報のみ
+'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.polyline'
+
+// 詳細なナビゲーション情報
+'X-Goog-FieldMask': 'routes.legs.steps.navigationInstruction,routes.legs.steps.distanceMeters'
+
+// 完全な情報
+'X-Goog-FieldMask': '*'
+            </div>
+            
+            <h4>エラーコードと対処法</h4>
+            <table>
+                <tr>
+                    <th>ステータスコード</th>
+                    <th>説明</th>
+                    <th>対処法</th>
+                </tr>
+                <tr>
+                    <td>400</td>
+                    <td>無効なリクエスト</td>
+                    <td>リクエストパラメータを確認</td>
+                </tr>
+                <tr>
+                    <td>401</td>
+                    <td>認証エラー</td>
+                    <td>APIキーの確認</td>
+                </tr>
+                <tr>
+                    <td>403</td>
+                    <td>クォータ超過または権限不足</td>
+                    <td>APIキーの制限を確認、支払い情報を確認</td>
+                </tr>
+                <tr>
+                    <td>404</td>
+                    <td>指定された場所が見つからない</td>
+                    <td>座標や住所を確認</td>
+                </tr>
+                <tr>
+                    <td>429</td>
+                    <td>リクエスト数制限超過</td>
+                    <td>リクエスト頻度を下げる、指数バックオフを実装</td>
+                </tr>
+                <tr>
+                    <td>503</td>
+                    <td>サービス利用不可</td>
+                    <td>しばらく待ってから再試行</td>
+                </tr>
+            </table>
             
             <h3>基本的な実装方法</h3>
             <ol>
@@ -499,7 +780,9 @@
                 <p><a href="https://developers.google.com/maps/documentation/routes/compute_route_directions?hl=ja" target="_blank">Routes API ドキュメント - ルート案内の計算</a></p>
             </div>
             
-            <h3>Routes API サンプルコード（JavaScript）</h3>
+            <h3 id="routes-code">Routes API サンプルコード</h3>
+            
+            <h4>基本的なルート検索（JavaScript）</h4>
             <div class="code-block">
 const axios = require('axios');
 
@@ -511,7 +794,7 @@ async function getRouteDirections() {
         origin: {
           location: {
             latLng: {
-              latitude: 35.6812362,
+              latitude: 35.6812362,  // 東京駅
               longitude: 139.7671248
             }
           }
@@ -519,7 +802,7 @@ async function getRouteDirections() {
         destination: {
           location: {
             latLng: {
-              latitude: 35.6586706,
+              latitude: 35.6586706,  // 六本木ヒルズ
               longitude: 139.7454329
             }
           }
@@ -548,25 +831,210 @@ async function getRouteDirections() {
 getRouteDirections();
             </div>
             
-            <h3>料金体系</h3>
+            <h4>経由地を含むルート計算（Node.js）</h4>
+            <div class="code-block">
+const axios = require('axios');
+
+async function getRouteWithWaypoints() {
+  try {
+    const response = await axios.post(
+      'https://routes.googleapis.com/directions/v2:computeRoutes',
+      {
+        origin: {
+          address: "東京駅, 東京都千代田区"
+        },
+        destination: {
+          address: "渋谷駅, 東京都渋谷区"
+        },
+        intermediates: [
+          {
+            address: "新宿駅, 東京都新宿区"
+          },
+          {
+            address: "池袋駅, 東京都豊島区"
+          }
+        ],
+        travelMode: "DRIVE",
+        optimizeWaypointOrder: true,
+        routingPreference: "TRAFFIC_AWARE",
+        departureTime: new Date().toISOString(),
+        languageCode: "ja"
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': 'YOUR_API_KEY',
+          'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.legs.steps,optimizedIntermediatePointIndex'
+        }
+      }
+    );
+    
+    // 最適化された経由地の順序
+    console.log('最適経路順序:', response.data.optimizedIntermediatePointIndex);
+    console.log('総所要時間:', response.data.routes[0].duration);
+    console.log('総距離:', response.data.routes[0].distanceMeters, 'メートル');
+    
+  } catch (error) {
+    console.error('Error fetching route with waypoints:', error);
+  }
+}
+
+getRouteWithWaypoints();
+            </div>
+            
+            <h4>ルートマトリックス計算（Python）</h4>
+            <div class="code-block">
+import requests
+import json
+from datetime import datetime
+
+def compute_route_matrix():
+    url = "https://routes.googleapis.com/v2:computeRouteMatrix"
+    
+    # 出発地リスト
+    origins = [
+        {"waypoint": {"location": {"latLng": {"latitude": 35.6812362, "longitude": 139.7671248}}}},  # 東京駅
+        {"waypoint": {"location": {"latLng": {"latitude": 35.6598003, "longitude": 139.7023894}}}}   # 新宿駅
+    ]
+    
+    # 目的地リスト
+    destinations = [
+        {"waypoint": {"location": {"latLng": {"latitude": 35.6586706, "longitude": 139.7454329}}}},  # 六本木ヒルズ
+        {"waypoint": {"location": {"latLng": {"latitude": 35.6617773, "longitude": 139.7040506}}}}   # 代々木駅
+    ]
+    
+    payload = {
+        "origins": origins,
+        "destinations": destinations,
+        "travelMode": "DRIVE",
+        "routingPreference": "TRAFFIC_AWARE",
+        "departureTime": datetime.now().isoformat() + "Z"
+    }
+    
+    headers = {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": "YOUR_API_KEY",
+        "X-Goog-FieldMask": "originIndex,destinationIndex,duration,distanceMeters,status"
+    }
+    
+    response = requests.post(url, json=payload, headers=headers)
+    
+    if response.status_code == 200:
+        results = response.json()
+        
+        # 結果をマトリックス形式で表示
+        print("出発地\\目的地 | 六本木ヒルズ | 代々木駅")
+        print("---------|------------|--------")
+        
+        # 結果を整理（originIndex, destinationIndexでソート）
+        matrix = {}
+        for element in results["elements"]:
+            origin_idx = element["originIndex"]
+            dest_idx = element["destinationIndex"]
+            
+            if origin_idx not in matrix:
+                matrix[origin_idx] = {}
+                
+            if element["status"] == "OK":
+                duration_min = int(element["duration"].replace("s", "")) // 60
+                distance_km = element["distanceMeters"] / 1000
+                matrix[origin_idx][dest_idx] = f"{duration_min}分 ({distance_km:.1f}km)"
+            else:
+                matrix[origin_idx][dest_idx] = "N/A"
+        
+        # マトリックス表示
+        origin_names = ["東京駅", "新宿駅"]
+        for i in range(len(origins)):
+            row = f"{origin_names[i]} | "
+            for j in range(len(destinations)):
+                row += matrix[i][j] + " | "
+            print(row.rstrip(" |"))
+    else:
+        print(f"エラー: {response.status_code}")
+        print(response.text)
+
+if __name__ == "__main__":
+    compute_route_matrix()
+            </div>
+            
+            <h3 id="routes-pricing">料金体系</h3>
             <table>
                 <tr>
                     <th>サービス</th>
                     <th>料金</th>
+                    <th>詳細</th>
                 </tr>
                 <tr>
-                    <td>基本料金</td>
+                    <td>Routes - 基本ディレクション</td>
                     <td>$5/1,000リクエスト</td>
+                    <td>基本的なルート計算 (computeRoutes)</td>
                 </tr>
                 <tr>
-                    <td>高度なルート最適化</td>
+                    <td>Routes - 高度な計算</td>
                     <td>$10/1,000リクエスト</td>
+                    <td>複数経路の最適化、交通予測を含む計算</td>
+                </tr>
+                <tr>
+                    <td>Routes - マトリックス計算</td>
+                    <td>$5/1,000セル</td>
+                    <td>出発地×目的地のマトリックス計算 (computeRouteMatrix)</td>
+                </tr>
+                <tr>
+                    <td>Routes - スナップトゥロード</td>
+                    <td>$5/1,000ポイント</td>
+                    <td>GPSデータを道路上の位置に補正 (snapToRoads)</td>
                 </tr>
                 <tr>
                     <td>無料クレジット</td>
                     <td>毎月$200分（2025/3/1から廃止）</td>
+                    <td>すべてのGoogle Maps Platform APIに適用</td>
                 </tr>
             </table>
+            
+            <h3 id="routes-practices">実装のベストプラクティス</h3>
+            <ul>
+                <li><strong>キャッシング</strong>: 同一ルートの繰り返しリクエストを避けるためにキャッシュを実装</li>
+                <li><strong>バッチ処理</strong>: 複数のルートを一度に計算する場合はマトリックスAPIを活用</li>
+                <li><strong>フィールドマスク</strong>: 必要な情報だけをリクエストして効率化</li>
+                <li><strong>エラーハンドリング</strong>: 再試行ロジックと指数バックオフを実装</li>
+                <li><strong>予算アラート</strong>: Google Cloud Consoleで使用量と予算アラートを設定</li>
+                <li><strong>APIキー制限</strong>: 
+                    <ul>
+                        <li>リファラー制限: 許可されたドメインからのみリクエスト可能に制限</li>
+                        <li>IP制限: 特定のIPアドレスからのみアクセス可能に制限</li>
+                        <li>使用量クォータ: 1日あたりの最大リクエスト数を設定</li>
+                    </ul>
+                </li>
+                <li><strong>テスト環境分離</strong>: 開発・テスト用と本番用の別プロジェクトを作成</li>
+            </ul>
+            
+            <h3>サンプルユースケース</h3>
+            <div class="service-types">
+                <div class="service-type">
+                    <h4>1. 配送最適化</h4>
+                    <p>複数の配達先に最短時間で配達するルートの計算</p>
+                    <ul>
+                        <li>computeRoutes + intermediatesを使用</li>
+                        <li>optimizeWaypointsOrder=trueで経由地の最適順序を計算</li>
+                    </ul>
+                </div>
+                <div class="service-type">
+                    <h4>2. 通勤時間分析</h4>
+                    <p>異なる時間帯での通勤時間の予測と比較</p>
+                    <ul>
+                        <li>departureTimeを変えて複数回リクエスト</li>
+                        <li>TRAFFIC_AWAREオプションで交通状況を反映</li>
+                    </ul>
+                </div>
+                <div class="service-type">
+                    <h4>3. 配車サービス</h4>
+                    <p>複数の車両と乗客のマッチング最適化</p>
+                    <ul>
+                        <li>computeRouteMatrixで複数の出発地と目的地の組み合わせを一度に計算</li>
+                        <li>結果に基づいて最適な配車を決定</li>
+                    </ul>
+                </div>
+            </div>
             
             <h3>効果的な活用のコツ</h3>
             <ul>
@@ -590,10 +1058,12 @@ getRouteDirections();
         
         // スクロール時のアクティブメニュー切り替え
         const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-menu a');
+        const navLinks = document.querySelectorAll('.nav-menu .main-item');
+        const subLinks = document.querySelectorAll('.sub-menu a');
         
         window.addEventListener('scroll', () => {
             let current = '';
+            let subCurrent = '';
             
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
@@ -603,10 +1073,34 @@ getRouteDirections();
                 }
             });
             
+            // すべてのヘディング要素をチェック
+            document.querySelectorAll('h3[id], h4[id]').forEach(heading => {
+                const headingTop = heading.offsetTop;
+                if (pageYOffset >= headingTop - 200) {
+                    subCurrent = heading.getAttribute('id');
+                }
+            });
+            
+            // メインメニューのアクティブ状態を更新
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href').substring(1) === current) {
                     link.classList.add('active');
+                }
+            });
+            
+            // サブメニューのアクティブ状態を更新
+            subLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === subCurrent) {
+                    link.classList.add('active');
+                    
+                    // 親メニューも強調
+                    const parentLi = link.closest('li').parentElement.parentElement;
+                    const parentLink = parentLi.querySelector('.main-item');
+                    if (parentLink) {
+                        parentLink.classList.add('active');
+                    }
                 }
             });
         });

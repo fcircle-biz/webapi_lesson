@@ -1,595 +1,654 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クラウドコンピューティングとGoogleサービスの入門ガイド</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Yomogi&family=Zen+Kurenaido&family=Kaisei+Decol:wght@400;700&display=swap');
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Kaisei Decol', serif;
-            color: #334155;
-            background-color: #f8f9fa;
-            line-height: 1.4;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 24px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            padding: 20px;
-            position: relative;
-        }
-        
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 4px dotted #593C47;
-            padding-bottom: 20px;
-        }
-        
-        h1 {
-            font-family: 'Yomogi', cursive;
-            font-size: 32px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #593C47, #F24405);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            position: relative;
-            padding-left: 20px;
-        }
-        
-        h1::before {
-            content: "📘";
-            position: absolute;
-            left: -10px;
-            top: 0;
-            font-size: 40px;
-        }
-        
-        .date {
-            font-family: 'Zen Kurenaido', sans-serif;
-            color: #475569;
-            font-size: 16px;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-        }
-        
-        .section {
-            margin-bottom: 30px;
-            position: relative;
-        }
-        
-        h2 {
-            font-family: 'Yomogi', cursive;
-            font-size: 24px;
-            color: #593C47;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 3px solid #F2C53D;
-            display: inline-block;
-            position: relative;
-        }
-        
-        h2::before {
-            font-size: 24px;
-            position: absolute;
-            left: -35px;
-            top: 0;
-        }
-        
-        h3 {
-            font-family: 'Zen Kurenaido', sans-serif;
-            font-size: 18px;
-            color: #1e40af;
-            margin: 15px 0 10px;
-            position: relative;
-            padding-left: 28px;
-        }
-        
-        h3::before {
-            font-size: 20px;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-        
-        p {
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-        
-        .card {
-            background-color: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            border: 2px solid #F2E63D;
-            position: relative;
-        }
-        
-        .card::before {
-            content: "";
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            width: 20px;
-            height: 20px;
-            background-color: #F2E63D;
-            transform: rotate(45deg);
-            z-index: -1;
-        }
-        
-        .highlight {
-            background: linear-gradient(transparent 60%, #F2C53D 40%);
-            font-weight: bold;
-            padding: 0 2px;
-        }
-        
-        ul {
-            list-style-type: none;
-            margin-left: 10px;
-        }
-        
-        li {
-            position: relative;
-            padding-left: 25px;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        li::before {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-        
-        .arrow {
-            position: relative;
-            display: block;
-            margin: 20px auto;
-            width: 80%;
-            height: 30px;
-        }
-        
-        .arrow::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' width='100%25' height='100%25'%3E%3Cpath d='M0,10 Q25,20 50,10 T100,10 L95,5 M95,10 L95,15' stroke='%23F25C05' stroke-width='2' fill='none' /%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-        }
-        
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .comparison {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-        }
-        
-        .comparison-item {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            border-radius: 12px;
-            margin: 0 5px;
-            position: relative;
-        }
-        
-        .comparison-item h4 {
-            font-family: 'Zen Kurenaido', sans-serif;
-            margin-bottom: 10px;
-            color: white;
-            font-size: 16px;
-        }
-        
-        .bubble {
-            background-color: white;
-            border: 2px solid #593C47;
-            border-radius: 20px;
-            padding: 12px;
-            position: relative;
-            margin-bottom: 20px;
-        }
-        
-        .bubble::after {
-            content: "";
-            position: absolute;
-            bottom: -12px;
-            left: 30px;
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            border-right: 2px solid #593C47;
-            border-bottom: 2px solid #593C47;
-            transform: rotate(45deg);
-        }
-        
-        .note {
-            border: 2px dashed #F25C05;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 15px 0;
-            position: relative;
-        }
-        
-        .note::before {
-            content: "📝";
-            position: absolute;
-            top: -15px;
-            left: 10px;
-            background-color: white;
-            padding: 0 5px;
-        }
-        
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 4px dotted #593C47;
-            text-align: center;
-            font-size: 12px;
-            color: #475569;
-        }
-        
-        /* Specific section styling */
-        #cloud-intro h2::before { content: "☁️"; }
-        #cloud-types h3::before { content: "🔹"; }
-        #service-models h2::before { content: "🏢"; }
-        #iaas h3::before { content: "🖥️"; }
-        #paas h3::before { content: "⚙️"; }
-        #saas h3::before { content: "📱"; }
-        #gcp h2::before { content: "🌐"; }
-        #gcp-services h3::before { content: "🧩"; }
-        #gcp-features h3::before { content: "✨"; }
-        #maps h2::before { content: "🗺️"; }
-        #maps-api h3::before { content: "📍"; }
-        #maps-examples h3::before { content: "💡"; }
-        #free-tier h2::before { content: "🆓"; }
-        #gcp-free h3::before { content: "🎁"; }
-        #maps-pricing h3::before { content: "💰"; }
-        #free-tips h3::before { content: "💎"; }
-        #routes h2::before { content: "🚗"; }
-        #routes-features h3::before { content: "🛣️"; }
-        #routes-implementation h3::before { content: "⌨️"; }
-        #routes-pricing h3::before { content: "💵"; }
-        #routes-tips h3::before { content: "🔍"; }
-        
-        .iaas { background-color: #593C47; }
-        .paas { background-color: #F25C05; }
-        .saas { background-color: #F2C53D; }
-        
-        li.merit::before { content: "✅"; }
-        li.service::before { content: "📦"; }
-        li.feature::before { content: "🔆"; }
-        li.api::before { content: "🔌"; }
-        li.example::before { content: "🔎"; }
-        li.free::before { content: "🏷️"; }
-        li.tip::before { content: "💡"; }
-        li.function::before { content: "🔄"; }
-        li.usage::before { content: "📊"; }
-        
-        @media (max-width: 900px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .date {
-                margin-top: 10px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クラウドコンピューティングとGoogleサービスの入門ガイド</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Yomogi&family=Zen+Kurenaido&family=Kaisei+Decol:wght@400;700&display=swap');
+    
+    :root {
+      --color-1: #593C47;
+      --color-2: #F2E63D;
+      --color-3: #F2C53D;
+      --color-4: #F25C05;
+      --color-5: #F24405;
+      --text-dark: #334155;
+      --heading: #1e40af;
+      --subheading: #475569;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Kaisei Decol', serif;
+      background-color: #f8f9fa;
+      color: var(--text-dark);
+      line-height: 1.4;
+      padding: 20px;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(242,230,61,0.1) 0%, rgba(242,68,5,0.05) 100%);
+      z-index: 0;
+    }
+    
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      border-bottom: 2px dashed var(--color-1);
+      padding-bottom: 15px;
+    }
+    
+    .title {
+      font-family: 'Zen Kurenaido', sans-serif;
+      font-size: 32px;
+      font-weight: bold;
+      background: linear-gradient(90deg, var(--color-1) 0%, var(--color-5) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .title::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-3) 0%, var(--color-4) 100%);
+      border-radius: 3px;
+    }
+    
+    .date {
+      font-family: 'Yomogi', cursive;
+      color: var(--subheading);
+      font-size: 16px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+    
+    .section {
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      position: relative;
+      margin-bottom: 25px;
+      border: 1px solid rgba(89, 60, 71, 0.1);
+      backdrop-filter: blur(5px);
+    }
+    
+    .section::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      width: 40px;
+      height: 20px;
+      background-color: var(--color-2);
+      border-radius: 4px;
+      transform: rotate(-5deg);
+      z-index: -1;
+    }
+    
+    .section-title {
+      font-family: 'Zen Kurenaido', sans-serif;
+      font-size: 18px;
+      color: var(--heading);
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(89, 60, 71, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-content {
+      font-size: 14px;
+    }
+    
+    .list {
+      margin-left: 20px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .list-item {
+      position: relative;
+      margin-bottom: 8px;
+      padding-left: 20px;
+    }
+    
+    .list-item::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--color-4);
+    }
+    
+    .highlight {
+      background: linear-gradient(transparent 60%, var(--color-2) 60%);
+      padding: 0 2px;
+    }
+    
+    .keyword {
+      font-weight: bold;
+      color: var(--color-1);
+      border-bottom: 2px dashed var(--color-3);
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border: 1px dashed var(--color-3);
+    }
+    
+    .card-title {
+      font-family: 'Yomogi', cursive;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--color-5);
+      margin-bottom: 8px;
+    }
+    
+    .icon {
+      display: inline-block;
+      width: 25px;
+      text-align: center;
+    }
+    
+    .arrow {
+      position: relative;
+      display: block;
+      margin: 15px auto;
+      width: 50px;
+      height: 20px;
+    }
+    
+    .arrow::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-4);
+      transform: translateY(-50%);
+    }
+    
+    .arrow::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      border-top: 2px solid var(--color-4);
+      border-right: 2px solid var(--color-4);
+      transform: translateY(-50%) rotate(45deg);
+    }
+    
+    .bubble {
+      position: relative;
+      background-color: rgba(242, 196, 61, 0.2);
+      border-radius: 10px;
+      padding: 10px 15px;
+      margin: 15px 0;
+    }
+    
+    .bubble::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: 20px;
+      width: 15px;
+      height: 15px;
+      background-color: rgba(242, 196, 61, 0.2);
+      transform: rotate(45deg);
+    }
+    
+    .comparison {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    
+    .comparison-item {
+      flex: 1;
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .comparison-title {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px dashed var(--color-3);
+    }
+    
+    .footer {
+      text-align: right;
+      margin-top: 40px;
+      font-size: 12px;
+      color: var(--subheading);
+      font-family: 'Yomogi', cursive;
+    }
+    
+    .handdrawn-border {
+      position: relative;
+    }
+    
+    .handdrawn-border::after {
+      content: "";
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      border: 2px solid var(--color-1);
+      border-radius: 15px;
+      z-index: -1;
+      transform: rotate(-0.5deg);
+    }
+    
+    .pin {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      font-size: 20px;
+      transform: rotate(25deg);
+    }
+    
+    .double-grid {
+      grid-column: span 2;
+    }
+    
+    /* 手書き風の要素 */
+    .handdrawn-line {
+      height: 2px;
+      background-color: var(--color-1);
+      margin: 15px 0;
+      position: relative;
+    }
+    
+    .handdrawn-line::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background-color: var(--color-1);
+      opacity: 0.5;
+    }
+    
+    .box-model {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .box-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .box {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    
+    .box-1 {
+      background-color: rgba(89, 60, 71, 0.8);
+      color: white;
+    }
+    
+    .box-2 {
+      background-color: rgba(242, 230, 61, 0.8);
+      color: var(--color-1);
+    }
+    
+    .box-3 {
+      background-color: rgba(242, 196, 61, 0.8);
+      color: var(--color-1);
+    }
+    
+    .label {
+      font-size: 14px;
+      font-weight: bold;
+    }
+    
+    .pizza-example {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    
+    .pizza-item {
+      text-align: center;
+      width: 30%;
+    }
+    
+    .pizza-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    
+    .pizza-text {
+      font-size: 12px;
+    }
+    
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .double-grid {
+        grid-column: span 1;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .comparison {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>クラウドコンピューティングとGoogleサービスの入門ガイド</h1>
-            <div class="date">2025年3月10日</div>
-        </div>
-        
-        <div class="grid">
-            <!-- Column 1 -->
-            <div>
-                <div id="cloud-intro" class="section">
-                    <h2>クラウドコンピューティング入門</h2>
-                    <div class="bubble">
-                        クラウドコンピューティングとは、<span class="highlight">インターネットを通じて</span>コンピューティングリソース（サーバー、ストレージ、データベースなど）を<span class="highlight">必要に応じて利用できる</span>サービスモデルです。
-                    </div>
-                    
-                    <h3>クラウドの主なメリット</h3>
-                    <ul>
-                        <li class="merit"><span class="highlight">柔軟なスケーラビリティ</span>: 需要に応じてリソースを増減</li>
-                        <li class="merit"><span class="highlight">コスト効率</span>: 初期投資が少なく、使った分だけ支払う</li>
-                        <li class="merit"><span class="highlight">場所に縛られない</span>: どこからでもアクセス可能</li>
-                        <li class="merit"><span class="highlight">運用管理の簡素化</span>: プロバイダーが維持管理</li>
-                        <li class="merit"><span class="highlight">最新技術へのアクセス</span>: 常に最新テクノロジーを利用</li>
-                    </ul>
-                    
-                    <div id="cloud-types">
-                        <h3>クラウドの種類</h3>
-                        <div class="card">
-                            <p>📌 <span class="highlight">パブリッククラウド</span>: AWS、Google Cloud、Azureなど</p>
-                        </div>
-                        <div class="card">
-                            <p>📌 <span class="highlight">プライベートクラウド</span>: 特定組織専用の環境</p>
-                        </div>
-                        <div class="card">
-                            <p>📌 <span class="highlight">ハイブリッドクラウド</span>: パブリック＋プライベート</p>
-                        </div>
-                        <div class="card">
-                            <p>📌 <span class="highlight">マルチクラウド</span>: 複数プロバイダーの併用</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="gcp" class="section">
-                    <h2>Google Cloud Platform (GCP)</h2>
-                    <div class="bubble">
-                        Google Cloud Platform (GCP) は、Googleが提供する<span class="highlight">クラウドコンピューティングサービスの総称</span>です。
-                    </div>
-                    
-                    <div id="gcp-services">
-                        <h3>主なサービスカテゴリ</h3>
-                        <ul>
-                            <li class="service"><span class="highlight">コンピューティング</span>: Compute Engine、App Engine、Cloud Functions</li>
-                            <li class="service"><span class="highlight">ストレージ</span>: Cloud Storage、Persistent Disk</li>
-                            <li class="service"><span class="highlight">データベース</span>: Cloud SQL、Cloud Spanner、Firestore</li>
-                            <li class="service"><span class="highlight">ネットワーキング</span>: Virtual Private Cloud、Cloud Load Balancing</li>
-                            <li class="service"><span class="highlight">ビッグデータ</span>: BigQuery、Dataflow、Pub/Sub</li>
-                            <li class="service"><span class="highlight">AI・機械学習</span>: Vertex AI、Vision AI、Natural Language</li>
-                        </ul>
-                    </div>
-                    
-                    <div id="gcp-features">
-                        <h3>GCPの特徴</h3>
-                        <ul>
-                            <li class="feature"><span class="highlight">グローバルインフラ</span>: 世界中の多数のリージョンとゾーン</li>
-                            <li class="feature"><span class="highlight">高性能ネットワーク</span>: Google独自の光ファイバー</li>
-                            <li class="feature"><span class="highlight">データ分析・AI強化</span>: ビッグデータ処理や機械学習に強み</li>
-                            <li class="feature"><span class="highlight">セキュリティ</span>: 多層防御アプローチ</li>
-                            <li class="feature"><span class="highlight">持続可能性</span>: カーボンニュートラルなデータセンター</li>
-                        </ul>
-                    </div>
-                </div>
+  <div class="container">
+    <div class="content">
+      <div class="header">
+        <h1 class="title">クラウドコンピューティングとGoogleサービスの入門ガイド</h1>
+        <p class="date">2025年3月10日</p>
+      </div>
+      
+      <div class="grid">
+        <!-- セクション1: クラウドコンピューティング入門 -->
+        <div class="section">
+          <h2 class="section-title"><span class="icon">☁️</span> クラウドコンピューティング入門</h2>
+          <div class="section-content">
+            <p>クラウドコンピューティングとは、<span class="highlight">インターネットを通じて</span>コンピューティングリソース（サーバー、ストレージ、データベースなど）を<span class="keyword">必要に応じて利用できる</span>サービスモデルです。</p>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">✨</span> クラウドの主なメリット</div>
+              <ul class="list">
+                <li class="list-item"><strong>柔軟なスケーラビリティ</strong>: 需要に応じてリソースを増減</li>
+                <li class="list-item"><strong>コスト効率</strong>: 初期投資少なく、従量課金制</li>
+                <li class="list-item"><strong>場所に縛られない</strong>: どこからでもアクセス可能</li>
+                <li class="list-item"><strong>運用管理の簡素化</strong>: プロバイダーがインフラを管理</li>
+                <li class="list-item"><strong>最新技術へのアクセス</strong>: 常に最新テクノロジー利用可</li>
+              </ul>
             </div>
             
-            <!-- Column 2 -->
-            <div>
-                <div id="service-models" class="section">
-                    <h2>IaaS、PaaS、SaaSの違い</h2>
-                    <div class="bubble">
-                        クラウドサービスは、<span class="highlight">提供される機能や利用者の管理範囲</span>によって主に3つのモデルに分類されます。
-                    </div>
-                    
-                    <div class="comparison">
-                        <div class="comparison-item iaas">
-                            <h4>IaaS</h4>
-                        </div>
-                        <div class="comparison-item paas">
-                            <h4>PaaS</h4>
-                        </div>
-                        <div class="comparison-item saas">
-                            <h4>SaaS</h4>
-                        </div>
-                    </div>
-                    
-                    <div id="iaas">
-                        <h3>IaaS (Infrastructure as a Service)</h3>
-                        <div class="glassmorphism">
-                            <p><span class="highlight">仮想的なハードウェアを提供</span></p>
-                            <ul>
-                                <li>例: Google Compute Engine、AWS EC2</li>
-                                <li>特徴: サーバー、ストレージ、ネットワークなどの基本リソース</li>
-                                <li>利用者の責任: OS、ミドルウェア、アプリ、データ</li>
-                                <li>向いている用途: 高度なカスタマイズ、既存インフラの拡張</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div id="paas">
-                        <h3>PaaS (Platform as a Service)</h3>
-                        <div class="glassmorphism">
-                            <p><span class="highlight">アプリケーション開発・実行環境を提供</span></p>
-                            <ul>
-                                <li>例: Google App Engine、Heroku</li>
-                                <li>特徴: 開発・デプロイ・管理のプラットフォーム</li>
-                                <li>利用者の責任: アプリケーション、データ</li>
-                                <li>向いている用途: 開発・運用の簡略化</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div id="saas">
-                        <h3>SaaS (Software as a Service)</h3>
-                        <div class="glassmorphism">
-                            <p><span class="highlight">完成したソフトウェアを提供</span></p>
-                            <ul>
-                                <li>例: Google Workspace、Salesforce</li>
-                                <li>特徴: インターネット経由でソフトウェアを利用</li>
-                                <li>利用者の責任: データ入力、設定カスタマイズ</li>
-                                <li>向いている用途: すぐに利用できるソリューション</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="note">
-                        <p><span class="highlight">わかりやすい例え</span>:</p>
-                        <p>🍕 <strong>IaaS</strong>: 自分でピザを作るための材料と道具を提供</p>
-                        <p>🍕 <strong>PaaS</strong>: ピザの生地と材料は提供され、トッピングと焼き方だけ決める</p>
-                        <p>🍕 <strong>SaaS</strong>: 完成したピザが配達される</p>
-                    </div>
-                </div>
-                
-                <div id="free-tier" class="section">
-                    <h2>無料枠について解説</h2>
-                    <div class="bubble">
-                        Google Cloud PlatformとGoogle Maps Platformでは、<span class="highlight">初期利用や小規模利用を支援</span>するための無料枠が用意されています。
-                    </div>
-                    
-                    <div id="gcp-free">
-                        <h3>Google Cloud Platform無料枠</h3>
-                        <div class="glassmorphism">
-                            <p><span class="highlight">Always Free</span>: 利用量制限内で永続的に無料</p>
-                            <ul>
-                                <li class="free">Compute Engine: f1-microインスタンス1台/月</li>
-                                <li class="free">Cloud Storage: 5GBのリージョナルストレージ</li>
-                                <li class="free">Cloud Functions: 200万回/月の呼び出し</li>
-                                <li class="free">BigQuery: 毎月1TBまでのクエリ処理</li>
-                            </ul>
-                            <p class="highlight">無料トライアル</span>: 新規ユーザーに$300分のクレジット（90日間有効）</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="card">
+              <div class="card-title"><span class="icon">🔄</span> クラウドの種類</div>
+              <ul class="list">
+                <li class="list-item"><strong>パブリッククラウド</strong>: AWS、Google Cloud、Azureなど</li>
+                <li class="list-item"><strong>プライベートクラウド</strong>: 特定組織専用のクラウド環境</li>
+                <li class="list-item"><strong>ハイブリッドクラウド</strong>: 両者の組み合わせ</li>
+                <li class="list-item"><strong>マルチクラウド</strong>: 複数のプロバイダーを併用</li>
+              </ul>
             </div>
-            
-            <!-- Column 3 -->
-            <div>
-                <div id="maps" class="section">
-                    <h2>Google Maps Platform</h2>
-                    <div class="bubble">
-                        Google Maps Platformは、GCPの一部として提供される<span class="highlight">地図・位置情報サービスのAPIコレクション</span>です。
-                    </div>
-                    
-                    <div id="maps-api">
-                        <h3>主なAPI</h3>
-                        <ul>
-                            <li class="api"><span class="highlight">Maps API</span>: インタラクティブな地図表示機能</li>
-                            <li class="api"><span class="highlight">Routes API</span>: 経路計算、配送ルート最適化</li>
-                            <li class="api"><span class="highlight">Places API</span>: 場所検索、詳細情報表示</li>
-                            <li class="api"><span class="highlight">Geocoding API</span>: 住所と地理座標の相互変換</li>
-                            <li class="api"><span class="highlight">Street View API</span>: 360度パノラマビュー</li>
-                        </ul>
-                    </div>
-                    
-                    <div id="maps-examples">
-                        <h3>活用例</h3>
-                        <ul>
-                            <li class="example">ウェブサイト・アプリへの地図機能追加</li>
-                            <li class="example">店舗検索サービス</li>
-                            <li class="example">配送・物流最適化</li>
-                            <li class="example">不動産・観光情報サービス</li>
-                            <li class="example">位置情報に基づくマーケティング</li>
-                        </ul>
-                    </div>
-                    
-                    <div id="maps-pricing">
-                        <h3>料金体系の変更（2025年3月1日以降）</h3>
-                        <div class="note">
-                            <p>⚠️ <span class="highlight">月額$200の無料クレジットの廃止</span>: 2025年3月1日に廃止予定</p>
-                            <p>⚠️ <span class="highlight">全ての利用が課金対象</span>: 全APIリクエストが課金対象</p>
-                            <p>⚠️ <span class="highlight">小規模利用者への影響</span>: 低頻度利用でも料金発生</p>
-                        </div>
-                    </div>
-                    
-                    <div id="free-tips">
-                        <h3>無料枠利用のポイント</h3>
-                        <ul>
-                            <li class="tip"><span class="highlight">請求アラート設定</span>: 予算超過を防ぐ通知</li>
-                            <li class="tip"><span class="highlight">API利用量の監視</span>: 使用状況を定期確認</li>
-                            <li class="tip"><span class="highlight">使用制限設定</span>: 上限設定で予想外の課金防止</li>
-                            <li class="tip"><span class="highlight">プロジェクト分離</span>: テスト用と本番用を分離</li>
-                            <li class="tip"><span class="highlight">代替サービス検討</span>: オープンソース地図など</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div id="routes" class="section">
-                    <h2>Routes API について</h2>
-                    <div class="bubble">
-                        Routes APIは、Google Maps Platformの中でも特に<span class="highlight">移動・輸送に関する機能</span>を提供するAPIです。
-                    </div>
-                    
-                    <div id="routes-features">
-                        <h3>主な機能</h3>
-                        <ul>
-                            <li class="function"><span class="highlight">ルート計算</span>: 最適ルート検索</li>
-                            <li class="function"><span class="highlight">距離・所要時間の計算</span>: 移動時間予測</li>
-                            <li class="function"><span class="highlight">リアルタイム交通情報</span>: 渋滞考慮</li>
-                            <li class="function"><span class="highlight">複数地点経由ルート</span>: 最適順序訪問</li>
-                            <li class="function"><span class="highlight">配送ルート最適化</span>: 効率的配送計画</li>
-                        </ul>
-                    </div>
-                    
-                    <div id="routes-implementation">
-                        <h3>基本的な実装方法</h3>
-                        <div class="card">
-                            <p>1️⃣ Google Cloud Platformでプロジェクト作成</p>
-                            <p>2️⃣ Google Maps PlatformのAPI有効化</p>
-                            <p>3️⃣ APIキー発行（適切な権限設定）</p>
-                            <p>4️⃣ APIリクエスト基本構成:</p>
-                            <pre>https://routes.googleapis.com/directions/v2:computeRoutes</pre>
-                        </div>
-                    </div>
-                    
-                    <div id="routes-pricing">
-                        <h3>料金体系</h3>
-                        <ul>
-                            <li class="usage">基本料金: $5/1,000リクエスト</li>
-                            <li class="usage">高度なルート最適化: $10/1,000リクエスト</li>
-                            <li class="usage">注意: 2025年3月1日以降、無料クレジット廃止</li>
-                        </ul>
-                    </div>
-                    
-                    <div id="routes-tips">
-                        <h3>効果的な活用のコツ</h3>
-                        <ul>
-                            <li class="tip">キャッシング戦略の導入</li>
-                            <li class="tip">API呼び出し回数の最適化</li>
-                            <li class="tip">リクエストパラメータの適切な設定</li>
-                            <li class="tip">エラーハンドリングの実装</li>
-                            <li class="tip">予算管理の徹底</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+          </div>
+          <div class="pin">📌</div>
         </div>
         
-        <div class="footer">
-            クラウドコンピューティングとGoogle提供のサービスは、個人開発から企業の大規模システムまで幅広く活用できます。
-            2025年3月の料金体系変更を見据えて、特にGoogle Maps Platformの利用には慎重なコスト計画が必要になります。
+        <!-- セクション2: IaaS、PaaS、SaaSの違い -->
+        <div class="section double-grid">
+          <h2 class="section-title"><span class="icon">🏗️</span> IaaS、PaaS、SaaSの違い</h2>
+          <div class="section-content">
+            <p>クラウドサービスは、提供される機能や利用者の管理範囲によって主に3つのモデルに分類されます。</p>
+            
+            <div class="comparison">
+              <div class="comparison-item" style="border-left: 3px solid var(--color-1);">
+                <div class="comparison-title">IaaS</div>
+                <p><small>Infrastructure as a Service</small></p>
+                <p style="text-align: center; margin: 10px 0;"><strong>仮想的なハードウェアを提供</strong></p>
+                <p><strong>例</strong>: Google Compute Engine、AWS EC2</p>
+                <p><strong>利用者の責任</strong>: OS、ミドルウェア、アプリケーション、データ</p>
+              </div>
+              
+              <div class="comparison-item" style="border-left: 3px solid var(--color-3);">
+                <div class="comparison-title">PaaS</div>
+                <p><small>Platform as a Service</small></p>
+                <p style="text-align: center; margin: 10px 0;"><strong>アプリケーション開発・実行環境を提供</strong></p>
+                <p><strong>例</strong>: Google App Engine、Heroku</p>
+                <p><strong>利用者の責任</strong>: アプリケーション、データ</p>
+              </div>
+              
+              <div class="comparison-item" style="border-left: 3px solid var(--color-5);">
+                <div class="comparison-title">SaaS</div>
+                <p><small>Software as a Service</small></p>
+                <p style="text-align: center; margin: 10px 0;"><strong>完成したソフトウェアを提供</strong></p>
+                <p><strong>例</strong>: Google Workspace、Salesforce</p>
+                <p><strong>利用者の責任</strong>: データ入力、設定のカスタマイズ</p>
+              </div>
+            </div>
+            
+            <div class="bubble">
+              <p><strong>わかりやすい例え：</strong></p>
+              <div class="pizza-example">
+                <div class="pizza-item">
+                  <div class="pizza-icon">🧑‍🍳</div>
+                  <h4>IaaS</h4>
+                  <p class="pizza-text">自分でピザを作るための材料と道具を提供してもらう</p>
+                </div>
+                <div class="pizza-item">
+                  <div class="pizza-icon">🍕</div>
+                  <h4>PaaS</h4>
+                  <p class="pizza-text">ピザの生地と材料は提供され、トッピングと焼き方だけ自分で決める</p>
+                </div>
+                <div class="pizza-item">
+                  <div class="pizza-icon">🛵</div>
+                  <h4>SaaS</h4>
+                  <p class="pizza-text">完成したピザが配達される</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pin">📝</div>
         </div>
+        
+        <!-- セクション3: Google Cloud Platform (GCP) について -->
+        <div class="section">
+          <h2 class="section-title"><span class="icon">🌐</span> Google Cloud Platform (GCP) について</h2>
+          <div class="section-content">
+            <p>Google Cloud Platform (GCP) は、Googleが提供するクラウドコンピューティングサービスの総称です。</p>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">🧩</span> 主なサービスカテゴリ</div>
+              <ul class="list">
+                <li class="list-item"><strong>コンピューティング</strong>: Compute Engine、App Engine</li>
+                <li class="list-item"><strong>ストレージ</strong>: Cloud Storage、Persistent Disk</li>
+                <li class="list-item"><strong>データベース</strong>: Cloud SQL、Firestore</li>
+                <li class="list-item"><strong>ネットワーキング</strong>: Virtual Private Cloud</li>
+                <li class="list-item"><strong>ビッグデータ</strong>: BigQuery、Dataflow</li>
+                <li class="list-item"><strong>AI・機械学習</strong>: Vertex AI、Vision AI</li>
+              </ul>
+            </div>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">⭐</span> GCPの特徴</div>
+              <ul class="list">
+                <li class="list-item"><strong>グローバルインフラ</strong>: 世界中のリージョンでサービス提供</li>
+                <li class="list-item"><strong>高性能ネットワーク</strong>: 独自光ファイバーネットワーク</li>
+                <li class="list-item"><strong>データ分析・AI強化</strong>: ビッグデータ処理に強み</li>
+                <li class="list-item"><strong>セキュリティ</strong>: 多層防御アプローチ</li>
+                <li class="list-item"><strong>持続可能性</strong>: カーボンニュートラルな運用</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pin">🔍</div>
+        </div>
+        
+        <!-- セクション4: Google Maps Platform について -->
+        <div class="section">
+          <h2 class="section-title"><span class="icon">🗺️</span> Google Maps Platform について</h2>
+          <div class="section-content">
+            <p>Google Maps Platformは、GCPの一部として提供される地図・位置情報サービスのAPIコレクションです。</p>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">🔌</span> 主なAPI</div>
+              <ul class="list">
+                <li class="list-item"><strong>Maps API</strong>: インタラクティブな地図表示機能</li>
+                <li class="list-item"><strong>Routes API</strong>: 経路計算、配送ルート最適化</li>
+                <li class="list-item"><strong>Places API</strong>: 場所検索、詳細情報表示</li>
+                <li class="list-item"><strong>Geocoding API</strong>: 住所と地理座標の相互変換</li>
+                <li class="list-item"><strong>Street View API</strong>: 360度パノラマビュー</li>
+              </ul>
+            </div>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">💡</span> 活用例</div>
+              <ul class="list">
+                <li class="list-item">ウェブサイト・アプリへの地図機能追加</li>
+                <li class="list-item">店舗検索サービス</li>
+                <li class="list-item">配送・物流最適化</li>
+                <li class="list-item">不動産・観光情報サービス</li>
+                <li class="list-item">位置情報に基づくマーケティング</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pin">📊</div>
+        </div>
+        
+        <!-- セクション5: 無料枠について解説 -->
+        <div class="section">
+          <h2 class="section-title"><span class="icon">🎁</span> 無料枠について解説</h2>
+          <div class="section-content">
+            <p>Google Cloud PlatformとGoogle Maps Platformでは、初期利用や小規模利用を支援するための無料枠が用意されています。</p>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">🏷️</span> Google Cloud Platform無料枠</div>
+              <div style="margin-bottom: 10px;">
+                <p><strong>Always Free</strong>: 利用量制限内で永続的に無料で使えるサービス</p>
+                <ul class="list">
+                  <li class="list-item">Compute Engine: f1-microインスタンス1台/月</li>
+                  <li class="list-item">Cloud Storage: 5GBのリージョナルストレージ</li>
+                  <li class="list-item">Cloud Functions: 200万回/月の呼び出し</li>
+                  <li class="list-item">BigQuery: 毎月1TBまでのクエリ処理</li>
+                </ul>
+              </div>
+              <p><strong>無料トライアル</strong>: 新規ユーザーに$300分のクレジット（90日間有効）</p>
+            </div>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">🏷️</span> Google Maps Platform無料枠</div>
+              <p><strong>毎月$200分の無料クレジット</strong></p>
+              <p>主な無料利用量の目安:</p>
+              <ul class="list">
+                <li class="list-item">Maps API: 約28,000回の読み込み</li>
+                <li class="list-item">Routes API: 約40,000回のルートリクエスト</li>
+                <li class="list-item">Places API: 約11,000回の基本リクエスト</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pin">💰</div>
+        </div>
+        
+        <!-- セクション6: Routes API について -->
+        <div class="section">
+          <h2 class="section-title"><span class="icon">🚗</span> Routes API について</h2>
+          <div class="section-content">
+            <p>Routes APIは、Google Maps Platformの中でも特に移動・輸送に関する機能を提供するAPIです。</p>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">⚙️</span> 主な機能</div>
+              <ul class="list">
+                <li class="list-item"><strong>ルート計算</strong>: 出発地から目的地までの最適ルート検索</li>
+                <li class="list-item"><strong>距離・所要時間の計算</strong>: 複数の交通手段での移動時間予測</li>
+                <li class="list-item"><strong>リアルタイムな交通情報</strong>: 渋滞や通行止めを考慮</li>
+                <li class="list-item"><strong>複数地点経由ルート</strong>: 複数の目的地を最適順序で訪問</li>
+                <li class="list-item"><strong>配送ルート最適化</strong>: 配送効率を高めるルートプランニング</li>
+              </ul>
+            </div>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">💵</span> 料金体系</div>
+              <ul class="list">
+                <li class="list-item">基本料金: $5/1,000リクエスト</li>
+                <li class="list-item">高度なルート最適化: $10/1,000リクエスト</li>
+                <li class="list-item">毎月$200分の無料クレジットあり</li>
+              </ul>
+            </div>
+            
+            <div class="card">
+              <div class="card-title"><span class="icon">✅</span> 効果的な活用のコツ</div>
+              <ul class="list">
+                <li class="list-item">キャッシング戦略の導入（同じルートの繰り返し計算を避ける）</li>
+                <li class="list-item">API呼び出し回数の最適化</li>
+                <li class="list-item">リクエストパラメータの適切な設定</li>
+                <li class="list-item">エラーハンドリングの実装</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pin">🚀</div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        <p>クラウドコンピューティングとGoogle提供のサービスは、個人開発から企業の大規模システムまで幅広く活用できます。まずは無料枠を活用して、実際に触れてみることで理解が深まるでしょう。</p>
+        <p>作成日: 2025年3月10日</p>
+      </div>
     </div>
+  </div>
 </body>
 </html>

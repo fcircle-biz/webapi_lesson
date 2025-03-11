@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAS SQLオプティマイザプロジェクト: _Methodと_Tree 日本語訳</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        h2 {
+            color: #003366;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        h3 {
+            color: #004080;
+            margin-top: 25px;
+        }
+        .author {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .abstract {
+            background-color: #e6f0ff;
+            padding: 20px;
+            border-left: 4px solid #003366;
+            margin: 20px 0;
+        }
+        .code-block {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 15px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #003366;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .note {
+            background-color: #fff8dc;
+            border-left: 4px solid #ffeb3b;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .footer {
+            margin-top: 50px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .page-number {
+            text-align: right;
+            color: #666;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SAS SQLオプティマイザプロジェクト: _Methodと_Tree in SAS 9.1</h1>
+        <p class="author">Russ Lavery（Paul Shermanに感謝）</p>
+    </header>
+
+    <div class="abstract">
+        <h2>抄録</h2>
+        <p>本論文では、SAS Proc SQLのあまり知られていない2つのオプション: _methodと_treeについて説明します。情報の主要部分と、これらのトピックについて学ぶ重要な機会は、詳細に注釈が付けられた付録に存在します。この資料を効果的に活用するには、この論文を読み、印刷し、付録に取り組むことをお勧めします。本論文では、オプティマイザが採用するロジックについても説明を試みます。</p>
+        
+        <p>Proc SQLには、送信されたSQLコードとシステムの状態（ファイルサイズ、インデックスの有無、バッファサイズ、ソート順序など）を調査する強力なサブルーチンであるSQLオプティマイザがあります。SQLオプティマイザは、クエリを最適に実行するための実行計画を作成します。実行計画は、オプティマイザが望ましい出力を生成するために作成する実行可能なプログラムを記述します。これらの実行可能なプログラムは非常に複雑になることがあり、多くの一時ファイルの作成、ソート、マージが含まれることがよくあります。オプティマイザの目標である実行時間を最小化するために、実行可能なプログラムは入力ファイル/作業ファイルから変数と観測値を削除できるだけ早く削除します。</p>
+        
+        <p>実行計画の多くの詳細は、2つのProc SQLオプション（_MethodとTree）を使用することで確認でき、本論文ではこれらの2つのオプションからの出力を説明します。_Methodと_Treeは異なる出力を生成し、実行計画の異なる側面を示します。_Methodと_Treeの解釈を学ぶことで、コードの小さな変更やシステム条件が実行時間に大きな違いをもたらす理由をプログラマーが説明するのに役立ちます。</p>
+    </div>
+
+    <section class="section">
+        <h2>はじめに</h2>
+        <p>本論文では、SAS Proc SQLのあまり知られていない2つのオプション：_Methodと_Treeを紹介します。情報の大部分と、トピックについて学ぶ機会は、詳細に注釈が付けられた付録にあります。付録を読むことを強くお勧めします。</p>
+        
+        <p>SQLでは、結果をどのように生成するかではなく、どのような結果が欲しいかをSQLに伝えます。SAS SQLには、SQLクエリが実行時間を最小化するためにどのように実行されるべきかを決定する強力なサブルーチン、SQLオプティマイザがあります。オプティマイザは送信されたSQLコードとSASシステムの特性を調べ、送信されたクエリの効率的な実行可能ステートメントを作成します。作成されたコードは非常に複雑になることがあり、しばしば多くの一時ファイルの作成、ソート、マージ、および実行時間を最小化する時点での変数と観測値の削減が含まれます。</p>
+        
+        <p>すべてのバージョンのSQLにはオプティマイザがあり、非常にうまく機能しますが、パフォーマンスは手動介入（クエリの異なるコーディングとも呼ばれる）によって改善できることがあります。SQLのチューニング、または最適なSQL効率のためのコーディングには、プログラマーがオプティマイザの選択のロジックを理解し、オプティマイザがより良い選択をできるように提出コードを変更することが必要です。チューニングプロセスの基本は、「遅すぎる」SQLクエリを実行したときにオプティマイザが何をしたかを理解することです。_Methodと_Treeはこの情報の多くを示しています。残念ながら、_Methodと_Treeのオプションは大量の出力を生成します。本論文では、主題の概要を説明し、読者は本論文の付録（CDに含まれる）にある注釈付きのログを確認することをお勧めします。付録の注釈付きログファイルは、_Methodと_Tree出力の注釈付きコレクションの中で、より大きく、より詳細なものの一つです。</p>
+        
+        <p>これはSAS SQLオプティマイザに関する一連の論文の一部として計画されています。論文は互いに構築され、オプティマイザに関する一貫した知識体系を作成することを目指しています。</p>
+    </section>
+
+    <section class="section">
+        <h2>既知のメッセージとSQLの基本プロセス</h2>
+        <p>_Methodと_Treeは、クエリがどのように実行されたかについて多くを示しますが、SAS SQLプロセスを示すために多くの略語を使用しています。特定の実行計画のコストペナルティ/影響を理解するために、略語と、SAS SQLで使用されるプロセスの詳細の一部を理解する必要があります。</p>
+        
+        <p>本論文の不完全な性質に関するコメントとお詫びが必要です。オプティマイザには、本論文で著者が明らかにし提示したものよりも繊細さがあるかもしれないことは十分にあり得ます。さらに、SAS社は常にその製品を改善しています。時間が経つにつれて、オプティマイザはより強力でより繊細になり、この論文はますます不完全になるでしょう。</p>
+
+        <h3>トップダウン読み取り：</h3>
+        <p>特定の状況では、SQLはトップからボトムへのデータの読み取りを実行します。whereを使用していないクエリや、使用可能なインデックスのないwhere句を持つクエリでは、しばしばそうなります。クエリは、1）where句の変数にインデックスがないため、または2）where句のコード/構文がオプティマイザによるインデックスの使用を妨げている可能性があるため、使用可能なインデックスを持たない場合があります。SASはトップからボトムへの読み取りを高速にするために多くの時間を費やしており、成功しています。単一の観測値の読み取りは高速ですが、数百万の観測値を読み取る必要がある場合、合計時間（時間=観測値数 * 観測値読み取り秒数）は依然として容認できないほど長くなる可能性があります。</p>
+        
+        <p>以下は、トップからボトムへの読み取りで実行されるクエリの2つの例です。</p>
+        
+        <div class="code-block">
+            Proc sql;
+            Select * from dsn;
+
+            Proc sql;/*sub上にインデックスなし*/
+            Select * from dsn
+            WHERE SUB= 001 ;
+        </div>
+
+        <h3>EQUIJOIN</h3>
+        <p>equijoinは、where句に等式を持つ結合の名前です。SASは学術的に真のequijoinと考えられるコードを実装していませんが、オプティマイザが等価関係で使用できるいくつかの高速なテクニックを持っています。その結果、SQLオプティマイザはしばしばequijoinを迅速に処理することができます。いくつかのSUGI/NESUG記事では、クエリをequijoinに変換することでクエリを高速化する技術が示されています。</p>
+        
+        <div class="code-block">
+            Proc sql;/*Equijoin*/
+            Select * from dsn
+            WHERE SUB= 001 ;
+
+            Proc sql;/*Equijoinではない*/
+            Select * from dsn
+            WHERE SUB LE 001 ;
+
+            Proc SQL; /*Equijioin*/
+            SELECT L.SUBJID, L.NAME, R.AGE
+            FROM LeftT as L, Right as R
+            Where L.subjid=r.subjid;
+
+            Proc SQL; /*Equijoinではない*/
+            SELECT L.NAME, L.Age, R.Name, R.Age
+            FROM Left as L, RightT as R
+            Where L.Age GE R.Age;
+        </div>
+        
+        <p>SQLは、時間を節約できると考えるとき、操作を下位のSASプロセスにプッシュします。Age=5のようなequijoinの単純なケースでは、where句はデータエンジンにプッシュダウンできます。データエンジンはこのequijoin（Age=5の観測値のみを渡すと考えてください）を実行し、結果をSQLに渡します。where句にage*12=60のようなコードが含まれている場合、観測値はSQLに取り込まれます。乗算とフィルタリングはSQLで発生します。データエンジンは通常、乗算/除算や類似の操作を実行するには十分に賢くありません。</p>
+
+        <h3>カーテシアン積またはステップループ結合</h3>
+        <p>SQLのfrom句でテーブルを2つ（左側にLeftT、右側にRightT）マージすることを考えてみましょう。LeftTはコンマの左側のテーブル、RightTはコンマの右側のテーブルを意味します。カーテシアン積とステップループは関連するマージプロセスであり、SQLオプティマイザは最後の手段としてそれらを採用します。それらは遅く、非常に避けるべきです。</p>
+        
+        <p>これらのプロセスでは、まず左テーブルからデータのページが読み取られ、次に右テーブルからメモリに収まる限りのデータが読み取られます。すべてのマージが行われます（LeftTのページ内の任意の観測値とRightTからメモリに読み込まれたすべての観測値の間）。結果は出力されます。その後、RightTからの観測値はメモリからフラッシュされ、RightTの新しい読み取りでメモリに収まる限りの観測値が引き込まれます。すべての可能なマッチが行われます（LeftTのページ内の任意の観測値とRightTからメモリに読み込まれたすべての観測値の間）、結果は出力されます。このプロセスは、SQLが右テーブル全体をループするまで続きます。</p>
+    </section>
+
+    <section class="section">
+        <p>その後、SQLは左テーブルでステップを進め、LeftTからメモリに新しいデータページを読み込みます。右テーブルをループするプロセスは、左テーブルの2番目のページに対して繰り返されます。次に、左テーブルから3番目のページが読み取られ、右側のテーブルのループが再び実行されます。このプロセスは、左テーブルのすべての観測値が読み取られ、右側のテーブルのすべての観測値と照合されるまで続きます。</p>
+        
+        <p>クエリにwhere句がある場合、観測値が出力される前にそれが適用されます。等価に基づかないSQL結合はステップループのプロセス候補であり、したがって避けるべきです。</p>
+        
+        <div class="code-block">
+            Proc sql;
+            Select * from LeftT,RightT;
+
+            Proc sql;/*sub上にインデックスなし*/
+            Select * from LeftT, RightT
+            Where LeftT.sub < RightT.sub;
+        </div>
+        
+        <p>上記の両方の例は、システム条件とSQLオプティマイザの決定に依存して、ステップループ結合を使用して実行される可能性が高いです。</p>
+
+        <h3>インデックス結合</h3>
+        <p>where句の変数にインデックスが存在していても、where句（クエリロジック用に使用されるコード）がオプティマイザによるインデックスの使用を「妨げる」可能性があります。さらに、インデックスが存在し、where句のコードがインデックスを無効にしない場合でも、オプティマイザはインデックスを使用しないことを決定する場合があります。オプティマイザの決定ロジックは複雑ですが、確固たるインデックスルールがあります：インデックスマージがインデックス付きファイルの15％以上を結果ファイルに返す場合、インデックスは使用すべきではありません。この場合、クエリを実行するための速い方法があり、オプティマイザはそれを探します。オプティマイザ（またはデータエンジン）はメタデータにアクセスでき、出力ファイルのサイズを推定します。</p>
+        
+        <p>1つのファイル選択の場合（下記の左ボックスを参照）、オプティマイザはPAからの観測値の割合とファイル内のそれらの分布をチェックします。割合が小さい場合、SQLはインデックス変数「state」のインデックスファイルを読み取ります。インデックス内の「state」の希望レベルを特定し、そのインデックス観測値から「state= PA」の観測値を含むハードドライブページ番号を読み取ります。順番に、ページ番号はインデックスから取得され、ディスクコントローラに渡され、データはCPUに送り返されます。各ページの観測値がCPUによって受信されると、解析され、state = PA の観測値がクエリの作業ファイルに渡されます。SASは、ディスク読み取りを最小限に抑えるテクニックとして、最近読み取られたページを追跡します。ページにwhere句（例：state= PA）を満たす複数の観測値が含まれている場合、PAからのページ内のすべての観測値がクエリ作業ファイルに送信されるまで、新しいページはハードドライブから読み取られません。</p>
+        
+        <p>2つのファイルのインデックスマージ（下記の右ボックスを参照）では、インデックスが存在し、where句コードがSQLオプティマイザがそれを使用できるように書かれている必要があります。付録では、インデックスがSQLオプティマイザによってどのように使用されるかをテストするために、いくつかの異なるクエリが使用されています。インデックス結合の基本的なプロセスは、1つのファイルがトップからボトムへ読み取られ、インデックス検索によって他のファイルから一致する観測値が読み取られることです。</p>
+        
+        <div class="code-block">
+            Proc sql;/*stateにインデックスあり*/
+            Select * from LeftT
+            Where state= PA ;
+
+            Proc sql;/*L_I_subはLeftTでインデックス化*/
+            Select * from LeftT , RightT
+            Where Lft_tbl.L_I_sub = Rgt_tbl.subj
+        </div>
+    </section>
+
+    <section class="section">
+        <p>上記の右ボックスのプロセスの詳細な説明は次のとおりです：LeftTとRightTという2つのテーブルがあり、LeftTのL_I_sub変数にインデックスがあるとします。基本的なインデックスマージプロセスでは、RightTをトップからボトムへ読み取り、インデックスを使用して左側から一致する対象IDを持つ観測値を見つけています。</p>
+        
+        <ol>
+            <li>RightTから次の観測値を選択します（開始時、これはデータセットの最初の観測値です）
+                <ul><li>ファイル終了の場合、停止</li></ul>
+            </li>
+            <li>RightTからのsubjをSASインデックスサブルーチンに渡します</li>
+            <li>LeftTファイルの変数L_I_subのインデックスで、subjの値を検索します</li>
+            <li>見つかった場合、ディスクに行き、LeftTからその観測値に必要なフィールドを返します
+                <ul><li>出力して1）に戻る</li></ul>
+            </li>
+            <li>見つからなかった場合、1）に戻る</li>
+        </ol>
+
+        <p>クエリで必要な情報がインデックスファイル自体にある場合、オプティマイザはインデックスにアクセスするだけで、インデックスに関連付けられたファイルにアクセスしません。この状況は通常、別のファイルでの一致の存在をテストするwhere句（RightTの変数subjの値がLeftTにも含まれていて、Left_Tがsubjにインデックスを持っている場合）でのクエリで発生します。オプティマイザがこの速度機能を自動化したという事実は、オプティマイザの設計とプログラミングにどれだけの詳細が込められているか、そしてその理解の難しさの一つの指標に過ぎません。</p>
+
+        <h3>ハッシング結合</h3>
+        <p>ハッシングは非常に高速なテクニックであり、オプティマイザによって自動的に検討されます。SQLハッシングはV6.08から導入されていますが、オプティマイザがプログラマーの介入なしにハッシングテクニックを評価し実装するため、その存在はあまり知られていません。ハッシングに関する一般的な情報は、SUGIとNESUGのオンライン議事録にあるPaul Dorfman博士の記事で見つけることができます。</p>
+        
+        <p>特定の条件が満たされない限り、結合テクニックとしてハッシングは検討されません。SQLオプティマイザはファイルに関するメタデータにアクセスし、結合する必要のあるファイルのサイズについて「良い推測」を行います。不要な観測値と変数を削除した後、オプティマイザは結合される2つのファイルのうち小さい方の1％が1つのメモリバッファに収まるかどうかをチェックします。小さいファイルが収まると思われる場合、オプティマイザはハッシュ結合を試みます。小さいファイルがバッファサイズと比較して大きすぎる場合、ハッシングは選択されません。プログラマーは、SASオプションでバッファサイズを手動で変更することで、マージテクニックとしてのハッシングのオプティマイザの選択に影響を与えることができます。</p>
+        
+        <p>SQLは次のようにハッシュ結合を実行します。SQLオプティマイザは、2つのテーブルのうちどちらが小さいか（select文から適切な変数のみを保持した後）を決定し、その小さいテーブルのサイズをバッファと比較します。テーブルがサイズ基準を満たす場合、メモリにツリーのような構造（ハッシュテーブル）に読み込まれます。ハッシュオブジェクトの構造とそれがメモリに存在するという事実により、非常に高速な検索が可能になります。次に、SQLは大きなファイルをトップからボトムへ処理し、where句を満たす各観測値について、観測値のHASHテーブル検索を実行します。データステップハッシングの詳細は、NESUG 2004の議事録にある「注釈付きガイド：一般的なSASプロシージャのリソース使用」というタイトルの記事に記載されています。</p>
+
+        <h3>HASH & INDEX & WHERE USE</h3>
+        <p>オプティマイザは新しい情報に動的に調整します。特定の状況では、実行中に1つの結合メソッドから別のメソッドに切り替え、ハイブリッド結合メソッドを作成します。そのような例の1つは付録（例9Aから9D参照）にあり、SQLが同時にハッシュ結合とインデックスを使用してクエリの結果を生成したことを示しています。</p>
+        
+        <p>起こったことは、両方のファイルから行と列を暫定的にトリミングした後、オプティマイザは、結合されるファイルのうち小さい方の1％がバッファに収まると推定したことです。これはオプティマイザがハッシュ結合を使用するための強いヒント/指示であり、SQLは小さいテーブルをハッシュテーブルにロードしました。</p>
+        
+        <p>オプティマイザは、ハッシュテーブルが作成される際に、ハッシュテーブルにロードされる一意のキー変数値の数をカウントしました。ハッシュテーブルにロードされた一意の値の数が少ない数（おそらく1024未満）であることがわかり、オプティマイザはこの情報を考慮するように計画を動的に変更しました。一般的に、ハッシュテーブル内の一意の値キーが比較的少ない場合、オプティマイザはハッシュテーブルから値を取り、where句の「in」フレーズを構築します（例：where state in( 'PA', 'TX' )）。</p>
+        
+        <p>その後、SQLはwhere句を使用して観測値を選択しますが、オプティマイザは現在知られている情報に照らして再度オプションを評価します。結合に選択された方法は、トップからボトムへの読み取りまたはインデックス検索のいずれかです。特定のクエリの詳細に対するこのコードの調整は複雑で、動的、そして自動的です。これは例9Aから9Dで見ることができます。</p>
+
+        <h3>ソートマージ結合</h3>
+        <p>これはデータステップマージに似ていますが、同一ではありません。特定の状況下で、オプティマイザはクエリを実行する最速の方法はテーブルをソートし、DATAステップで使用されるものに似た（類似しているだけ）マージを使用して、トップからボトムへ両方のテーブルを処理することだと判断します。このSQLマージはデータステップマージとは異なり、BY-group変数内でループすることによってカーテシアン積を生成します。SQLは左テーブルからデータのページを処理し、適切なbyグループ右テーブルをループします。</p>
+
+        <h3>グループ化</h3>
+        <p>観測値のグループ化、または集計は、複数のステップのプロセスであり、時間がかかることがあります。</p>
+    </section>
+
+    <section class="section">
+        <h3>SELECT</h3>
+        <p>Select文は最終データセット内の変数を指定します。オプティマイザは、実行計画の一部として、結果セットと呼ばれる一時作業ファイルを作成します。Select論理は動的に実行され、できるだけ早く、結果セットを小さく保ちます。</p>
+        
+        <p>以下のコードでは、name、age、およびsexの変数のみが元のSQLクエリスペース（結果セット）に取り込まれます。変数（height、weight）のこの初期除去はデータステップエンジンによって処理され、データセットのkeepオプションと似たように機能します。高さと体重はSQLの結果セットの一部になることはありません。</p>
+        
+        <p>sex NE "M"の観測値は、データの初期読み取り中にフィルタリングされ、その変数（sex）は読み取りの完了後にオプティマイザによってクエリスペースから削除されます。最初の読み取りの完了後、結果セットにはnameとageが含まれます。その後、結果セットは年齢でソート（Proc Sortを呼び出すことによって）されます。データがソートされると、ageは不要になり、オプティマイザは結果セットからその変数を削除します。</p>
+        
+        <div class="code-block">
+            proc sql _method _tree;
+            create table lookat as select name from sashelp.class
+            where sex="M" order by age;
+        </div>
+        
+        <p>上記の説明が詳細に示すように、オプティマイザは「良いプログラミング習慣」を自動化し、できるだけ早く変数と観測値の両方を削除します。</p>
+
+        <h3>HAVING</h3>
+        <p>having文はSQLプログラマーにとって非常に有用ですが、SQLがいくつかのステップを実行する必要があります。以下のコードを検討してください。</p>
+        
+        <div class="code-block">
+            proc sql _method _tree;
+            title "this illustrates a having clause";
+            select name, sex, age
+            from sashelp.class
+            group by sex
+            having age=max(age);
+            quit;
+        </div>
+        
+        <p>上記のコードでは、SQLはsashelp.classテーブル全体を処理し、select句内の3つの変数のみを読み取る必要があります。SQLは観測値を結果セット（SQLオプティマイザが作成を指示する一時テーブル）に保存します。次に、SQLは一時テーブルを通過して、各グループ内の最大年齢を見つけ、その情報を「パイプライン」に保存しようとします。速度/ストレージのテクニックとして、オプティマイザは一時ファイルの作成を避けようとします。</p>
+        
+        <p>時にはhavingを適用するには、having基準を各観測値と照合するために、作業データセット（結果セット）を追加で通過する必要があります。ログにre-mergingを言及するNoteがない場合、オプティマイザはhaving基準を適用するためにパイプラインを使用して、1回で望ましい結果を生成することができました。上記のクエリは以下のログを生成し、ここでremergingという言葉は、各性別の最大年齢を持つ観測値を見つけるために追加の通過が必要であったことを示しています。</p>
+        
+        <div class="note">
+            NOTE: The query requires remerging summary statistics back with the original data.<br>
+            NOTE: SQL execution methods chosen are:<br>
+            sqxslct<br>
+            sqxsumg<br>
+            sqxsort<br>
+            sqxsrc( SASHELP.CLASS )
+        </div>
+
+        <h3>DISTINCT</h3>
+        <p>SQLは通常、結果セットをnodupまたはnodupkeyオプションを持つProc Sortに渡すことで、distinct-ingを実装します。Distinct-ingは通常、クエリプロセスの最後にデータの追加の通過として実行されます。これはソートであり、時間とスペースが必要なためソートは避けるべきです。</p>
+        
+        <p>特定の条件下（例6A - 6D参照）では、クエリが一意のインデックスを持つ変数をdistinct-ingしている場合、オプティマイザは最後の通過を排除できます。distinct-ingの排除は時間を節約します。付録には、比較対照形式でこの例があります。これは、オプティマイザが高速コードを生成するためにどれだけの努力が払われているかの例として適切でしょう。この状況はあまり頻繁に発生しませんが、オプティマイザにはプログラマーが遭遇した場合に役立つロジックがあります。</p>
+    </section>
+
+    <section class="section">
+        <h3>非相関サブクエリ</h3>
+        <p>非相関サブクエリのコードはSQLオプティマイザによって一度だけ処理されます。この最初の評価の結果は、外部クエリで必要になるまで結果セットに保持されます。以下のコードは非相関クエリの例です。結果セットLとRは一度作成され、何度もアクセスされます。</p>
+        
+        <div class="code-block">
+            proc sql _method _tree;
+            *title show inner join merge using a comma;
+            create table ex5 as
+            select coalesce (l.name, r.name) as name
+            FROM ( select Name, Height from sashelp.class) AS L
+            ,
+            ( select Name, sex from sashelp.class) as R
+            where l.name =r.name;
+        </div>
+
+        <h3>相関サブクエリ</h3>
+        <p>相関サブクエリは非相関サブクエリとは異なる方法で処理され、再びSQLオプティマイザのパワーを示しています。相関サブクエリは、外部クエリの各観測値からの情報を使用して、別のテーブルに対する検索プロセス（SQLクエリ）を駆動します。最悪の場合、SQLは外部テーブルの各行に対して検索プロセスを実行する必要があるかもしれません。検索は外部クエリの各観測値に対して実行する必要があるかもしれませんが、オプティマイザは可能な限りそれを避けるコードを作成します。</p>
+        
+        <p>以下のクエリでは、SQLが外部クエリの各観測値を処理する際、性別をサブクエリに渡し、サブクエリにその性別の現在（外部）の値の最大年齢を見つけるよう求めているように見えます。実際、オプティマイザは最初の観測値のサブクエリを処理し、結果を一時的かつインデックス付きの結果セットに保存します。</p>
+        
+        <p>「outer」からの追加の観測値が処理される際、オプティマイザはまず、必要な情報（この場合、SQLがその性別の最大年齢を以前に計算したかどうか）を一時的なインデックス付き結果セットで見つけようとします。一時的なインデックス付き結果セットで必要な情報を見つけることができれば、そこから情報を取得し、サブクエリを実行しません。情報が一時的なインデックス付き結果セットにない場合、SQLはサブクエリを実行し、結果を外部クエリに渡し、その後、クエリの結果をインデックス付き結果セットに追加します。一時的なインデックス付き結果セットは、外部ファイルで一意の等価変数の値が見つかるにつれてサイズが大きくなります。クエリが完了すると、一時的なインデックス付き結果セットはwork libraryから削除されます。以下のクエリは、それに続く_method出力を生成します。</p>
+        
+        <div class="code-block">
+            proc sql _METHOD _TREE;
+            TITLE "A SIMPLE CORRELATED QUERY";
+            select * from sashelp.class as Outer
+            Where Outer.AGE =
+            (select Max(age) from sashelp.class as inner
+            where outer.sex=inner.sex);
+            quit;
+        </div>
+        
+        <div class="note">
+            NOTE: SQL execution methods chosen are:<br>
+            Sqxslct<br>
+            Sqxfil<br>
+            sqxsrc( SASHELP.CLASS(alias = OUTER) )<br>
+            NOTE: SQL subquery execution methods chosen are:<br>
+            Sqxsubq<br>
+            Sqxsumn<br>
+            sqxsrc( SASHELP.CLASS(alias = INNER)
+        </div>
+    </section>
+
+    <section class="section">
+        <h3>単純なサブセッティングロジック</h3>
+        <p>以下に示すような1つのファイルSQLクエリの場合、オプティマイザはまず、whereをデータエンジンにプッシュするか、SQLで処理するかを決定する必要があります。オプティマイザの2番目の決定は、インデックスを使用するかトップからボトムへの読み取りを行うかの間です。オプティマイザはファイルに関するメタデータにアクセスできます。オプティマイザは、返されるファイルの割合とファイル内の値の分布の両方を考慮し、実行時間を最小化する計画を作成します。</p>
+        
+        <div class="code-block">
+            Proc sql;/*stateにインデックスあり*/
+            Select * from LeftT
+            Where state="PA";
+        </div>
+        
+        <p>オプティマイザはテーブルのメタデータを調査し、クエリの実行に役立つ情報を決定する能力を持っています。メタデータは、where句の変数にインデックスがあるかどうかを示すだけでなく、オプティマイザが1）whereによって返されるファイルの割合と2）ファイルを通じて値がどのように分布しているかを決定できるようにします。この情報により、オプティマイザはデータへの迅速なアクセス方法について知的な決定を下すことができます。</p>
+
+        <h3>マージロジック</h3>
+        <p>特定の結合を選択するための近似ロジックを以下に示します（DSETはデータセットまたはテーブルを意味します）。残念ながら、このフローチャートは、上記のものと同様に、オプティマイザのロジックの決定的な説明というよりは、作業モデルです。著者の唯一の慰めは、現在のロジックが何であれ、SAS社の製品改善へのコミットメントは、現在のオプティマイザがより効果的で繊細な決定ルールを持つものによってすぐに置き換えられることを意味するということです。</p>
+        
+        <p>2つ以上のファイルからの変数を含むwhere句はデータエンジンに渡せないことが知られています。</p>
+
+        <h3>_METHODからの出力</h3>
+        <p>_Methodはログにわずかな出力を送ります。以下は典型的な出力です。インデンテーションレベルは結果セット（作業テーブル、または一時ファイル）の存在を示していることに注意することが重要です。付録の出力には注釈が付けられています。</p>
+        
+        <div class="code-block">
+            proc sql _method;
+            title Ex1 - show * select;
+            create table ex1 as select * from sashelp.class;
+        </div>
+        
+        <p>ログに以下の_Method出力が生成されます。</p>
+        
+        <div class="note">
+            NOTE: SQL execution methods chosen are:<br>
+            Sqxcrta<br>
+            sqxsrc( SASHELP.CLASS)
+        </div>
+        
+        <p>_Method出力を解釈するには、略語の表が必要です。示されているすべての略語はSQXで始まることに注意してください。この接頭辞はSQL実行コードを表します。以下は、_Methodを調査している間に収集できた略語とその略語の簡単な説明です。より多くが存在する可能性があります。</p>
+        
+        <table>
+            <tr>
+                <th>名前コード</th>
+                <th>説明</th>
+            </tr>
+            <tr>
+                <td>SqxCRTA</td>
+                <td>Create table as select</td>
+            </tr>
+            <tr>
+                <td>SqxSLCT</td>
+                <td>Select</td>
+            </tr>
+            <tr>
+                <td>SqxJSL</td>
+                <td>Step loop join (Cartesian)</td>
+            </tr>
+            <tr>
+                <td>SqxJM</td>
+                <td>Merge Join</td>
+            </tr>
+            <tr>
+                <td>SqxINDX</td>
+                <td>Index Join</td>
+            </tr>
+            <tr>
+                <td>SqxHASH</td>
+                <td>Hash Join</td>
+            </tr>
+            <tr>
+                <td>SqxSORT</td>
+                <td>Sort</td>
+            </tr>
+            <tr>
+                <td>SqxSRC</td>
+                <td>Source rows from table</td>
+            </tr>
+            <tr>
+                <td>SqxFIL</td>
+                <td>Filter rows</td>
+            </tr>
+            <tr>
+                <td>SqxSUMG</td>
+                <td>Summary stats with group by</td>
+            </tr>
+            <tr>
+                <td>SqxSUMM</td>
+                <td>Summary stats with NO group by</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="section">
+        <h3>_TREEからの出力</h3>
+        <p>オプティマイザはプログラム、マルチステッププログラムを作成し、treeからの出力はページに及ぶことがあります。実行計画を理解するには、_Methodと_Treeの両方からの情報が必要です。以下は、上記のクエリからの手動で注釈が付けられた（括弧内の赤い数字）_Tree出力です。_Tree出力は非常に複雑であり、注釈付きログで説明されているため、ここでは簡単な説明のみを行います。</p>
+        
+        <div class="code-block">
+            Tree as planned.
+            /-SYM-V-(class.Name:1 flag=0001)
+            /-OBJ----| (5)
+            | (3) |--SYM-V-(class.Sex:2 flag=0001)
+            | |--SYM-V-(class.Age:3 flag=0001)
+            | |--SYM-V-(class.Height:4 flag=0001)
+            | \-SYM-V-(class.Weight:5 flag=0001)
+            /-SRC----|
+            | (2) \-TABL[SASHELP].class opt=''
+            --SSEL---| (4)
+            (1)
+        </div>
+        
+        <p>クエリは、右から左へ、そしてレベル内では下から上へ処理されます。各レベルの上部には、左側のレベルに渡される変数の要約があります。左に渡される結果セットはオブジェクト（3）であり、変数（5）から構成されています。</p>
+        
+        <p>上記の出力では：</p>
+        <ul>
+            <li>(4) SQLはオプションなしでSAShelp.Classを読み取ります（keep、dropなどはデータセットオプションプロセッサによって処理されます）。</li>
+            <li>(5) SQLはsashelp内のclassと呼ばれるSASデータセットから変数を読み取ります。変数は次のとおりです：
+                <ul>
+                    <li>Name: これはデータセットclass内の変数1</li>
+                    <li>Sex: これはデータセットclass内の変数2</li>
+                    <li>... Weight: これはデータセットclass内の変数5</li>
+                </ul>
+            </li>
+            <li>(3) は左に渡される変数の要約です。</li>
+            <li>(2) は右側の枝がデータソースを記述していることを示します</li>
+            <li>(1) はこれがselect型クエリであることを示しています（SAS開発者は他のタイプを見ることができます）</li>
+        </ul>
+        
+        <p>処理シーケンスは：</p>
+        <ol>
+            <li>最右レベルが最初</li>
+            <li>レベル内では下から上へ</li>
+            <li>各レベルの上部で、左のレベルに渡されるものを要約</li>
+            <li>レベルが完了したら、左に1レベル進む</li>
+        </ol>
+        
+        <p>_Treeを調査している間に収集できた略語と略語の簡単な説明を以下に示します。説明には、SASの人々からの助けに感謝します。</p>
+        
+        <table>
+            <tr>
+                <th>略語</th>
+                <th>説明</th>
+            </tr>
+            <tr>
+                <td>ADIV</td>
+                <td>除算</td>
+            </tr>
+            <tr>
+                <td>AGGR</td>
+                <td>これは集計を示しますが、SQLはいくつかのタイプの集計を行います。
+                select sex, sum(x) as totl group by sex や select name, Min(x) as smallest などの集計操作に関連付けられています。
+                AGGRの処理には、データセットを別途通過する必要がある場合（ログ内のre-mergingノートを別途通過の指標として検索してください）と、必要ない場合があります。</td>
+            </tr>
+            <tr>
+                <td>AMUL</td>
+                <td>乗算する</td>
+            </tr>
+            <tr>
+                <td>ASC</td>
+                <td>昇順にソート</td>
+            </tr>
+            <tr>
+                <td>ASGN</td>
+                <td>代入。新しい変数を作成するか、新しい変数に値を代入します。SQLコードがselect sum(x) as totlの場合、Xが合計され、結果がtotlという名前の変数に代入されます。プログラマーが新しい変数に名前を付ける場合、その名前が出力で使用され、変数は出力を通じて識別/追跡が容易になります。プログラマーが変数に名前を付けない場合、それは番号付けされ、番号を介して追跡できます。
+                以下のように作成された変数に名前を付けることをお勧めします：
+                Select coalesce(l.name, r.name) as Cname, r.age as Rgt_age</td>
+            </tr>
+            <tr>
+                <td>CEQ</td>
+                <td>これは左側に渡される論理命令を示し、そこで実行されます。CEQはこれら2つのリーフが等しいかどうかをチェックすることを意味します。CEQは数値と文字の等価性テストの両方のシンボルです。</td>
+            </tr>
+            <tr>
+                <td>DESC</td>
+                <td>左側のソートは降順で行われるべきです。このDESCコードは出力上の「左に渡される情報」です。降順ソートは左側のソートで実行されます（ファイルが作成され、時間が費やされます）。</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="section">
+        <h2>結論</h2>
+        <p>SQLオプティマイザはプログラマーにとって非常に役立つものであり、彼らが全く考えることなく非常に効率的なクエリを書くことを可能にします。SQLオプティマイザがプログラマーの入力とは全く独立して、完全に舞台裏で行う作業の量は驚くべきものです。</p>
+        
+        <p>場合によっては、クエリを再コーディングしてオプティマイザに異なる指示を渡すことでパフォーマンスが向上することがあります。これらの問題は将来の論文で探求されます。</p>
+        
+        <p>SQLのパフォーマンスが問題を引き起こしている場合、プログラマーがパフォーマンスを向上させるために試みるならば、オプティマイザがクエリのために作成した実行計画を知ることが不可欠です。_methodと_treeを使用すると、SQLがクエリをどのように実行したか、そしてプログラミングの変更の効果を見ることができます。</p>
+    </section>
+
+    <section class="section">
+        <h2>参考文献</h2>
+        <ul>
+            <li>TS553 SQL Joins the Long and the Short of it, by Paul Kent（SASのWebサイトで入手可能）</li>
+            <li>TS320-Inside PROC SQL's Query Optimizer, by Paul Kent（SASのWebサイトで入手可能）</li>
+            <li>Church (1999), Performance Enhancements to PROC SQL in Version 7 of the SAS® System</li>
+            <li>Performance Enhancements to PROC SQL in Version 7 of the SAS® System, Proceedings of the Twenty-fourth Annual SAS Users Group International Conference, 24, paper 51</li>
+            <li>Kent, Paul (1995) "SQL Joins – The Long and The Short of IT Proceedings of the Twentieth Annual SAS Users Group International Conference, Cary, NC: SAS Institute Inc., 1995, pp.206-215.</li>
+            <li>Kent, Paul (1996) "An SQL Tutorial – Some Random Tips", Proceedings of the Twenty-First Annual SAS Users Group International Conference pp. 237-241.</li>
+            <li>非SASのSQL実行の説明については、www.odtug.comのDan Hotkaの記事を参照してください</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>謝辞</h2>
+        <p>著者は、SQLに関するSASコミュニティへの貢献と本論文のインスピレーションを与えてくれたPaul Dorfman、Sigurd Hermansen、Kirk Lafler、そしてPaul Shermanに感謝します。レビューとコメントをしてくれたPaul Shermanに感謝します。</p>
+        <p>SAS instituteからの支援、特にPaul KentとLewis Churchからの支援に感謝します。</p>
+    </section>
+
+    <section class="section">
+        <h2>連絡先情報</h2>
+        <p>あなたのコメントと質問は価値があり、奨励されています。著者への連絡先：<br>
+        Russell Lavery<br>
+        9 Station Ave. Apt 1,<br>
+        Ardmore, PA 19003,<br>
+        610-645-0735 # 3<br>
+        Email: russ.lavery@verizon.net</p>
+        
+        <p>SASおよびその他すべてのSAS Institute Inc.の製品またはサービス名は、米国およびその他の国々におけるSAS Institute Inc.の登録商標または商標です。®は米国での登録を示します。</p>
+        
+        <p>その他のブランドおよび製品名は、それぞれの会社の商標です。</p>
+    </section>
+
+    <div class="footer">
+        <p>付録は以下に続きます</p>
+        <p>著作権 © SAS Institute Inc. 全著作権所有。</p>
+    </div>
+</body>
+</html>

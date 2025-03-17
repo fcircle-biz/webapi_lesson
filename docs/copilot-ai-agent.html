@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Copilot AIエージェント 詳細資料</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #0078d4;
+            border-bottom: 2px solid #0078d4;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #0078d4;
+            margin-top: 30px;
+            border-left: 4px solid #0078d4;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #106ebe;
+            margin-top: 25px;
+        }
+        .section {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .highlight-box {
+            background-color: #e6f3ff;
+            border-left: 4px solid #0078d4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .example-box {
+            background-color: #f0f7ff;
+            border: 1px solid #cce5ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .note {
+            background-color: #fff4e5;
+            border-left: 4px solid #ff8c00;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .important {
+            background-color: #fde7e9;
+            border-left: 4px solid #d13438;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #0078d4;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .comparison {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .comparison-item {
+            flex: 1;
+            margin: 0 10px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        .code-block {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Microsoft Copilot AIエージェント 詳細資料</h1>
+    
+    <div class="section">
+        <h2>1. Copilot AIエージェントの概要</h2>
+        <p>Microsoft Copilot AIエージェントは、人間のように考え、学習し、行動するAIシステムで、ユーザーの代わりにタスクを理解、計画、実行する能力を持ちます。従来のAIアシスタントと異なり、エージェントはより自律的で、複雑な指示を理解し、多段階のタスクを一貫して遂行することができます。</p>
+        
+        <div class="highlight-box">
+            <h3>AIエージェントの定義</h3>
+            <p>AIエージェントとは、環境を知覚し、その環境内で自律的に行動することで、特定の目標を達成するために設計されたAIシステムです。Microsoft Copilotにおけるエージェントは、ユーザーの意図を理解し、適切なアクションを計画・実行することで、より複雑なタスクに対応します。</p>
+        </div>
+        
+        <h3>従来のAIアシスタントとの違い</h3>
+        <div class="comparison">
+            <div class="comparison-item">
+                <h4>従来のAIアシスタント</h4>
+                <ul>
+                    <li>主に質問応答と情報提供</li>
+                    <li>単一のターンでの対応が中心</li>
+                    <li>システムやアプリとの限定的な統合</li>
+                    <li>ユーザーの指示に直接反応</li>
+                </ul>
+            </div>
+            <div class="comparison-item">
+                <h4>AIエージェント</h4>
+                <ul>
+                    <li>複雑なタスクの計画と実行</li>
+                    <li>継続的な対話と多段階の問題解決</li>
+                    <li>複数のシステムやAPIとの深い統合</li>
+                    <li>自律的な判断と行動</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Copilot AIエージェントの基本アーキテクチャ</h2>
+        
+        <div class="diagram">
+            <!-- Simple ASCII art diagram of AI Agent Architecture -->
+            <pre style="text-align: center; font-family: monospace;">
+┌─────────────────────────────────────────┐
+│           Microsoft Copilot              │
+├─────────────────────────────────────────┤
+│  ┌─────────────┐    ┌────────────────┐  │
+│  │ 自然言語理解 │    │  タスク計画    │  │
+│  └─────────────┘    └────────────────┘  │
+│  ┌─────────────┐    ┌────────────────┐  │
+│  │  推論エンジン │    │  実行モジュール │  │
+│  └─────────────┘    └────────────────┘  │
+│  ┌─────────────────────────────────────┐ │
+│  │        知識グラフ & メモリ           │ │
+│  └─────────────────────────────────────┘ │
+└─────────────────────────────────────────┘
+   ↑          ↑              ↑
+┌──────┐  ┌──────────┐  ┌──────────┐
+│ API  │  │ アプリ連携 │  │ ウェブサービス │
+└──────┘  └──────────┘  └──────────┘
+</pre>
+        </div>
+        
+        <h3>コア構成要素</h3>
+        <ol>
+            <li><strong>自然言語理解（NLU）モジュール：</strong> ユーザーの指示や要求を理解し、意図を抽出します。</li>
+            <li><strong>タスク計画モジュール：</strong> ユーザーの目標達成のための最適な手順を計画します。</li>
+            <li><strong>推論エンジン：</strong> 多様なソースからの情報を統合し、論理的な推論を行います。</li>
+            <li><strong>実行モジュール：</strong> 計画に基づいて実際のアクションを実行します。</li>
+            <li><strong>知識グラフとメモリ：</strong> コンテキスト情報と以前のやり取りを保存し、一貫した対話を維持します。</li>
+        </ol>
+        
+        <h3>技術的基盤</h3>
+        <p>Microsoft Copilot AIエージェントは以下の技術を基盤としています：</p>
+        <ul>
+            <li><strong>大規模言語モデル（LLM）：</strong> OpenAI GPT-4をベースにMicrosoftが調整したモデル</li>
+            <li><strong>強化学習：</strong> 人間のフィードバックに基づく強化学習（RLHF）の適用</li>
+            <li><strong>ニューラルシンボリック統合：</strong> 深層学習と記号的推論の組み合わせ</li>
+            <li><strong>マルチモーダル処理：</strong> テキスト、画像、音声など複数の形式の情報処理</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>3. Copilot AIエージェントの種類と機能</h2>
+        
+        <table>
+            <tr>
+                <th>エージェントタイプ</th>
+                <th>主な機能</th>
+                <th>利用シナリオ</th>
+            </tr>
+            <tr>
+                <td>生産性エージェント</td>
+                <td>日程調整、タスク管理、メール整理、情報要約</td>
+                <td>ビジネスワークフロー、時間管理、情報整理</td>
+            </tr>
+            <tr>
+                <td>創作エージェント</td>
+                <td>コンテンツ生成、アイデア発想、クリエイティブ支援</td>
+                <td>マーケティング、コンテンツ制作、ブレインストーミング</td>
+            </tr>
+            <tr>
+                <td>検索・調査エージェント</td>
+                <td>情報収集、事実確認、複雑な調査</td>
+                <td>リサーチ、レポート作成、意思決定支援</td>
+            </tr>
+            <tr>
+                <td>開発者エージェント</td>
+                <td>コード生成、デバッグ、技術的問題解決</td>
+                <td>ソフトウェア開発、システム設計、問題解決</td>
+            </tr>
+            <tr>
+                <td>データ分析エージェント</td>
+                <td>データ処理、統計分析、洞察抽出</td>
+                <td>ビジネスインテリジェンス、トレンド分析、予測</td>
+            </tr>
+            <tr>
+                <td>学習・教育エージェント</td>
+                <td>パーソナライズド学習、質問応答、教材作成</td>
+                <td>教育、トレーニング、自己啓発</td>
+            </tr>
+        </table>
+        
+        <h3>共通機能と特性</h3>
+        <ul>
+            <li><strong>マルチターン対話：</strong> 複数のやり取りを通じて徐々にタスクを洗練</li>
+            <li><strong>コンテキスト理解：</strong> 過去の会話や情報を記憶し活用</li>
+            <li><strong>適応学習：</strong> ユーザーの好みやパターンを学習して適応</li>
+            <li><strong>マルチモーダル入出力：</strong> テキスト、画像、音声など複数の入出力形式をサポート</li>
+            <li><strong>API統合：</strong> 外部サービスやシステムとの連携機能</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>4. 活用シナリオと事例</h2>
+        
+        <h3>ビジネスシナリオ</h3>
+        <div class="example-box">
+            <h4>シナリオ例：会議準備の自動化</h4>
+            <p><strong>ユーザー指示：</strong>「来週の四半期レビュー会議の準備をしてほしい」</p>
+            <p><strong>エージェントのアクション：</strong></p>
+            <ol>
+                <li>過去の四半期レビュー会議の資料とメモを検索・分析</li>
+                <li>最新の四半期データを収集し、重要なメトリクスを抽出</li>
+                <li>会議アジェンダの草案を作成</li>
+                <li>プレゼンテーション資料の基本構造を提案</li>
+                <li>参加者に会議の事前準備情報を送信</li>
+            </ol>
+        </div>
+        
+        <h3>個人生産性向上</h3>
+        <div class="example-box">
+            <h4>シナリオ例：情報整理と意思決定支援</h4>
+            <p><strong>ユーザー指示：</strong>「新しいノートパソコンの購入を検討している。予算は15万円以内で、デザイン作業とプログラミングに使う予定」</p>
+            <p><strong>エージェントのアクション：</strong></p>
+            <ol>
+                <li>用途に最適なスペック（CPU、GPU、RAM、ストレージ）を分析</li>
+                <li>予算内の複数の候補モデルを調査</li>
+                <li>各モデルの長所・短所の比較表を作成</li>
+                <li>ユーザーの優先事項に基づいた推奨モデルを提案</li>
+                <li>選択したモデルの購入オプションを提示</li>
+            </ol>
+        </div>
+        
+        <h3>開発とイノベーション</h3>
+        <div class="example-box">
+            <h4>シナリオ例：プロトタイプ開発支援</h4>
+            <p><strong>ユーザー指示：</strong>「顧客フィードバックを収集・分析するウェブアプリのプロトタイプを作りたい」</p>
+            <p><strong>エージェントのアクション：</strong></p>
+            <ol>
+                <li>要件の詳細化を支援（必要な機能、データモデル、ユーザーフロー）</li>
+                <li>適切な技術スタックを提案</li>
+                <li>基本的なコードフレームワークとコンポーネントを生成</li>
+                <li>UIデザインの概念図を作成</li>
+                <li>開発ロードマップと次のステップを提案</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. AIエージェントとの効果的なコミュニケーション</h2>
+        
+        <h3>最適な指示の出し方</h3>
+        <div class="highlight-box">
+            <h4>エージェントに効果的に指示するためのフレームワーク</h4>
+            <ol>
+                <li><strong>目標の明確化：</strong> 最終的に達成したい結果を明確に伝える</li>
+                <li><strong>コンテキストの提供：</strong> 関連する背景情報や制約条件を説明する</li>
+                <li><strong>優先事項の指定：</strong> 特に重視する点や条件を明示する</li>
+                <li><strong>フィードバックの提供：</strong> 中間結果に対して具体的なフィードバックを与える</li>
+                <li><strong>ステップバイステップの指示：</strong> 複雑なタスクは段階的に指示する</li>
+            </ol>
+        </div>
+        
+        <h3>効果的なプロンプト例</h3>
+        <div class="example-box">
+            <h4>非効果的な指示</h4>
+            <p>「マーケティング戦略を考えて」</p>
+            
+            <h4>効果的な指示</h4>
+            <p>「新しいオンライン料理教室サービスのマーケティング戦略を策定してほしい。ターゲットは30-45歳の忙しい専門職で、健康的な食事に関心がある。予算は月10万円で、主にデジタルマーケティングに焦点を当てたい。競合他社としては〇〇と△△がある。3ヶ月間の具体的な施策と、期待できる成果を含めてほしい。」</p>
+        </div>
+        
+        <h3>エージェントの能力を最大化するテクニック</h3>
+        <ul>
+            <li><strong>反復的な対話：</strong> 一度の指示ですべてを完璧にしようとせず、対話を通じて徐々に洗練させる</li>
+            <li><strong>チェーン・オブ・ソート（思考の連鎖）：</strong> エージェントに段階的に考えさせ、論理的に結論に導く</li>
+            <li><strong>マルチパースペクティブ：</strong> 複数の視点や代替案を求める</li>
+            <li><strong>制約の明示：</strong> 時間、予算、リソースなどの制約条件を明確に伝える</li>
+            <li><strong>フィードバックループ：</strong> 結果を評価し、改善点を伝えることで学習を促進する</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>6. Copilot AIエージェントの技術的詳細</h2>
+        
+        <h3>複雑なタスク実行のメカニズム</h3>
+        <p>Microsoft Copilot AIエージェントは、複雑なタスクを実行するために以下のプロセスを経ます：</p>
+        <ol>
+            <li><strong>タスク分解：</strong> 複雑な指示を理解可能なサブタスクに分解</li>
+            <li><strong>計画生成：</strong> サブタスクの最適な実行順序を決定</li>
+            <li><strong>知識検索：</strong> 関連する知識やデータを内部/外部ソースから取得</li>
+            <li><strong>アクション実行：</strong> APIやツールを使用して実際のアクションを実行</li>
+            <li><strong>モニタリングと適応：</strong> 結果を評価し、必要に応じて計画を調整</li>
+            <li><strong>統合と合成：</strong> 複数のサブタスクの結果を統合して最終出力を生成</li>
+        </ol>
+        
+        <h3>AIエージェントの技術的制限</h3>
+        <div class="note">
+            <h4>現在の主な技術的制限</h4>
+            <ul>
+                <li><strong>文脈窓の制限：</strong> 一度に処理できるコンテキスト情報量に上限がある</li>
+                <li><strong>推論の深さ：</strong> 非常に複雑で多段階の論理推論に限界がある</li>
+                <li><strong>ツール使用の制約：</strong> 利用可能なツールやAPIに依存する</li>
+                <li><strong>最新情報へのアクセス：</strong> トレーニングデータ以降の最新情報の制限</li>
+                <li><strong>専門知識の精度：</strong> 非常に専門的な分野での正確性に制限がある</li>
+            </ul>
+        </div>
+        
+        <h3>プラグインとエコシステム</h3>
+        <p>Microsoft Copilot AIエージェントは、様々なプラグインやAPIを通じて機能を拡張します：</p>
+        <ul>
+            <li><strong>Microsoft Graph連携：</strong> Microsoft 365アプリケーションとのシームレスな統合</li>
+            <li><strong>サードパーティープラグイン：</strong> OpenTable、Klarna、Instacartなど外部サービスとの連携</li>
+            <li><strong>カスタムプラグイン：</strong> 企業や開発者が独自のプラグインを開発可能</li>
+            <li><strong>ビジュアル認識：</strong> 画像分析と認識機能</li>
+            <li><strong>データコネクタ：</strong> 様々なデータソースからの情報取得</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>7. プライバシー、セキュリティ、倫理的考慮事項</h2>
+        
+        <h3>データプライバシー</h3>
+        <div class="important">
+            <h4>プライバシーに関する重要ポイント</h4>
+            <ul>
+                <li>ユーザーデータの処理方法とストレージポリシー</li>
+                <li>エージェントがアクセスできる情報の範囲と制限</li>
+                <li>組織内の機密情報保護のためのコントロール</li>
+                <li>長期記憶と履歴の保存ポリシー</li>
+                <li>個人識別情報（PII）の処理ガイドライン</li>
+            </ul>
+        </div>
+        
+        <h3>セキュリティフレームワーク</h3>
+        <p>Microsoft Copilot AIエージェントのセキュリティは以下の原則に基づいています：</p>
+        <ul>
+            <li><strong>最小権限の原則：</strong> エージェントは必要最小限の権限のみを持つ</li>
+            <li><strong>認証と承認：</strong> ユーザー認証と多要素認証の実装</li>
+            <li><strong>監査とログ記録：</strong> エージェントのアクションの透明性確保</li>
+            <li><strong>データ暗号化：</strong> 転送中および保存中のデータの暗号化</li>
+            <li><strong>脅威検出：</strong> 異常なパターンや潜在的なセキュリティリスクの検出</li>
+        </ul>
+        
+        <h3>倫理的ガイドライン</h3>
+        <p>AIエージェントの開発と使用における倫理的考慮事項：</p>
+        <ul>
+            <li><strong>透明性：</strong> エージェントの能力と限界についての明確な情報提供</li>
+            <li><strong>公平性：</strong> バイアスの最小化と多様なユーザーへの公平なサービス提供</li>
+            <li><strong>説明可能性：</strong> エージェントの判断や推奨の根拠を説明できる能力</li>
+            <li><strong>人間中心設計：</strong> 人間の判断を尊重し、最終決定権はユーザーに</li>
+            <li><strong>悪用防止：</strong> 有害なコンテンツ生成や不正使用の防止措置</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>8. 開発者向け情報</h2>
+        
+        <h3>AIエージェント開発の基本原則</h3>
+        <ul>
+            <li><strong>ユーザー中心設計：</strong> ユーザーの実際のニーズと問題点を起点とする</li>
+            <li><strong>反復的開発：</strong> 継続的なテストとフィードバックに基づいた改良</li>
+            <li><strong>スケーラビリティ：</strong> 増大するユーザー要求や複雑なタスクに対応できる設計</li>
+            <li><strong>モジュール性：</strong> 独立したコンポーネントによる柔軟な拡張と保守</li>
+            <li><strong>評価メトリクス：</strong> エージェントのパフォーマンスを測定する明確な指標</li>
+        </ul>
+        
+        <h3>Microsoft Copilot Plugins開発</h3>
+        <div class="highlight-box">
+            <h4>プラグイン開発フレームワーク</h4>
+            <p>Microsoft Copilot用のプラグインは、OpenAIのプラグイン仕様に基づいて開発され、以下の要素から構成されます：</p>
+            <ul>
+                <li><strong>マニフェストファイル：</strong> プラグインの機能とメタデータを記述</li>
+                <li><strong>OpenAPI仕様：</strong> プラグインのAPIエンドポイントを定義</li>
+                <li><strong>認証メカニズム：</strong> OAuth、API Key、またはその他の認証方法</li>
+                <li><strong>AI説明：</strong> AIがプラグインの能力を理解するための自然言語説明</li>
+            </ul>
+        </div>
+        
+        <div class="code-block">
+            <p>// プラグインマニフェストの例</p>
+            <pre>
+{
+  "schema_version": "v1",
+  "name_for_human": "企業財務分析",
+  "name_for_model": "financial_analysis",
+  "description_for_human": "企業の財務データを分析し、主要な指標やトレンドを提供します。",
+  "description_for_model": "企業の財務分析を行うためのツール。収益、利益率、成長率などの指標計算。",
+  "auth": {
+    "type": "oauth"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://example.com/openapi.yaml"
+  },
+  "logo_url": "https://example.com/logo.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "https://example.com/legal"
+}
+            </pre>
+        </div>
+        
+        <h3>ベストプラクティスとガイドライン</h3>
+        <ul>
+            <li><strong>明確なドメイン定義：</strong> エージェントの専門領域と対応範囲を明確に定義する</li>
+            <li><strong>エラー処理：</strong> 予期せぬ入力やエッジケースに対する堅牢な処理</li>
+            <li><strong>ユーザーフィードバック：</strong> ユーザーからのフィードバックを収集・分析する仕組み</li>
+            <li><strong>パフォーマンス最適化：</strong> 応答時間と処理効率の最適化</li>
+            <li><strong>多言語・多文化対応：</strong> 多様なユーザーに対応するための国際化</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>9. 今後の展望と課題</h2>
+        
+        <h3>技術的展望</h3>
+        <ul>
+            <li><strong>マルチエージェント協調：</strong> 複数のエージェントが協力して複雑なタスクを解決</li>
+            <li><strong>自己学習能力の向上：</strong> ユーザーとの対話からより効果的に学習する能力</li>
+            <li><strong>長期的記憶と個人化：</strong> ユーザー固有の長期的な知識の蓄積と活用</li>
+            <li><strong>マルチモーダル統合の深化：</strong> テキスト、音声、画像、動画を統合的に処理</li>
+            <li><strong>リアルタイム適応：</strong> 動的な環境変化に対するリアルタイムでの適応</li>
+        </ul>
+        
+        <h3>社会的・倫理的課題</h3>
+        <div class="note">
+            <h4>AIエージェントの普及に伴う主な課題</h4>
+            <ul>
+                <li>プライバシーとセキュリティのバランス</li>
+                <li>技術格差と公平なアクセス</li>
+                <li>労働市場への影響と職業の変革</li>
+                <li>責任所在の明確化（エージェントの判断に関する責任）</li>
+                <li>ユーザーの過度な依存とスキル低下の可能性</li>
+                <li>規制とガバナンスの枠組み整備</li>
+            </ul>
+        </div>
+        
+        <h3>業界トレンドと展望</h3>
+        <p>AIエージェント技術の発展に関する主要なトレンド：</p>
+        <ul>
+            <li><strong>垂直特化型エージェント：</strong> 特定の業界や専門分野に特化したエージェント</li>
+            <li><strong>エンタープライズ統合：</strong> 企業のワークフローやシステムとの深い統合</li>
+            <li><strong>パーソナライズドエージェント：</strong> ユーザー固有のニーズや好みに適応するエージェント</li>
+            <li><strong>エージェントマーケットプレイス：</strong> 専門エージェントの検索と利用の場</li>
+            <li><strong>オープンエコシステム：</strong> サードパーティによる拡張と連携の促進</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>10. 参考資料とリソース</h2>
+        
+        <h3>公式ドキュメント</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/ja-jp/copilot/index">Microsoft Copilot ドキュメント</a></li>
+            <li><a href="https://www.microsoft.com/ja-jp/copilot">Microsoft Copilot 公式ウェブサイト</a></li>
+            <li><a href="https://learn.microsoft.com/ja-jp/windows/copilot/index">Windows Copilot ガイド</a></li>
+        </ul>
+        
+        <h3>開発者リソース</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/ja-jp/copilot/plugins-overview">Microsoft Copilot プラグイン開発ガイド</a></li>
+            <li><a href="https://learn.microsoft.com/ja-jp/copilot/api-reference">Microsoft Copilot API リファレンス</a></li>
+            <li><a href="https://github.com/microsoft/copilot-sample-plugins">GitHub: Copilot サンプルプラグイン</a></li>
+        </ul>
+        
+        <h3>学習リソース</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/ja-jp/training/">Microsoft Learn: AI と Copilot コース</a></li>
+            <li><a href="https://techcommunity.microsoft.com/t5/copilot/bd-p/Copilot">Microsoft Tech Community: Copilot フォーラム</a></li>
+            <li><a href="https://www.youtube.com/c/MicrosoftJapan">YouTube: Microsoft Japan チャンネル</a></li>
+        </ul>
+    </div>
+
+    <footer style="text-align: center; margin-top: 50px; color: #666; font-size: 0.9em;">
+        <p>© 2025 Microsoft Copilot AIエージェント 詳細資料</p>
+        <p>※この資料は情報提供を目的としており、Microsoft社の公式ドキュメントではありません。</p>
+    </footer>
+</body>
+</html>

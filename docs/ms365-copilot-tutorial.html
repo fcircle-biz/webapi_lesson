@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Copilot 入門チュートリアル</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #0078d4;
+            border-bottom: 2px solid #0078d4;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #0078d4;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #106ebe;
+        }
+        .section {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .prompt-box {
+            background-color: #e6f3ff;
+            border-left: 4px solid #0078d4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .tip {
+            background-color: #fff4e5;
+            border-left: 4px solid #ff8c00;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .warning {
+            background-color: #fde7e9;
+            border-left: 4px solid #d13438;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #0078d4;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Microsoft Copilot 入門チュートリアル</h1>
+    
+    <div class="section">
+        <h2>1. Microsoft Copilotとは</h2>
+        <p>Microsoft Copilotは、Microsoftが提供する包括的なAIアシスタントです。以前のBing Chatをベースに発展し、検索機能、クリエイティブな文章作成、画像生成、コード作成支援など多様な機能を提供します。Windowsやウェブブラウザなど、様々なプラットフォームから利用できる汎用AIアシスタントです。</p>
+        
+        <h3>主な特徴</h3>
+        <ul>
+            <li>自然言語でのインターネット検索と情報取得</li>
+            <li>画像、文章、音楽などのクリエイティブコンテンツの生成</li>
+            <li>プログラミングコードの作成と修正の支援</li>
+            <li>複雑な質問への回答と問題解決のサポート</li>
+            <li>Windowsの操作や作業の効率化支援</li>
+            <li>画像認識や分析機能</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>2. 始め方</h2>
+        
+        <h3>アクセス方法</h3>
+        <p>Microsoft Copilotにアクセスするには、以下の方法があります：</p>
+        <ol>
+            <li><strong>Microsoft Edgeブラウザから：</strong> サイドバーのCopilotアイコンをクリック</li>
+            <li><strong>Windows 11から：</strong> タスクバーのCopilotアイコンまたはWindows+Cキーで起動</li>
+            <li><strong>ウェブサイトから：</strong> copilot.microsoft.comにアクセス</li>
+            <li><strong>モバイルアプリから：</strong> iOS/AndroidのMicrosoft Copilotアプリを使用</li>
+        </ol>
+        
+        <div class="tip">
+            <p><strong>ヒント：</strong> Microsoft Edgeブラウザを使用すると、ウェブページの内容に関連した質問ができるなど、より統合された体験が得られます。</p>
+        </div>
+        
+        <h3>基本的な使い方</h3>
+        <ol>
+            <li>Copilotを起動します</li>
+            <li>チャットボックスに質問や指示を入力します</li>
+            <li>Enterキーを押すか送信ボタンをクリックします</li>
+            <li>Copilotのレスポンスを待ちます</li>
+            <li>必要に応じて、フォローアップの質問や修正依頼を行います</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>3. データ保護について</h2>
+        
+        <h3>プライバシーとセキュリティ</h3>
+        <p>Microsoft Copilotは、ユーザーのプライバシーとデータセキュリティを重視して設計されています。以下がその主な特徴です：</p>
+        
+        <table>
+            <tr>
+                <th>項目</th>
+                <th>詳細</th>
+            </tr>
+            <tr>
+                <td>データの取り扱い</td>
+                <td>チャットの内容はMicrosoftのプライバシーポリシーに基づいて処理されます。会話データはサービス改善のために使用される場合があります。</td>
+            </tr>
+            <tr>
+                <td>プライバシー制御</td>
+                <td>ユーザーは会話履歴の削除や保存期間の設定など、一定のプライバシー制御が可能です。</td>
+            </tr>
+            <tr>
+                <td>個人情報</td>
+                <td>センシティブな個人情報（パスワード、クレジットカード情報など）はCopilotに共有しないようにしましょう。</td>
+            </tr>
+            <tr>
+                <td>クリエイティブモード</td>
+                <td>クリエイティブモードでは、より自由な発想の回答が得られますが、情報の正確性は低下する場合があります。</td>
+            </tr>
+        </table>
+        
+        <div class="warning">
+            <p><strong>注意：</strong> Copilotは常にインターネットに接続し情報を収集します。機密情報の取り扱いには注意し、生成された情報は必ず確認してください。</p>
+        </div>
+        
+        <h3>データとプライバシーの設定</h3>
+        <p>ユーザーは以下のプライバシー設定をカスタマイズできます：</p>
+        <ul>
+            <li>会話履歴の削除</li>
+            <li>会話データの保存設定の変更</li>
+            <li>Microsoftアカウントのプライバシーダッシュボードでのデータ管理</li>
+            <li>検索履歴やブラウジングデータの削除</li>
+            <li>位置情報の共有設定</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>4. 実用的なプロンプト例</h2>
+        
+        <h3>情報検索のプロンプト</h3>
+        <div class="prompt-box">
+            <p><strong>持続可能なエネルギーの最新動向について教えてください。特に日本での取り組みと今後の展望を知りたいです。</strong></p>
+        </div>
+        
+        <div class="prompt-box">
+            <p><strong>東京から大阪への新幹線と飛行機の所要時間とコストを比較してください。平日の移動を想定しています。</strong></p>
+        </div>
+        
+        <h3>創作支援のプロンプト</h3>
+        <div class="prompt-box">
+            <p><strong>「SDGsと企業の社会的責任」をテーマにした1000字程度のブログ記事を書いてください。具体的な事例も含めてください。</strong></p>
+        </div>
+        
+        <div class="prompt-box">
+            <p><strong>チームビルディングのためのオンラインワークショップのアジェンダを作成してください。所要時間は2時間、参加者は10名程度です。</strong></p>
+        </div>
+        
+        <h3>プログラミング支援のプロンプト</h3>
+        <div class="prompt-box">
+            <p><strong>Pythonでウェブスクレイピングを行うコードを書いてください。特定のニュースサイトから最新記事のタイトルと要約を取得したいです。</strong></p>
+        </div>
+        
+        <div class="prompt-box">
+            <p><strong>JavaScriptで簡単なTodoリストアプリを作るコードを書いてください。タスクの追加、完了、削除機能が必要です。</strong></p>
+        </div>
+        
+        <h3>画像生成のプロンプト</h3>
+        <div class="prompt-box">
+            <p><strong>「未来の東京の街並み」をイメージした画像を生成してください。空飛ぶ車や緑豊かな高層ビルがある風景が見たいです。</strong></p>
+        </div>
+        
+        <div class="prompt-box">
+            <p><strong>「和モダン」をテーマにしたインテリアデザインの画像を作成してください。リビングルームを想定しています。</strong></p>
+        </div>
+        
+        <h3>学習支援のプロンプト</h3>
+        <div class="prompt-box">
+            <p><strong>量子コンピューティングの基本概念を、コンピューターの専門知識がない人にもわかりやすく説明してください。</strong></p>
+        </div>
+        
+        <div class="prompt-box">
+            <p><strong>英語の敬語表現について教えてください。ビジネスメールで使える丁寧な表現と例文を10個紹介してください。</strong></p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. 効果的な使用のためのヒント</h2>
+        
+        <h3>質問・指示の仕方</h3>
+        <ul>
+            <li><strong>具体的に：</strong> 曖昧な指示よりも具体的な指示のほうが良い結果を得られます</li>
+            <li><strong>目的を伝える：</strong> 何のために情報が必要かを伝えると、より適切な回答が得られます</li>
+            <li><strong>複数の質問を分ける：</strong> 一度に多くのことを尋ねるより、一つずつ質問すると良いでしょう</li>
+            <li><strong>プロンプトの改良：</strong> 最初の回答が期待通りでなければ、質問を言い換えたり詳細を追加したりしましょう</li>
+        </ul>
+        
+        <div class="tip">
+            <p><strong>プロのヒント：</strong> 「この情報をもう少し詳しく」「別の観点から説明して」などのフォローアップ質問を使うと、より深い情報が得られます。</p>
+        </div>
+        
+        <h3>モードの使い分け</h3>
+        <p>Microsoft Copilotには主に3つのモードがあります：</p>
+        <ul>
+            <li><strong>バランスモード：</strong> 情報の正確性と創造性のバランスが取れたモード（デフォルト）</li>
+            <li><strong>クリエイティブモード：</strong> より自由で創造的な回答が得られるモード</li>
+            <li><strong>精確モード：</strong> 事実に基づいた正確な情報を重視するモード</li>
+        </ul>
+        <p>質問の内容や目的に応じて、適切なモードを選択しましょう。</p>
+        
+        <h3>制限事項を理解する</h3>
+        <ul>
+            <li>Copilotは常に完璧な回答を提供するとは限りません。生成された情報は必ず確認してください</li>
+            <li>インターネットから情報を収集するため、古い情報や不正確な情報が含まれる場合があります</li>
+            <li>画像生成や創作的な内容には著作権や倫理的な考慮が必要です</li>
+            <li>特に専門的な内容や数学的計算については、誤りがある可能性があります</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>6. よくある質問</h2>
+        
+        <h3>Q: Microsoft Copilotは無料で使えますか？</h3>
+        <p>A: 基本的な機能は無料で使用できますが、一部の高度な機能や利用制限の緩和には、Microsoft 365の有料サブスクリプションが必要な場合があります。</p>
+        
+        <h3>Q: Copilotが生成した画像や文章の著作権は誰に帰属しますか？</h3>
+        <p>A: Microsoft Copilotによって生成されたコンテンツの使用権はユーザーにありますが、法的な解釈は地域によって異なる場合があります。商用利用の場合は利用規約を確認してください。</p>
+        
+        <h3>Q: オフラインでも使用できますか？</h3>
+        <p>A: いいえ、Microsoft Copilotはクラウドベースのサービスであり、機能するためにはインターネット接続が必要です。</p>
+        
+        <h3>Q: 会話の履歴は保存されますか？</h3>
+        <p>A: はい、デフォルトでは会話履歴が保存されます。ただし、設定からこれを無効にしたり、履歴を削除したりすることが可能です。</p>
+        
+        <h3>Q: 生成されたコンテンツが不適切だと感じた場合はどうすればいいですか？</h3>
+        <p>A: Copilotの回答に問題がある場合は、フィードバックボタンを使用して報告することができます。また、プロンプトを変更して再試行することも効果的です。</p>
+        
+        <h3>Q: Copilotは何語に対応していますか？</h3>
+        <p>A: Microsoft Copilotは多くの言語に対応していますが、英語が最も充実しています。日本語も含む主要言語でも十分な機能を提供しています。</p>
+    </div>
+
+    <div class="section">
+        <h2>7. さらなる学習リソース</h2>
+        <ul>
+            <li><a href="https://copilot.microsoft.com/">Microsoft Copilot公式ウェブサイト</a></li>
+            <li><a href="https://support.microsoft.com/ja-jp/copilot">Microsoft Copilotサポートページ</a></li>
+            <li><a href="https://www.microsoft.com/ja-jp/windows/copilot-ai-features">Windows CopilotのAI機能</a></li>
+        </ul>
+    </div>
+
+    <footer style="text-align: center; margin-top: 50px; color: #666; font-size: 0.9em;">
+        <p>© 2025 Microsoft Copilot 入門チュートリアル</p>
+        <p>※このチュートリアルは情報提供を目的としており、Microsoft社の公式ドキュメントではありません。</p>
+    </footer>
+</body>
+</html>

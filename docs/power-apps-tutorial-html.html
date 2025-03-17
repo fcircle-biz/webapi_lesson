@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Apps 入門チュートリアル</title>
+    <style>
+        :root {
+            --primary-color: #742774;
+            --secondary-color: #5C1F5C;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --light-gray: #f2f2f2;
+            --border-color: #ddd;
+            --success-color: #28a745;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding-top: 60px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        header h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            white-space: nowrap;
+            display: block;
+            visibility: visible !important;
+            color: white;
+        }
+        
+        header .nav-toggle {
+            display: none;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: 0.85rem;
+        }
+        
+        nav a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        main {
+            margin: 2rem 0;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        p, ul, ol {
+            margin-bottom: 1.2rem;
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #5C1F5C;
+        }
+        
+        .toc {
+            background-color: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+            font-size: 1.5rem;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: var(--primary-color);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .toc .level-2 {
+            padding-left: 1.5rem;
+        }
+        
+        .toc .level-3 {
+            padding-left: 3rem;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--light-gray);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        .note {
+            background-color: #e8f4fd;
+            border-left: 5px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .tip {
+            background-color: #d4edda;
+            border-left: 5px solid var(--success-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--light-gray);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.8rem;
+            height: 1.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .image-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .caption {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            color: #333;
+            white-space: pre-line;
+        }
+        
+        .screenshot {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            header .nav-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            nav {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 60px);
+                background-color: var(--primary-color);
+                flex-direction: column;
+                padding: 1rem;
+                transition: left 0.3s;
+                z-index: 99;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Power Apps 入門チュートリアル</h1>
+            <button class="nav-toggle">☰</button>
+            <nav id="main-nav">
+                <a href="#intro">はじめに</a>
+                <a href="#get-started">始め方</a>
+                <a href="#interface">インターフェース</a>
+                <a href="#first-app">最初のアプリ</a>
+                <a href="#controls">コントロール</a>
+                <a href="#data">データ接続</a>
+                <a href="#formulas">数式</a>
+                <a href="#navigation">ナビゲーション</a>
+                <a href="#publish">公開と共有</a>
+                <a href="#best-practices">ベストプラクティス</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="content">
+            <h1>Power Apps 入門チュートリアル</h1>
+            
+            <div class="toc">
+                <h2>目次</h2>
+                <ul>
+                    <li><a href="#intro">1. Power Appsとは</a></li>
+                    <li><a href="#get-started">2. 始めるための準備</a>
+                        <ul class="level-2">
+                            <li><a href="#requirements">必要条件</a></li>
+                            <li><a href="#access">アクセス方法</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#interface">3. Power Appsインターフェースの概要</a>
+                        <ul class="level-2">
+                            <li><a href="#maker-portal">メーカーポータル</a></li>
+                            <li><a href="#app-studio">アプリスタジオ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#first-app">4. 最初のアプリ作成</a>
+                        <ul class="level-2">
+                            <li><a href="#template">テンプレートからの作成</a></li>
+                            <li><a href="#data-first">データからの作成</a></li>
+                            <li><a href="#blank-app">空白のキャンバスから作成</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#controls">5. コントロールの操作</a>
+                        <ul class="level-2">
+                            <li><a href="#basic-controls">基本的なコントロール</a></li>
+                            <li><a href="#control-properties">プロパティの設定</a></li>
+                            <li><a href="#galleries">ギャラリー</a></li>
+                            <li><a href="#forms">フォーム</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#data">6. データ接続</a>
+                        <ul class="level-2">
+                            <li><a href="#data-sources">データソース</a></li>
+                            <li><a href="#connect-data">データソースへの接続</a></li>
+                            <li><a href="#collections">コレクション</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#formulas">7. 数式と関数</a>
+                        <ul class="level-2">
+                            <li><a href="#formula-basics">数式の基本</a></li>
+                            <li><a href="#common-functions">よく使う関数</a></li>
+                            <li><a href="#behavior-formulas">動作の定義</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#navigation">8. 画面ナビゲーションと設計</a>
+                        <ul class="level-2">
+                            <li><a href="#add-screens">画面の追加</a></li>
+                            <li><a href="#navigate-screens">画面間のナビゲーション</a></li>
+                            <li><a href="#app-themes">アプリのテーマとスタイル</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#advanced">9. 高度な機能</a>
+                        <ul class="level-2">
+                            <li><a href="#variables">変数と状態管理</a></li>
+                            <li><a href="#components">コンポーネント</a></li>
+                            <li><a href="#accessibility">アクセシビリティ</a></li>
+                            <li><a href="#responsive">レスポンシブデザイン</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#publish">10. アプリの公開と共有</a>
+                        <ul class="level-2">
+                            <li><a href="#publish-app">アプリの公開</a></li>
+                            <li><a href="#share-app">アプリの共有</a></li>
+                            <li><a href="#versioning">バージョン管理</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#best-practices">11. ベストプラクティス</a></li>
+                    <li><a href="#troubleshooting">12. トラブルシューティング</a></li>
+                    <li><a href="#faq">13. よくある質問</a></li>
+                    <li><a href="#resources">14. 参考リソース</a></li>
+                </ul>
+            </div>
+            
+            <section id="intro">
+                <h2>1. Power Appsとは</h2>
+                <p>Power Appsは、Microsoft Power Platformの一部であり、プログラミングの知識が少なくても、カスタムビジネスアプリケーションを簡単に作成できるローコード開発プラットフォームです。ドラッグアンドドロップのインターフェースと数式ベースのロジックを使用して、Web、モバイルデバイス向けのアプリを素早く構築できます。</p>
+                
+                <h3>主な特徴</h3>
+                <ul>
+                    <li>ローコード開発環境（コード不要またはほとんど必要なし）</li>
+                    <li>ドラッグアンドドロップのビジュアルデザイナー</li>
+                    <li>さまざまなデータソースとの連携（SharePoint、Excel、SQL、Dynamics 365など）</li>
+                    <li>クロスプラットフォーム（iOS、Android、Webブラウザで動作）</li>
+                    <li>Microsoft 365アプリケーションとの緊密な統合</li>
+                    <li>AI Builder機能によるAI機能の統合</li>
+                    <li>Power Automateとの連携によるワークフロー自動化</li>
+                </ul>
+                
+                <h3>アプリケーションの種類</h3>
+                <p>Power Appsでは、主に2種類のアプリを作成できます：</p>
+                <ul>
+                    <li><strong>キャンバスアプリ：</strong> 白紙のキャンバスから自由にデザインするアプリ。ユーザーインターフェイスを完全にカスタマイズできます。このチュートリアルでは主にキャンバスアプリに焦点を当てます。</li>
+                    <li><strong>モデル駆動型アプリ：</strong> Dynamics 365のデータモデルに基づくアプリ。データモデルとビジネスプロセスに焦点を当て、UIは自動的に生成されます。</li>
+                </ul>
+                
+                <h3>Power Appsでできること</h3>
+                <ul>
+                    <li><strong>業務プロセスのデジタル化：</strong> 紙のフォームやExcelシートをインタラクティブなアプリに置き換え</li>
+                    <li><strong>データ収集アプリ：</strong> 現場からのデータ収集（検査、在庫管理など）</li>
+                    <li><strong>承認アプリ：</strong> 承認ワークフローを持つアプリ（休暇申請、経費申請など）</li>
+                    <li><strong>ダッシュボード：</strong> ビジネスデータの可視化とモニタリング</li>
+                    <li><strong>社内ポータル：</strong> 情報共有や社内コミュニケーション用のアプリ</li>
+                    <li><strong>モバイルワークフォース向けアプリ：</strong> 外出先での業務をサポートするモバイルアプリ</li>
+                </ul>
+                
+                <div class="tip">
+                    <p><strong>ポイント：</strong> Power Appsは「プロ開発者ではない人」が業務アプリを作れるようにすることを目的としていますが、複雑なアプリケーションも作成可能です。規模に合わせて簡単なアプリから始め、徐々に機能を追加していくアプローチが効果的です。</p>
+                </div>
+            </section>
+            
+            <section id="get-started">
+                <h2>2. 始めるための準備</h2>
+                
+                <section id="requirements">
+                    <h3>必要条件</h3>
+                    <p>Power Appsを使用するには以下が必要です：</p>
+                    <ul>
+                        <li><strong>アカウント：</strong> 以下のいずれかのアカウント
+                            <ul>
+                                <li>職場または学校のMicrosoftアカウント（Office 365）</li>
+                                <li>Power Apps個人環境で使用できる個人用Microsoftアカウント</li>
+                            </ul>
+                        </li>
+                        <li><strong>ブラウザ：</strong> 最新のWebブラウザ（Microsoft Edge、Google Chrome推奨）</li>
+                        <li><strong>インターネット接続</strong></li>
+                        <li><strong>モバイル使用の場合：</strong> Power Appsモバイルアプリ（iOS/Android）</li>
+                    </ul>
+                    
+                    <h4>ライセンスオプション</h4>
+                    <table>
+                        <tr>
+                            <th>ライセンスタイプ</th>
+                            <th>特徴</th>
+                            <th>制限事項</th>
+                        </tr>
+                        <tr>
+                            <td>Power Apps無料プラン</td>
+                            <td>
+                                <ul>
+                                    <li>2つまでのキャンバスアプリの作成</li>
+                                    <li>標準コネクタのみ使用可能</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>プレミアムコネクタは使用不可</li>
+                                    <li>アプリの数制限</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Power Apps per user</td>
+                            <td>
+                                <ul>
+                                    <li>無制限のアプリ作成</li>
+                                    <li>プレミアムコネクタ使用可能</li>
+                                    <li>モデル駆動型アプリ作成可能</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>1ユーザーライセンス</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Power Apps per app</td>
+                            <td>
+                                <ul>
+                                    <li>特定のアプリに対するアクセス</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>アプリごとのライセンス</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Office 365ライセンス</td>
+                            <td>
+                                <ul>
+                                    <li>キャンバスアプリの作成</li>
+                                    <li>Office 365データとの連携</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>プレミアムコネクタは使用不可</li>
+                                    <li>カスタムコネクタは使用不可</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                
+                <section id="access">
+                    <h3>アクセス方法</h3>
+                    
+                    <h4>Webブラウザからのアクセス</h4>
+                    <div class="step">
+                        <p>Webブラウザを開き、<a href="https://make.powerapps.com" target="_blank">https://make.powerapps.com</a> にアクセスします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Microsoftアカウントでサインインします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Power Appsのメーカーポータル（maker portal）が表示されます。</p>
+                    </div>
+                    
+                    <h4>Microsoft 365アプリからのアクセス</h4>
+                    <div class="step">
+                        <p>Microsoft 365アプリ（Outlook、SharePoint、Teamsなど）を開きます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリランチャー（左上の9つのドット）をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「Power Apps」を選択します。</p>
+                    </div>
+                    
+                    <h4>モバイルアプリからのアクセス</h4>
+                    <div class="step">
+                        <p>App StoreまたはGoogle Play Storeから「Power Apps」アプリをダウンロードします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリを起動し、Microsoftアカウントでサインインします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリのリストが表示され、アクセス権のあるアプリを使用できます。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>ヒント：</strong> Power Appsの操作に慣れるには、まずテンプレートを使って既存のアプリを確認したり、サンプルアプリを試したりするのが良い方法です。メーカーポータルの「テンプレート」セクションで様々なサンプルが用意されています。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="interface">
+                <h2>3. Power Appsインターフェースの概要</h2>
+                
+                <section id="maker-portal">
+                    <h3>メーカーポータル</h3>
+                    <p>メーカーポータル（make.powerapps.com）は、Power Appsアプリの作成、管理、共有を行うメインのインターフェースです。</p>
+                    
+                    <h4>メーカーポータルの主要な要素</h4>
+                    <ul>
+                        <li><strong>左側のナビゲーションメニュー：</strong>
+                            <ul>
+                                <li>ホーム：ダッシュボードと最近のアプリ</li>
+                                <li>アプリ：作成したすべてのアプリ</li>
+                                <li>データ：接続とデータソース</li>
+                                <li>コントロール：カスタムコンポーネントとコントロール</li>
+                                <li>環境：環境の切り替え</li>
+                            </ul>
+                        </li>
+                        <li><strong>環境セレクター（上部）：</strong> 現在の環境を表示し、環境を切り替え</li>
+                        <li><strong>メインエリア：</strong> 選択したセクションのコンテンツを表示</li>
+                        <li><strong>作成ボタン：</strong> 新しいアプリの作成オプション</li>
+                    </ul>
+                    
+                    <h4>アプリ一覧の機能</h4>
+                    <ul>
+                        <li>アプリの名前、種類、作成日などの情報表示</li>
+                        <li>アプリの編集、共有、削除などのアクション</li>
+                        <li>お気に入りマークの設定</li>
+                        <li>フィルター機能によるアプリの絞り込み</li>
+                        <li>「詳細を表示」からアプリのバージョン履歴やアクセス権の管理</li>
+                    </ul>
+                </section>
+                
+                <section id="app-studio">
+                    <h3>アプリスタジオ</h3>
+                    <p>アプリスタジオは、アプリを実際に設計・開発するための環境です。アプリの作成または編集を選択すると、アプリスタジオが開きます。</p>
+                    
+                    <h4>アプリスタジオの主要な要素</h4>
+                    <ul>
+                        <li><strong>リボンメニュー（上部）：</strong> ファイル、ホーム、挿入、表示などのコマンド</li>
+                        <li><strong>左側のナビゲーションペイン：</strong> 画面、コントロールのツリービュー</li>
+                        <li><strong>中央のキャンバス：</strong> アプリのデザイン領域</li>
+                        <li><strong>右側のプロパティペイン：</strong> 選択したコントロールのプロパティ設定</li>
+                        <li><strong>数式バー：</strong> プロパティの数式を入力する領域</li>
+                        <li><strong>下部のステータスバー：</strong> アプリの状態や情報を表示</li>
+                    </ul>
+                    
+                    <h4>主要なツールとオプション</h4>
+                    <ul>
+                        <li><strong>ツリービュー：</strong> 画面とコントロールの階層表示</li>
+                        <li><strong>データソース：</strong> 接続されているデータソースの管理</li>
+                        <li><strong>メディア：</strong> アプリで使用する画像や音声ファイル</li>
+                        <li><strong>テーマ：</strong> アプリの色やフォントのテーマ設定</li>
+                        <li><strong>変数：</strong> アプリ内で使用するグローバル変数やコンテキスト変数</li>
+                        <li><strong>コレクション：</strong> アプリ内データコレクションの管理</li>
+                        <li><strong>詳細ビュー：</strong> コントロール間の依存関係の表示</li>
+                        <li><strong>プレビュー：</strong> アプリの動作確認</li>
+                    </ul>
+                    
+                    <h4>ビューモード</h4>
+                    <ul>
+                        <li><strong>デザインモード：</strong> アプリのUI設計（デフォルト）</li>
+                        <li><strong>プレビューモード：</strong> ユーザー視点でのアプリ動作確認</li>
+                    </ul>
+                    
+                    <div class="tip">
+                        <p><strong>操作のヒント：</strong> アプリスタジオでは、多くのショートカットキーが利用できます。例えば、Ctrl+Sで保存、Ctrl+Zで元に戻す、Ctrl+Yでやり直しなど。効率的に作業するためにショートカットキーを覚えておくと便利です。また、右クリックメニューも多くの便利なオプションを提供しています。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="first-app">
+                <h2>4. 最初のアプリ作成</h2>
+                
+                <section id="template">
+                    <h3>テンプレートからの作成</h3>
+                    <p>テンプレートを使用すると、すぐに使えるアプリを素早く作成できます。Power Appsには様々な業務シナリオに対応したテンプレートが用意されています。</p>
+                    
+                    <h4>テンプレートからアプリを作成する手順</h4>
+                    <div class="step">
+                        <p>Power Appsのメーカーポータル（make.powerapps.com）にサインインします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>左側のナビゲーションから「アプリ」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「新しいアプリの作成」をクリックし、「テンプレートから始める」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>利用可能なテンプレートのリストから、作成したいアプリのタイプに合ったテンプレートを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>テンプレートの詳細を確認し、「このアプリを作成」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリが生成され、アプリスタジオで開かれます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリをカスタマイズし、必要に応じてデータ接続を設定します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「ファイル」→「保存」を選択し、アプリに名前を付けて保存します。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>テンプレート選択のコツ：</strong> テンプレートはそのまま使用するだけでなく、学習ツールとしても活用できます。テンプレートの構造や数式を調べることで、Power Appsの基本的な設計パターンを学ぶことができます。</p>
+                    </div>
+                </section>
+                
+                <section id="data-first">
+                    <h3>データからの作成</h3>
+                    <p>データファイルやデータソースからアプリを自動生成する方法です。データ構造に基づいて基本的なCRUD（作成・読み取り・更新・削除）機能を持つアプリが作成されます。</p>
+                    
+                    <h4>SharePointリストからアプリを作成する手順</h4>
+                    <div class="step">
+                        <p>Power Appsのメーカーポータルで「新しいアプリの作成」→「キャンバス」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「SharePointからはじめる」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>接続を選択し、SharePointサイトのURLを入力します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>使用するリストを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「接続」をクリックします。Power Appsが自動的にアプリを生成します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>生成されたアプリが開きます。通常、閲覧画面、詳細画面、編集・作成画面の3つの画面が作成されます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリをカスタマイズし、「保存」をクリックします。</p>
+                    </div>
+                    
+                    <h4>Excelファイルからアプリを作成する手順</h4>
+                    <div class="step">
+                        <p>Power Appsのメーカーポータルで「新しいアプリの作成」→「キャンバス」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「Excelからはじめる」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>OneDriveまたはSharePointからExcelファイルを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>使用するテーブルまたはデータ範囲を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「接続」をクリックします。Power Appsが自動的にアプリを生成します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリをカスタマイズし、「保存」をクリックします。</p>
+                    </div>
+                    
+                    <div class="note">
+                        <p><strong>データファイルの準備：</strong> Excelファイルを使用する場合は、最初の行を列見出しとして、データをテーブル形式で準備しておくことが重要です。Excel内で「テーブルとして書式設定」することで、Power Appsがデータを正しく認識できます。</p>
+                    </div>
+                </section>
+                
+                <section id="blank-app">
+                    <h3>空白のキャンバスから作成</h3>
+                    <p>最も柔軟性の高い方法は、空白のキャンバスからアプリを作成することです。これにより、アプリの構造やデザインを完全にコントロールできます。</p>
+                    
+                    <h4>空白のアプリを作成する手順</h4>
+                    <div class="step">
+                        <p>Power Appsのメーカーポータルで「新しいアプリの作成」→「キャンバス」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「空白のアプリ」→「携帯電話レイアウト」または「タブレットレイアウト」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>空白のキャンバスが表示されます。これがアプリの最初の画面になります。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「挿入」タブから、ラベル、ボタン、テキスト入力などのコントロールを追加します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>必要に応じて「データ」から接続を追加します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>コントロールのプロパティを設定し、動作を定義します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「ファイル」→「保存」を選択し、アプリに名前を付けて保存します。</p>
+                    </div>
+                    
+                    <h4>基本的なアプリの構造</h4>
+                    <p>典型的な基本アプリには以下の要素が含まれます：</p>
+                    <ul>
+                        <li><strong>ヘッダー：</strong> アプリ名やナビゲーションを含む上部セクション</li>
+                        <li><strong>コンテンツエリア：</strong> 主要なデータやコントロールを表示する中央部分</li>
+                        <li><strong>ナビゲーション：</strong> 画面間を移動するためのメニューやボタン</li>
+                        <li><strong>アクションボタン：</strong> 新規作成、編集、削除などの操作ボタン</li>
+                    </ul>
+                    
+                    <div class="tip">
+                        <p><strong>設計のコツ：</strong> アプリ作成の前に、紙やデザインツールでレイアウトとナビゲーションフローをスケッチしておくと、開発が効率的になります。また、最初は最小限の機能から始めて、徐々に機能を追加していくアプローチが効果的です。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="controls">
+                <h2>5. コントロールの操作</h2>
+                
+                <section id="basic-controls">
+                    <h3>基本的なコントロール</h3>
+                    <p>コントロールは、ユーザーインターフェイスを構築するための基本的な要素です。Power Appsには多くの組み込みコントロールが用意されています。</p>
+                    
+                    <h4>主要なコントロール</h4>
+                    <ul>
+                        <li><strong>ラベル：</strong> テキストを表示（見出し、説明文など）</li>
+                        <li><strong>テキスト入力：</strong> ユーザーからのテキスト入力を受け付ける</li>
+                        <li><strong>ボタン：</strong> クリックで操作を実行</li>
+                        <li><strong>ドロップダウン：</strong> リストから1つの項目を選択</li>
+                        <li><strong>コンボボックス：</strong> 検索機能付きのドロップダウン</li>
+                        <li><strong>トグル：</strong> オン/オフの切り替え</li>
+                        <li><strong>スライダー：</strong> 値の範囲から選択</li>
+                        <li><strong>日付ピッカー：</strong> 日付の選択</li>
+                        <li><strong>イメージ：</strong> 画像の表示</li>
+                        <li><strong>アイコン：</strong> シンボルやアイコンの表示</li>
+                        <li><strong>ギャラリー：</strong> データリストの表示</li>
+                        <li><strong>フォーム：</strong> データの表示・編集</li>
+                        <li><strong>チャート：</strong> データの視覚化</li>
+                    </ul>
+                    
+                    <h4>コントロールの追加</h4>
+                    <div class="step">
+                        <p>「挿入」タブからコントロールのカテゴリを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>追加したいコントロールをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>コントロールがキャンバスに追加されます。マウスでドラッグして位置を調整できます。</p>
+                    </div>
+                    
+                    <h4>コントロールのサイズと位置の調整</h4>
+                    <div class="step">
+                        <p>コントロールを選択します。選択されたコントロールの周囲に選択ハンドルが表示されます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>角のハンドルをドラッグしてサイズを変更します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>コントロール全体をドラッグして位置を移動します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>複数のコントロールを選択するには、Ctrlキーを押しながら各コントロールをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「配置」メニュー（ホームタブ）を使用して、コントロールを整列させたり均等配置したりできます。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>コントロール選択のコツ：</strong> アプリに多くのコントロールがある場合、左側のツリービューからコントロールを選択する方が簡単な場合があります。また、コントロールには意味のある名前を付けておくと、後で識別しやすくなります。</p>
+                    </div>
+                </section>
+                
+                <section id="control-properties">
+                    <h3>プロパティの設定</h3>
+                    <p>各コントロールには多くのプロパティがあり、これらを設定することでコントロールの外観や動作をカスタマイズできます。</p>
+                    
+                    <h4>プロパティの種類</h4>
+                    <ul>
+                        <li><strong>基本プロパティ：</strong> 名前、表示/非表示、有効/無効など</li>
+                        <li><strong>テキストプロパティ：</strong> テキスト内容、フォント、サイズなど</li>
+                        <li><strong>外観プロパティ：</strong> 色、枠線、角の丸みなど</li>
+                        <li><strong>位置プロパティ：</strong> X座標、Y座標、幅、高さなど</li>
+                        <li><strong>データプロパティ：</strong> アイテム、フィールド、値など</li>
+                        <li><strong>動作プロパティ：</strong> OnSelect（選択時）、OnChange（変更時）など</li>
+                    </ul>
+                    
+                    <h4>プロパティの設定方法</h4>
+                    <div class="step">
+                        <p>コントロールを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>右側のプロパティペインでプロパティを直接変更します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>より高度な設定のために、数式バーに数式を入力します。</p>
+                    </div>
+                    
+                    <h4>よく使用されるプロパティ</h4>
+                    <table>
+                        <tr>
+                            <th>プロパティ</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>Text</td>
+                            <td>コントロールに表示されるテキスト</td>
+                            <td>"こんにちは"</td>
+                        </tr>
+                        <tr>
+                            <td>Visible</td>
+                            <td>コントロールの表示/非表示</td>
+                            <td>true または slider1.Value > 50</td>
+                        </tr>
+                        <tr>
+                            <td>DisplayMode</td>
+                            <td>表示モード（編集可能、表示のみなど）</td>
+                            <td>DisplayMode.Edit</td>
+                        </tr>
+                        <tr>
+                            <td>Default</td>
+                            <td>コントロールの初期値</td>
+                            <td>"初期値"</td>
+                        </tr>
+                        <tr>
+                            <td>Items</td>
+                            <td>リストコントロールの項目</td>
+                            <td>["項目1", "項目2", "項目3"]</td>
+                        </tr>
+                        <tr>
+                            <td>OnSelect</td>
+                            <td>コントロールが選択されたときの動作</td>
+                            <td>Navigate(Screen2)</td>
+                        </tr>
+                        <tr>
+                            <td>Fill</td>
+                            <td>背景色</td>
+                            <td>RGBA(255, 0, 0, 1)</td>
+                        </tr>
+                        <tr>
+                            <td>Color</td>
+                            <td>テキスト色</td>
+                            <td>White</td>
+                        </tr>
+                        <tr>
+                            <td>Width/Height</td>
+                            <td>幅と高さ</td>
+                            <td>150</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>条件付き書式設定</h4>
+                    <p>条件式を使用して、データや状態に基づいてコントロールの外観を動的に変更できます。</p>
+                    
+                    <div class="code-block">
+// 値が50より大きい場合は赤、そうでなければ緑にする
+Color: If(slider1.Value > 50, Red, Green)
+
+// ステータスに基づいて背景色を変更
+Fill: Switch(
+    ThisItem.Status,
+    "完了", Green,
+    "進行中", Yellow,
+    "未開始", Gray
+)
+
+// 値が変更されたかどうかに基づいてボタンを有効/無効にする
+DisplayMode: If(
+    TextInput1.Text <> TextInput1.Default,
+    DisplayMode.Edit,
+    DisplayMode.Disabled
+)
+</div>
+                    
+                    <div class="tip">
+                        <p><strong>プロパティ設定のコツ：</strong> 色やサイズなどの共通設定には変数を使用すると、後で一括変更が容易になります。例えば、<code>Set(appPrimaryColor, RGBA(0, 120, 212, 1))</code>としておき、各コントロールのFillプロパティに<code>appPrimaryColor</code>を使用します。</p>
+                    </div>
+                </section>
+                
+                <section id="galleries">
+                    <h3>ギャラリー</h3>
+                    <p>ギャラリーは、データの繰り返しリストを表示するための強力なコントロールです。例えば、顧客リストや製品カタログなどの表示に使用されます。</p>
+                    
+                    <h4>ギャラリーの種類</h4>
+                    <ul>
+                        <li><strong>横方向ギャラリー：</strong> アイテムが横に並ぶ</li>
+                        <li><strong>縦方向ギャラリー：</strong> アイテムが縦に並ぶ</li>
+                        <li><strong>空白ギャラリー：</strong> カスタムレイアウト用</li>
+                        <li><strong>フレックスギャラリー：</strong> 柔軟なレイアウトオプション</li>
+                    </ul>
+                    
+                    <h4>ギャラリーの追加と設定</h4>
+                    <div class="step">
+                        <p>「挿入」→「ギャラリー」から適切なギャラリータイプを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>プロパティペインでギャラリーのデータソースを設定します。Itemsプロパティにデータソースを設定します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「レイアウトの編集」をクリックして、テンプレートをカスタマイズします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>テンプレート内のコントロールを編集して、表示するデータフィールドを設定します。</p>
+                    </div>
+                    
+                    <h4>ギャラリーの主要プロパティ</h4>
+                    <ul>
+                        <li><strong>Items：</strong> 表示するデータ（例：データソース全体、フィルター適用後のデータなど）</li>
+                        <li><strong>TemplateSize：</strong> 各アイテムの大きさ</li>
+                        <li><strong>TemplatePadding：</strong> アイテム間の余白</li>
+                        <li><strong>TemplateGap：</strong> アイテム間のスペース</li>
+                        <li><strong>Selected：</strong> 現在選択されているアイテム</li>
+                        <li><strong>OnSelect：</strong> アイテムが選択されたときの動作</li>
+                    </ul>
+                    
+                    <h4>ThisItem変数の使用</h4>
+                    <p>ギャラリーのテンプレート内では、<code>ThisItem</code>という特殊な変数を使用して、現在のアイテムのデータにアクセスできます。</p>
+                    
+                    <div class="code-block">
+// ラベルのテキストプロパティ
+ThisItem.Title
+
+// イメージのイメージプロパティ
+ThisItem.ImageURL
+
+// 条件付き表示
+If(ThisItem.Status = "緊急", Red, Black)
+</div>
+                    
+                    <h4>ギャラリーのフィルタリングと並べ替え</h4>
+                    <div class="code-block">
+// 基本的なフィルタリング（Itemsプロパティ）
+Filter(データソース, 条件式)
+
+// 例：アクティブな項目のみ表示
+Filter(Tasks, Status = "アクティブ")
+
+// 検索テキストに基づくフィルタリング
+Filter(Customers, StartsWith(Name, TextSearchInput.Text))
+
+// 並べ替え
+Sort(データソース, 並べ替えフィールド, SortOrder)
+
+// 例：名前で昇順に並べ替え
+Sort(Customers, Name, SortOrder.Ascending)
+
+// フィルタリングと並べ替えの組み合わせ
+Sort(
+    Filter(
+        Products, 
+        Category = DropdownCategory.Selected.Value
+    ),
+    Price,
+    SortOrder.Descending
+)
+</div>
+                    
+                    <div class="tip">
+                        <p><strong>パフォーマンスのヒント：</strong> 大きなデータセットを扱う場合、すべてのデータを一度に読み込むのではなく、検索条件やページネーションを実装することで、アプリのパフォーマンスを維持できます。また、複雑なフィルター式は変数に格納して再利用すると、コードの可読性と保守性が向上します。</p>
+                    </div>
+                </section>
+                
+                <section id="forms">
+                    <h3>フォーム</h3>
+                    <p>フォームコントロールは、データの表示、作成、編集、削除（CRUD操作）を簡単に実装するためのコントロールです。</p>
+                    
+                    <h4>フォームの種類</h4>
+                    <ul>
+                        <li><strong>編集フォーム：</strong> データの作成と更新</li>
+                        <li><strong>表示フォーム：</strong> データの表示のみ</li>
+                    </ul>
+                    
+                    <h4>フォームの追加と設定</h4>
+                    <div class="step">
+                        <p>「挿入」→「フォーム」から「編集」または「表示」フォームを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>プロパティペインでフォームのデータソースを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>表示するフィールドを「フィールドの編集」から選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>各フィールドのコントロールタイプやプロパティをカスタマイズします。</p>
+                    </div>
+                    
+                    <h4>フォームの主要プロパティとメソッド</h4>
+                    <ul>
+                        <li><strong>DataSource：</strong> フォームのデータソース</li>
+                        <li><strong>Item：</strong> 表示・編集する項目</li>
+                        <li><strong>Mode：</strong> フォームモード（FormMode.New, FormMode.Edit, FormMode.View）</li>
+                        <li><strong>OnSuccess：</strong> 更新成功時の動作</li>
+                        <li><strong>OnFailure：</strong> 更新失敗時の動作</li>
+                        <li><strong>Unsaved：</strong> 未保存の変更があるかどうか</li>
+                        <li><strong>SubmitForm()：</strong> フォームを送信するメソッド</li>
+                        <li><strong>ResetForm()：</strong> フォームをリセットするメソッド</li>
+                        <li><strong>NewForm()：</strong> 新規作成モードに設定するメソッド</li>
+                        <li><strong>EditForm()：</strong> 編集モードに設定するメソッド</li>
+                        <li><strong>ViewForm()：</strong> 表示モードに設定するメソッド</li>
+                    </ul>
+                    
+                    <h4>フォームを使ったCRUD操作の実装</h4>
+                    <div class="code-block">
+// 新規作成
+// 「新規」ボタンのOnSelect
+NewForm(EditForm1);
+Navigate(EditScreen);
+
+// 編集
+// ギャラリー項目のOnSelect
+EditForm(EditForm1);
+Navigate(EditScreen);
+
+// 保存
+// 「保存」ボタンのOnSelect
+SubmitForm(EditForm1);
+
+// 削除
+// 「削除」ボタンのOnSelect
+Remove(DataSource, ThisItem);
+Back();
+
+// キャンセル
+// 「キャンセル」ボタンのOnSelect
+ResetForm(EditForm1);
+Back();
+</div>
+                    
+                    <h4>フォームのカスタマイズ</h4>
+                    <p>フォームのレイアウトやフィールドカードをカスタマイズして、使いやすいインターフェイスを作成できます。</p>
+                    <ul>
+                        <li>フィールドカードのコントロールタイプを変更（テキスト入力、ドロップダウンなど）</li>
+                        <li>必須フィールドの設定</li>
+                        <li>フィールドの表示/非表示の条件設定</li>
+                        <li>デフォルト値の設定</li>
+                        <li>データ検証ルールの追加</li>
+                    </ul>
+                    
+                    <div class="tip">
+                        <p><strong>フォーム使用のベストプラクティス：</strong> フォームの操作結果は常にユーザーにフィードバックすることが重要です。OnSuccessプロパティでは成功時のメッセージ表示や画面遷移を、OnFailureプロパティではエラーメッセージの表示などを設定しましょう。また、長いフォームは複数のセクションに分割したり、タブコントロールを使って整理したりすると使いやすくなります。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="data">
+                <h2>6. データ接続</h2>
+                
+                <section id="data-sources">
+                    <h3>データソース</h3>
+                    <p>Power Appsでは、様々なデータソースに接続してデータの読み取りや書き込みを行うことができます。</p>
+                    
+                    <h4>サポートされている主なデータソース</h4>
+                    <ul>
+                        <li><strong>Microsoft 365：</strong>
+                            <ul>
+                                <li>SharePointリスト/ライブラリ</li>
+                                <li>Excelファイル（OneDrive/SharePoint）</li>
+                                <li>Microsoft Dataverse（旧Common Data Service）</li>
+                                <li>Microsoft Lists</li>
+                                <li>Teams</li>
+                                <li>Outlook</li>
+                            </ul>
+                        </li>
+                        <li><strong>データベース：</strong>
+                            <ul>
+                                <li>SQL Server</li>
+                                <li>Azure SQL</li>
+                                <li>MySQL/PostgreSQL</li>
+                                <li>Oracle</li>
+                            </ul>
+                        </li>
+                        <li><strong>クラウドサービス：</strong>
+                            <ul>
+                                <li>Dynamics 365</li>
+                                <li>Salesforce</li>
+                                <li>ServiceNow</li>
+                                <li>DropBox/Box/Google Drive</li>
+                            </ul>
+                        </li>
+                        <li><strong>カスタム：</strong>
+                            <ul>
+                                <li>REST API</li>
+                                <li>ODataフィード</li>
+                                <li>カスタムコネクタ</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h4>データソースの種類</h4>
+                    <ul>
+                        <li><strong>標準コネクタ：</strong> 無料プランでも使用可能（SharePoint、Excel、Dataverseなど）</li>
+                        <li><strong>プレミアムコネクタ：</strong> 有料プランが必要（SQL Server、Oracle、Salesforceなど）</li>
+                        <li><strong>カスタムコネクタ：</strong> 独自のAPIに接続するために作成するコネクタ</li>
+                        <li><strong>オンプレミスデータゲートウェイ：</strong> オンプレミスのデータソースに接続するための仕組み</li>
+                    </ul>
+                    
+                    <h4>データソースの選択基準</h4>
+                    <ul>
+                        <li><strong>アクセス速度：</strong> オンラインデータソースはアクセスが速く、リアルタイム更新に適しています</li>
+                        <li><strong>セキュリティ要件：</strong> データの機密性に応じて適切なデータソースを選択</li>
+                        <li><strong>データの複雑さ：</strong> 複雑なデータ構造や関係を持つ場合はDataverseやSQLが適しています</li>
+                        <li><strong>ユーザー数と同時アクセス：</strong> 多数のユーザーが同時アクセスする場合は、スケーラブルなデータソースが必要</li>
+                        <li><strong>オフライン使用：</strong> オフライン使用が必要な場合はローカルコレクションと同期メカニズムを検討</li>
+                    </ul>
+                </section>
+                
+                <section id="connect-data">
+                    <h3>データソースへの接続</h3>
+                    <p>Power Appsでデータソースに接続するには、いくつかの方法があります。</p>
+                    
+                    <h4>アプリ作成時にデータソースを追加する</h4>
+                    <div class="step">
+                        <p>アプリスタジオで「データ」タブをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「データソースの追加」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>コネクタのリストから使用したいデータソースを検索・選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>選択したデータソースの設定手順に従います（例：SharePointサイトのURL、リスト名など）。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>認証が必要な場合は、資格情報を入力します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>接続が完了すると、データソースがアプリで使用可能になります。</p>
+                    </div>
+                    
+                    <h4>SharePointリストへの接続例</h4>
+                    <div class="step">
+                        <p>「データ」→「データソースの追加」→「SharePoint」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>接続がない場合は「新しい接続」をクリックし、認証します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「最近のサイト」から選択するか、SharePointサイトのURLを入力します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>使用するリストを選択します。複数のリストを選択することもできます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「接続」をクリックします。SharePointリストがデータソースとして追加されます。</p>
+                    </div>
+                    
+                    <h4>データソースの操作</h4>
+                    <p>接続したデータソースは、様々な関数を使用して操作できます。以下は一般的なデータ操作関数です：</p>
+                    
+                    <div class="code-block">
+// データの読み取り
+Collect(変数名, データソース)  // すべてのデータを取得
+
+// フィルタリング
+Filter(データソース, 条件式)  // 条件に一致するデータを取得
+// 例: Filter(Customers, StartsWith(Name, "A"))
+
+// 並べ替え
+Sort(データソース, 列名, SortOrder.Ascending/Descending)  // データを並べ替え
+// 例: Sort(Products, Price, SortOrder.Descending)
+
+// データの追加
+Patch(データソース, Defaults(データソース), { 列名1: 値1, 列名2: 値2, ... })
+// 例: Patch(Tasks, Defaults(Tasks), { Title: "新しいタスク", DueDate: Today() })
+
+// データの更新
+Patch(データソース, LookUp(データソース, 条件式), { 列名: 新しい値 })
+// 例: Patch(Customers, LookUp(Customers, ID = varSelectedID), { Status: "アクティブ" })
+
+// データの削除
+Remove(データソース, LookUp(データソース, 条件式))
+// 例: Remove(Products, LookUp(Products, ProductID = varProductID))
+</div>
+                    
+                    <h4>オンプレミスデータへの接続</h4>
+                    <p>オンプレミスのデータソース（SQLサーバーなど）に接続するには、オンプレミスデータゲートウェイが必要です。</p>
+                    <div class="step">
+                        <p>オンプレミスデータゲートウェイをダウンロードし、オンプレミスサーバーにインストールします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ゲートウェイを設定し、Power Platformに登録します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Power Appsでデータソースを追加する際に、ゲートウェイ経由での接続を選択します。</p>
+                    </div>
+                    
+                    <div class="note">
+                        <p><strong>データソース接続のヒント：</strong> アプリのパフォーマンスを向上させるために、必要なデータソースのみを接続することをお勧めします。また、データセキュリティを考慮し、特に機密データを含むデータソースへの接続には適切なセキュリティ設定を行ってください。</p>
+                    </div>
+                </section>
+                
+                <section id="collections">
+                    <h3>コレクション</h3>
+                    <p>コレクションは、Power Apps内でローカルに保存されるデータのテーブルです。外部データソースとは異なり、アプリが実行されている間のみ存在します。</p>
+                    
+                    <h4>コレクションの用途</h4>
+                    <ul>
+                        <li>一時的なデータの保存</li>
+                        <li>外部データのキャッシュ</li>
+                        <li>ユーザー入力の蓄積</li>
+                        <li>アプリ状態の管理</li>
+                        <li>オフライン操作のサポート</li>
+                    </ul>
+                    
+                    <h4>コレクションの作成と管理</h4>
+                    <div class="code-block">
+// 空のコレクションを作成
+ClearCollect(コレクション名, [])
+
+// 初期データでコレクションを作成
+ClearCollect(
+    Employees, 
+    [
+        {Name: "山田太郎", Department: "営業", HireDate: Date(2020, 4, 1)},
+        {Name: "佐藤花子", Department: "経理", HireDate: Date(2018, 10, 15)},
+        {Name: "鈴木一郎", Department: "開発", HireDate: Date(2019, 7, 1)}
+    ]
+)
+
+// データソースからコレクションを作成
+ClearCollect(LocalCustomers, Customers)
+
+// フィルタリングしてコレクションを作成
+ClearCollect(ActiveTasks, Filter(Tasks, Status = "アクティブ"))
+
+// コレクションへの追加
+Collect(Employees, {Name: "田中次郎", Department: "マーケティング", HireDate: Today()})
+
+// コレクションのクリア
+Clear(コレクション名)
+</div>
+                    
+                    <h4>コレクションの使用例</h4>
+                    <div class="code-block">
+// 買い物かごの実装
+// 「カートに追加」ボタンのOnSelect
+Collect(
+    ShoppingCart, 
+    {
+        ProductID: ThisItem.ID, 
+        ProductName: ThisItem.Name, 
+        Price: ThisItem.Price,
+        Quantity: 1
+    }
+)
+
+// 検索履歴の保存
+// 検索ボタンのOnSelect
+If(
+    !IsBlank(txtSearch.Text),
+    Collect(
+        SearchHistory, 
+        {
+            SearchTerm: txtSearch.Text, 
+            SearchDate: Now()
+        }
+    )
+);
+// 実際の検索処理...
+
+// フォーム入力の一時保存
+// 「保存」ボタンのOnSelect
+Collect(
+    DraftForms,
+    {
+        Title: txtTitle.Text,
+        Description: txtDescription.Text,
+        DueDate: dpDueDate.SelectedDate,
+        DraftDate: Now()
+    }
+);
+// 「下書き保存しました」メッセージ表示...
+</div>
+                    
+                    <h4>コレクションとデータソースの同期</h4>
+                    <p>コレクションでローカル編集を行い、後でデータソースに反映させることができます。</p>
+                    
+                    <div class="code-block">
+// オフライン編集ワークフロー例
+
+// 1. アプリ起動時にデータをロード
+ClearCollect(LocalTasks, Tasks);
+Set(IsOnline, Connection.Connected);
+
+// 2. ローカルデータ編集
+// 「タスク完了」ボタンのOnSelect
+Patch(
+    LocalTasks,
+    LookUp(LocalTasks, ID = ThisItem.ID),
+    {Status: "完了", CompletedDate: Now()}
+);
+Collect(
+    PendingChanges,
+    {
+        Operation: "Update",
+        Table: "Tasks",
+        ItemID: ThisItem.ID,
+        Changes: {Status: "完了", CompletedDate: Now()}
+    }
+);
+
+// 3. オンライン接続時に同期
+// 「同期」ボタンのOnSelect
+If(
+    Connection.Connected,
+    ForAll(
+        PendingChanges,
+        Switch(
+            Operation,
+            "Update",
+            Patch(
+                Tasks,
+                LookUp(Tasks, ID = ItemID),
+                Changes
+            ),
+            "Insert",
+            Patch(
+                Tasks,
+                Defaults(Tasks),
+                Changes
+            ),
+            "Delete",
+            Remove(
+                Tasks,
+                LookUp(Tasks, ID = ItemID)
+            )
+        )
+    );
+    Clear(PendingChanges);
+    Notify("同期が完了しました", NotificationType.Success);
+    ClearCollect(LocalTasks, Tasks),
+    Notify("オフラインモードです。インターネット接続を確認してください", NotificationType.Warning)
+)
+</div>
+                    
+                    <div class="tip">
+                        <p><strong>コレクションのベストプラクティス：</strong> コレクションはアプリが閉じられると消去されるため、永続的なデータストレージとしては使用できません。重要なデータは必ず外部データソースに保存してください。また、大量のデータをコレクションに保存するとアプリのパフォーマンスが低下する可能性があるため、必要なデータのみを保持するようにしましょう。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="formulas">
+                <h2>7. 数式と関数</h2>
+                
+                <section id="formula-basics">
+                    <h3>数式の基本</h3>
+                    <p>Power Appsの数式は、Microsoft Excelの数式に似ていますが、より多くの関数と機能が提供されています。数式を使用して、コントロールのプロパティを設定したり、アプリの動作を定義したりします。</p>
+                    
+                    <h4>数式の書き方</h4>
+                    <ul>
+                        <li>数式は「=」で始める必要はありません（Excelとは異なります）</li>
+                        <li>文字列は引用符（"）で囲みます</li>
+                        <li>関数名の後に括弧とパラメータを指定します</li>
+                        <li>コントロールのプロパティには直接アクセスできます（例：TextInput1.Text）</li>
+                        <li>数式の結果は、設定するプロパティの型と一致している必要があります</li>
+                    </ul>
+                    
+                    <h4>基本的な式の例</h4>
+                    <div class="code-block">
+// 単純な値
+"こんにちは"  // 文字列
+123  // 数値
+true  // ブール値
+
+// 算術演算
+1 + 2
+Price * Quantity
+Number / 100
+
+// 文字列連結
+"こんにちは、" & UserName & "さん"
+
+// 比較
+Price > 1000
+Status = "完了"
+Date >= Today()
+
+// 条件式
+If(Price > 1000, "高額", "通常")
+
+// 関数呼び出し
+Left(Text, 10)
+Sum(Table, Amount)
+LookUp(Customers, ID = 12345)
+</div>
+                    
+                    <h4>数式バーの使用</h4>
+                    <div class="step">
+                        <p>コントロールを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>プロパティドロップダウンから設定したいプロパティを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>数式バーに式を入力します。入力中にインテリセンス（自動補完）機能がサポートしてくれます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Enterキーを押すか、別の場所をクリックして式を確定します。</p>
+                    </div>
+                    
+                    <h4>式のデバッグ</h4>
+                    <ul>
+                        <li><strong>監視ウィンドウ：</strong> 「表示」→「詳細」→「監視」を選択して式の値を監視</li>
+                        <li><strong>Trace関数：</strong> アプリの実行中に値をコンソールに出力（高度なモニタリング）</li>
+                        <li><strong>通知関数：</strong> Notify関数を使用して値を画面に表示</li>
+                    </ul>
+                    
+                    <div class="code-block">
+// デバッグ用の通知表示
+Notify("変数の値: " & varName)
+
+// 複数の値をデバッグ
+Notify(
+    "デバッグ情報: " & 
+    "ID=" & ThisItem.ID & 
+    ", Status=" & ThisItem.Status & 
+    ", Calc=" & (Price * Quantity)
+)
+</div>
+                    
+                    <div class="tip">
+                        <p><strong>数式作成のコツ：</strong> 複雑な数式は段階的に構築すると理解しやすくなります。また、複雑な式は変数に格納して再利用することで、コードの可読性と保守性が向上します。数式に問題がある場合は、小さな部分に分解してテストすることで、問題を特定しやすくなります。</p>
+                    </div>
+                </section>
+                
+                <section id="common-functions">
+                    <h3>よく使う関数</h3>
+                    <p>Power Appsには多くの組み込み関数があり、様々なタスクを実行するために使用できます。</p>
+                    
+                    <h4>テキスト関数</h4>
+                    <table>
+                        <tr>
+                            <th>関数</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>Concatenate</td>
+                            <td>複数のテキストを結合</td>
+                            <td>Concatenate("Hello", " ", "World")</td>
+                        </tr>
+                        <tr>
+                            <td>Left, Mid, Right</td>
+                            <td>文字列の一部を抽出</td>
+                            <td>Left("Hello", 2)</td>
+                        </tr>
+                        <tr>
+                            <td>Replace</td>
+                            <td>文字列内の一部を置換</td>
+                            <td>Replace("Hello World", "World", "PowerApps")</td>
+                        </tr>
+                        <tr>
+                            <td>Len</td>
+                            <td>文字列の長さを取得</td>
+                            <td>Len("Hello")</td>
+                        </tr>
+                        <tr>
+                            <td>Lower, Upper, Proper</td>
+                            <td>大文字/小文字変換</td>
+                            <td>Upper("hello")</td>
+                        </tr>
+                        <tr>
+                            <td>Trim</td>
+                            <td>前後の空白を削除</td>
+                            <td>Trim(" Hello ")</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>数学関数</h4>
+                    <table>
+                        <tr>
+                            <th>関数</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>Sum</td>
+                            <td>合計を計算</td>
+                            <td>Sum(Table, Amount)</td>
+                        </tr>
+                        <tr>
+                            <td>Average</td>
+                            <td>平均を計算</td>
+                            <td>Average(Table, Price)</td>
+                        </tr>
+                        <tr>
+                            <td>Min, Max</td>
+                            <td>最小値/最大値を取得</td>
+                            <td>Max(Table, Score)</td>
+                        </tr>
+                        <tr>
+                            <td>Round</td>
+                            <td>指定した桁数に丸める</td>
+                            <td>Round(123.456, 2)</td>
+                        </tr>
+                        <tr>
+                            <td>Rand</td>
+                            <td>乱数生成</td>
+                            <td>Rand()</td>
+                        </tr>
+                        <tr>
+                            <td>CountRows</td>
+                            <td>行数を取得</td>
+                            <td>CountRows(Table)</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>日付/時刻関数</h4>
+                    <table>
+                        <tr>
+                            <th>関数</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>Now</td>
+                            <td>現在の日付と時刻</td>
+                            <td>Now()</td>
+                        </tr>
+                        <tr>
+                            <td>Today</td>
+                            <td>今日の日付</td>
+                            <td>Today()</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td>指定した年月日の日付</td>
+                            <td>Date(2023, 1, 15)</td>
+                        </tr>
+                        <tr>
+                            <td>DateAdd</td>
+                            <td>日付に日数などを加算</td>
+                            <td>DateAdd(Today(), 7)</td>
+                        </tr>
+                        <tr>
+                            <td>DateDiff</td>
+                            <td>2つの日付の差</td>
+                            <td>DateDiff(Date1, Date2)</td>
+                        </tr>
+                        <tr>
+                            <td>Text (日付書式)</td>
+                            <td>日付を指定書式で表示</td>
+                            <td>Text(Today(), "yyyy/mm/dd")</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>テーブル操作関数</h4>
+                    <table>
+                        <tr>
+                            <th>関数</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>Filter</td>
+                            <td>条件に一致する行を抽出</td>
+                            <td>Filter(Customers, City="東京")</td>
+                        </tr>
+                        <tr>
+                            <td>Search</td>
+                            <td>テキスト検索</td>
+                            <td>Search(Products, txtSearch.Text, "Name")</td>
+                        </tr>
+                        <tr>
+                            <td>Sort</td>
+                            <td>データを並べ替え</td>
+                            <td>Sort(Products, Price, Descending)</td>
+                        </tr>
+                        <tr>
+                            <td>LookUp</td>
+                            <td>条件に一致する最初の行</td>
+                            <td>LookUp(Customers, ID=123)</td>
+                        </tr>
+                        <tr>
+                            <td>AddColumns</td>
+                            <td>列を追加</td>
+                            <td>AddColumns(Products, "DiscountPrice", Price * 0.9)</td>
+                        </tr>
+                        <tr>
+                            <td>GroupBy</td>
+                            <td>データをグループ化</td>
+                            <td>GroupBy(Sales, "Category", "TotalSales", Sum(Value))</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>その他の便利な関数</h4>
+                    <table>
+                        <tr>
+                            <th>関数</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>If</td>
+                            <td>条件分岐</td>
+                            <td>If(Price > 1000, "高額", "通常")</td>
+                        </tr>
+                        <tr>
+                            <td>Switch</td>
+                            <td>複数条件の分岐</td>
+                            <td>Switch(Status, "完了", "緑", "進行中", "黄", "赤

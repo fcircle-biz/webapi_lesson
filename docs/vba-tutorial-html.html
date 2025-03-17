@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VBA 入門チュートリアル</title>
+    <style>
+        :root {
+            --primary-color: #217346;
+            --secondary-color: #185a36;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --light-gray: #f2f2f2;
+            --border-color: #ddd;
+            --success-color: #28a745;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding-top: 60px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        header h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            white-space: nowrap;
+            display: block;
+            visibility: visible !important;
+            color: white;
+        }
+        
+        header .nav-toggle {
+            display: none;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: 0.85rem;
+        }
+        
+        nav a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        main {
+            margin: 2rem 0;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        p, ul, ol {
+            margin-bottom: 1.2rem;
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #185a36;
+        }
+        
+        .toc {
+            background-color: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+            font-size: 1.5rem;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: var(--primary-color);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .toc .level-2 {
+            padding-left: 1.5rem;
+        }
+        
+        .toc .level-3 {
+            padding-left: 3rem;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--light-gray);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        .note {
+            background-color: #e8f4fd;
+            border-left: 5px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .tip {
+            background-color: #d4edda;
+            border-left: 5px solid var(--success-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--light-gray);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.8rem;
+            height: 1.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .image-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .caption {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            color: #000080; /* VBAコードの色を青色に */
+            white-space: pre-line; /* 改行を保持 */
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            header .nav-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            nav {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 60px);
+                background-color: var(--primary-color);
+                flex-direction: column;
+                padding: 1rem;
+                transition: left 0.3s;
+                z-index: 99;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VBA 入門チュートリアル</h1>
+            <button class="nav-toggle">☰</button>
+            <nav id="main-nav">
+                <a href="#intro">はじめに</a>
+                <a href="#setup">開発環境設定</a>
+                <a href="#basics">基本構文</a>
+                <a href="#excel-vba">Excel連携</a>
+                <a href="#userforms">ユーザーフォーム</a>
+                <a href="#debugging">デバッグ</a>
+                <a href="#example">実践例</a>
+                <a href="#advanced">応用テクニック</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="content">
+            <h1>VBA 入門チュートリアル</h1>
+            
+            <div class="toc">
+                <h2>目次</h2>
+                <ul>
+                    <li><a href="#intro">1. VBAとは</a></li>
+                    <li><a href="#setup">2. VBA開発環境のセットアップ</a>
+                        <ul class="level-2">
+                            <li><a href="#vbe">VBエディタの基本操作</a></li>
+                            <li><a href="#security">マクロセキュリティの設定</a></li>
+                            <li><a href="#project-explorer">プロジェクトエクスプローラの使用</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#basics">3. VBAプログラミングの基本</a>
+                        <ul class="level-2">
+                            <li><a href="#variables">変数と定数</a></li>
+                            <li><a href="#data-types">データ型</a></li>
+                            <li><a href="#operators">演算子</a></li>
+                            <li><a href="#conditionals">条件分岐</a></li>
+                            <li><a href="#loops">ループ</a></li>
+                            <li><a href="#subs-functions">サブプロシージャと関数</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#excel-vba">4. Excel VBAの基本操作</a>
+                        <ul class="level-2">
+                            <li><a href="#object-model">Excelオブジェクトモデル</a></li>
+                            <li><a href="#cells">セルとレンジの操作</a></li>
+                            <li><a href="#worksheets">ワークシートの操作</a></li>
+                            <li><a href="#workbooks">ブックの操作</a></li>
+                            <li><a href="#events">イベントプログラミング</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#userforms">5. ユーザーフォーム</a>
+                        <ul class="level-2">
+                            <li><a href="#form-basics">フォームの基本</a></li>
+                            <li><a href="#controls">コントロールの追加と設定</a></li>
+                            <li><a href="#form-events">フォームとコントロールのイベント</a></li>
+                            <li><a href="#form-examples">基本的なフォーム例</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#debugging">6. デバッグとエラーハンドリング</a>
+                        <ul class="level-2">
+                            <li><a href="#debugging-techniques">デバッグ技術</a></li>
+                            <li><a href="#error-handling">エラーハンドリング</a></li>
+                            <li><a href="#common-errors">よくあるエラーと解決法</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#example">7. 実践：サンプルプロジェクト</a>
+                        <ul class="level-2">
+                            <li><a href="#data-tool">データ処理ツール</a></li>
+                            <li><a href="#report-generator">レポート自動生成</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#advanced">8. 応用テクニック</a>
+                        <ul class="level-2">
+                            <li><a href="#api">外部API連携</a></li>
+                            <li><a href="#database">データベース連携</a></li>
+                            <li><a href="#other-office">他のOfficeアプリケーションとの連携</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#best-practices">9. ベストプラクティス</a></li>
+                    <li><a href="#faq">10. よくある質問</a></li>
+                    <li><a href="#resources">11. 参考リソース</a></li>
+                </ul>
+            </div>
+            
+            <section id="intro">
+                <h2>1. VBAとは</h2>
+                <p>VBA（Visual Basic for Applications）は、Microsoft Office製品に組み込まれたプログラミング言語です。ExcelやWord、Access、PowerPointなどのOfficeアプリケーションの機能を自動化・拡張するために使用されます。</p>
+                
+                <h3>VBAの主な特徴</h3>
+                <ul>
+                    <li>Officeアプリケーション内で動作する</li>
+                    <li>繰り返し行うタスクの自動化が可能</li>
+                    <li>カスタムインターフェースの作成が可能</li>
+                    <li>Office間のデータ連携を実現できる</li>
+                    <li>Visual Basicに基づいた構文で比較的習得しやすい</li>
+                </ul>
+                
+                <h3>VBAの使用例</h3>
+                <ul>
+                    <li><strong>データ処理の自動化：</strong> 大量のデータのフォーマット変更、計算、集計</li>
+                    <li><strong>レポート生成の自動化：</strong> 定型レポートの自動作成</li>
+                    <li><strong>ユーザーインターフェースのカスタマイズ：</strong> 入力フォームやダイアログの作成</li>
+                    <li><strong>データベース操作：</strong> データベースへの接続、データの取得・更新</li>
+                    <li><strong>システム連携：</strong> 他のアプリケーションやWebとの連携</li>
+                </ul>
+                
+                <div class="note">
+                    <p>VBAは特にExcelで最も広く使用されており、本チュートリアルもExcel VBAを中心に説明していきますが、多くの概念は他のOfficeアプリケーションのVBAにも適用できます。</p>
+                </div>
+            </section>
+            
+            <section id="setup">
+                <h2>2. VBA開発環境のセットアップ</h2>
+                
+                <section id="vbe">
+                    <h3>VBエディタの基本操作</h3>
+                    
+                    <h4>VBエディタを開く方法</h4>
+                    <div class="step">
+                        <p>Excelを起動し、「開発」タブをクリックします。</p>
+                        <p>注：「開発」タブが表示されていない場合は、後述の手順で表示する必要があります。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「開発」タブの「Visual Basic」ボタンをクリックします。または、キーボードショートカット「Alt + F11」を使用します。</p>
+                    </div>
+                    
+                    <h4>「開発」タブの表示方法</h4>
+                    <div class="step">
+                        <p>Excelの「ファイル」タブをクリックし、「オプション」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「リボンのユーザー設定」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>右側のリストで「開発」にチェックを入れ、「OK」をクリックします。</p>
+                    </div>
+                    
+                    <h4>VBエディタの主要な部分</h4>
+                    <ul>
+                        <li><strong>メニューバー：</strong> VBエディタの各種機能にアクセスするためのメニュー</li>
+                        <li><strong>ツールバー：</strong> 頻繁に使用する機能へのショートカットボタン</li>
+                        <li><strong>プロジェクトエクスプローラ：</strong> VBAプロジェクトとそのコンポーネントを表示するウィンドウ</li>
+                        <li><strong>プロパティウィンドウ：</strong> 選択したオブジェクトのプロパティを表示・編集するウィンドウ</li>
+                        <li><strong>コードウィンドウ：</strong> VBAコードを記述・編集するメインの領域</li>
+                    </ul>
+                </section>
+                
+                <section id="security">
+                    <h3>マクロセキュリティの設定</h3>
+                    
+                    <p>セキュリティ上の理由から、Officeアプリケーションではデフォルトでマクロの実行が制限されています。VBAを使用するためには、適切なセキュリティ設定が必要です。</p>
+                    
+                    <h4>マクロセキュリティレベルの設定方法</h4>
+                    <div class="step">
+                        <p>Excelの「開発」タブで「マクロのセキュリティ」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「マクロの設定」で以下のいずれかのオプションを選択します：</p>
+                        <ul>
+                            <li><strong>すべてのマクロを無効にする：</strong> 最も安全だが、VBAを使用できなくなる</li>
+                            <li><strong>デジタル署名されたマクロを除くすべてのマクロを無効にする：</strong> 信頼された署名付きマクロのみ実行可能</li>
+                            <li><strong>警告を表示してすべてのマクロを無効にする：</strong> マクロを含むファイルを開くたびに警告が表示される（推奨）</li>
+                            <li><strong>すべてのマクロを有効にする：</strong> 最も危険な設定、通常は推奨されない</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「OK」をクリックして設定を保存します。</p>
+                    </div>
+                    
+                    <h4>信頼できる場所の設定</h4>
+                    <div class="step">
+                        <p>マクロセキュリティダイアログで「信頼できる場所」タブをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「新しい場所の追加」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>参照ボタンを使ってマクロを含むファイルを保存するフォルダを選択し、「OK」をクリックします。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>セキュリティのヒント：</strong> 信頼できる場所に設定したフォルダに保存されたファイル内のマクロは、マクロセキュリティレベルに関わらず自動的に実行されます。そのため、信頼できる場所には信頼できるファイルのみを保存してください。</p>
+                    </div>
+                </section>
+                
+                <section id="project-explorer">
+                    <h3>プロジェクトエクスプローラの使用</h3>
+                    
+                    <p>プロジェクトエクスプローラは、VBAプロジェクト内のすべてのコンポーネントを表示・管理するウィンドウです。</p>
+                    
+                    <h4>プロジェクトエクスプローラの表示</h4>
+                    <div class="step">
+                        <p>VBエディタのメニューから「表示」→「プロジェクトエクスプローラ」を選択します。または、キーボードショートカット「Ctrl + R」を使用します。</p>
+                    </div>
+                    
+                    <h4>プロジェクトエクスプローラの構造</h4>
+                    <ul>
+                        <li><strong>VBAProject：</strong> 各ブックに対応するプロジェクト</li>
+                        <li><strong>Microsoft Excel Objects：</strong> ブック内のワークシートとブック自体のオブジェクト
+                            <ul>
+                                <li>ThisWorkbook: ブック全体を表すオブジェクト</li>
+                                <li>Sheet1, Sheet2, ...: 各ワークシートを表すオブジェクト</li>
+                            </ul>
+                        </li>
+                        <li><strong>Forms：</strong> ユーザーフォーム</li>
+                        <li><strong>Modules：</strong> 標準モジュール（一般的なコードを含む）</li>
+                        <li><strong>Class Modules：</strong> クラスモジュール（カスタムオブジェクトの定義）</li>
+                        <li><strong>References：</strong> 外部ライブラリや他のオブジェクトへの参照</li>
+                    </ul>
+                    
+                    <h4>新しいVBAコンポーネントの追加</h4>
+                    <div class="step">
+                        <p>プロジェクトエクスプローラで右クリックし、「挿入」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>以下のいずれかのコンポーネントを選択します：</p>
+                        <ul>
+                            <li><strong>標準モジュール：</strong> 一般的なVBAコードを含むモジュール</li>
+                            <li><strong>クラスモジュール：</strong> カスタムオブジェクトを定義するモジュール</li>
+                            <li><strong>ユーザーフォーム：</strong> カスタムインターフェースを作成するフォーム</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <div class="tip">
+                    <p><strong>開発環境のカスタマイズ：</strong> VBエディタの「ツール」→「オプション」メニューから、エディタの外観や動作をカスタマイズできます。特に「エディタ」タブでは、自動構文チェック、自動インデント、行番号の表示などが設定できます。初心者の方は「自動構文チェック」を有効にしておくことをお勧めします。</p>
+                </div>
+            </section>
+            
+            <section id="basics">
+                <h2>3. VBAプログラミングの基本</h2>
+                
+                <section id="variables">
+                    <h3>変数と定数</h3>
+                    
+                    <h4>変数宣言</h4>
+                    <p>変数はデータを一時的に保存するためのメモリ領域です。VBAでは、Dim文を使用して変数を宣言します。</p>
+                    
+                    <div class="code-block">
+' 変数の宣言
+Dim 名前 As String
+Dim 年齢 As Integer
+Dim 給料 As Double
+
+' 複数の変数を一度に宣言
+Dim 名前 As String, 年齢 As Integer, 給料 As Double
+
+' データ型を指定しない場合（Variant型になる）
+Dim 変数名
+</div>
+                    
+                    <h4>変数への値の代入</h4>
+                    
+                    <div class="code-block">
+' 値の代入
+名前 = "山田太郎"
+年齢 = 30
+給料 = 350000.5
+
+' 宣言と同時に値を代入（VB6.0以降）
+Dim 名前 As String = "山田太郎"
+</div>
+                    
+                    <h4>Option Explicitの使用</h4>
+                    <p>Option Explicitディレクティブを使うと、すべての変数を使用前に宣言することが強制されます。これはコードのエラーを減らすのに役立ちます。</p>
+                    
+                    <div class="code-block">
+' モジュールの先頭に記述
+Option Explicit
+
+Sub テスト()
+    ' 宣言していない変数を使用するとエラーになる
+    名前 = "山田太郎"  ' コンパイルエラー
+    
+    ' 正しい使用法
+    Dim 名前 As String
+    名前 = "山田太郎"  ' OK
+End Sub
+</div>
+                    
+                    <h4>定数の定義</h4>
+                    <p>定数は値が変更されない変数です。Const文を使って定義します。</p>
+                    
+                    <div class="code-block">
+' 定数の定義
+Const PI As Double = 3.14159
+Const TAX_RATE As Double = 0.1
+Const COMPANY_NAME As String = "〇〇株式会社"
+
+Sub 定数の使用例()
+    Dim 円の面積 As Double
+    Dim 半径 As Double
+    
+    半径 = 5
+    円の面積 = PI * 半径 ^ 2
+    
+    MsgBox "円の面積は " & 円の面積 & " です"
+End Sub
+</div>
+                </section>
+                
+                <section id="data-types">
+                    <h3>データ型</h3>
+                    
+                    <h4>基本データ型</h4>
+                    <table>
+                        <tr>
+                            <th>データ型</th>
+                            <th>説明</th>
+                            <th>サイズ</th>
+                            <th>範囲</th>
+                        </tr>
+                        <tr>
+                            <td>Boolean</td>
+                            <td>真偽値</td>
+                            <td>2バイト</td>
+                            <td>True/False</td>
+                        </tr>
+                        <tr>
+                            <td>Byte</td>
+                            <td>整数（バイト）</td>
+                            <td>1バイト</td>
+                            <td>0～255</td>
+                        </tr>
+                        <tr>
+                            <td>Integer</td>
+                            <td>整数</td>
+                            <td>2バイト</td>
+                            <td>-32,768～32,767</td>
+                        </tr>
+                        <tr>
+                            <td>Long</td>
+                            <td>長整数</td>
+                            <td>4バイト</td>
+                            <td>-2,147,483,648～2,147,483,647</td>
+                        </tr>
+                        <tr>
+                            <td>Single</td>
+                            <td>単精度浮動小数点</td>
+                            <td>4バイト</td>
+                            <td>-3.402823E38～3.402823E38</td>
+                        </tr>
+                        <tr>
+                            <td>Double</td>
+                            <td>倍精度浮動小数点</td>
+                            <td>8バイト</td>
+                            <td>-1.79769313486232E308～1.79769313486232E308</td>
+                        </tr>
+                        <tr>
+                            <td>Currency</td>
+                            <td>通貨</td>
+                            <td>8バイト</td>
+                            <td>-922,337,203,685,477.5808～922,337,203,685,477.5807</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td>日付と時刻</td>
+                            <td>8バイト</td>
+                            <td>1900年1月1日～9999年12月31日</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td>文字列</td>
+                            <td>可変</td>
+                            <td>0～約20億文字</td>
+                        </tr>
+                        <tr>
+                            <td>Object</td>
+                            <td>オブジェクト参照</td>
+                            <td>4バイト</td>
+                            <td>任意のオブジェクト参照</td>
+                        </tr>
+                        <tr>
+                            <td>Variant</td>
+                            <td>すべての型</td>
+                            <td>16バイト+</td>
+                            <td>すべての型の値</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>配列</h4>
+                    <p>配列は同じデータ型の値をまとめて扱うためのデータ構造です。</p>
+                    
+                    <div class="code-block">
+' 固定長配列の宣言
+Dim 数値(4) As Integer  ' 0～4までの5つの要素を持つ配列
+
+' 配列の要素に値を代入
+数値(0) = 10
+数値(1) = 20
+数値(2) = 30
+数値(3) = 40
+数値(4) = 50
+
+' 配列の下限を1から開始する場合
+Option Base 1
+Dim 数値2(5) As Integer  ' 1～5までの5つの要素
+
+' 明示的に下限と上限を指定
+Dim 数値3(1 To 5) As Integer  ' 1～5までの5つの要素
+
+' 多次元配列
+Dim マトリックス(1 To 3, 1 To 3) As Integer  ' 3×3の二次元配列
+
+' 動的配列（サイズを後で指定）
+Dim 動的配列() As String
+ReDim 動的配列(1 To 10)  ' 10個の要素を持つように再定義
+
+' 既存の値を保持したまま配列のサイズを変更
+ReDim Preserve 動的配列(1 To 20)  ' 元の値を保持したまま拡張
+</div>
+                    
+                    <h4>型変換</h4>
+                    <p>VBAでは、必要に応じてデータ型を変換することができます。</p>
+                    
+                    <div class="code-block">
+' 文字列を数値に変換
+Dim 文字列値 As String
+Dim 数値 As Integer
+
+文字列値 = "123"
+数値 = CInt(文字列値)  ' 文字列を整数に変換
+
+' 他の型変換関数
+Dim 値 As Variant
+値 = "123.45"
+
+MsgBox CInt(値)    ' 結果: 123 (整数に変換)
+MsgBox CLng(値)    ' 結果: 123 (長整数に変換)
+MsgBox CSng(値)    ' 結果: 123.45 (単精度浮動小数点に変換)
+MsgBox CDbl(値)    ' 結果: 123.45 (倍精度浮動小数点に変換)
+MsgBox CStr(123.45) ' 結果: "123.45" (文字列に変換)
+MsgBox CBool(1)    ' 結果: True (ブール値に変換)
+MsgBox CDate("2023/01/01") ' 結果: 2023/01/01 (日付に変換)
+</div>
+                </section>
+                
+                <section id="operators">
+                    <h3>演算子</h3>
+                    
+                    <h4>算術演算子</h4>
+                    <table>
+                        <tr>
+                            <th>演算子</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>+</td>
+                            <td>加算</td>
+                            <td>a + b</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>減算</td>
+                            <td>a - b</td>
+                        </tr>
+                        <tr>
+                            <td>*</td>
+                            <td>乗算</td>
+                            <td>a * b</td>
+                        </tr>
+                        <tr>
+                            <td>/</td>
+                            <td>除算</td>
+                            <td>a / b</td>
+                        </tr>
+                        <tr>
+                            <td>\</td>
+                            <td>整数除算</td>
+                            <td>a \ b</td>
+                        </tr>
+                        <tr>
+                            <td>Mod</td>
+                            <td>剰余</td>
+                            <td>a Mod b</td>
+                        </tr>
+                        <tr>
+                            <td>^</td>
+                            <td>べき乗</td>
+                            <td>a ^ b</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>比較演算子</h4>
+                    <table>
+                        <tr>
+                            <th>演算子</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>=</td>
+                            <td>等しい</td>
+                            <td>a = b</td>
+                        </tr>
+                        <tr>
+                            <td><></td>
+                            <td>等しくない</td>
+                            <td>a <> b</td>
+                        </tr>
+                        <tr>
+                            <td><</td>
+                            <td>より小さい</td>
+                            <td>a < b</td>
+                        </tr>
+                        <tr>
+                            <td>></td>
+                            <td>より大きい</td>
+                            <td>a > b</td>
+                        </tr>
+                        <tr>
+                            <td><=</td>
+                            <td>以下</td>
+                            <td>a <= b</td>
+                        </tr>
+                        <tr>
+                            <td>>=</td>
+                            <td>以上</td>
+                            <td>a >= b</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>論理演算子</h4>
+                    <table>
+                        <tr>
+                            <th>演算子</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>And</td>
+                            <td>論理積（両方がTrueならTrue）</td>
+                            <td>a And b</td>
+                        </tr>
+                        <tr>
+                            <td>Or</td>
+                            <td>論理和（どちらかがTrueならTrue）</td>
+                            <td>a Or b</td>
+                        </tr>
+                        <tr>
+                            <td>Not</td>
+                            <td>論理否定（Trueを反転）</td>
+                            <td>Not a</td>
+                        </tr>
+                        <tr>
+                            <td>Xor</td>
+                            <td>排他的論理和（どちらか一方がTrueならTrue）</td>
+                            <td>a Xor b</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>文字列連結演算子</h4>
+                    <table>
+                        <tr>
+                            <th>演算子</th>
+                            <th>説明</th>
+                            <th>例</th>
+                        </tr>
+                        <tr>
+                            <td>&</td>
+                            <td>文字列連結（推奨）</td>
+                            <td>"Hello" & "World"</td>
+                        </tr>
+                        <tr>
+                            <td>+</td>
+                            <td>文字列連結（曖昧さに注意）</td>
+                            <td>"Hello" + "World"</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="note">
+                        <p><strong>注意：</strong> 文字列連結には&演算子を使用することを推奨します。+演算子は数値の加算と文字列連結の両方に使用できるため、意図しない結果を引き起こす可能性があります。</p>
+                    </div>
+                </section>
+                
+                <section id="conditionals">
+                    <h3>条件分岐</h3>
+                    
+                    <h4>If文</h4>
+                    <p>If文は条件に基づいて処理を分岐させます。</p>
+                    
+                    <div class="code-block">
+' 基本的なIf文
+If 年齢 >= 20 Then
+    MsgBox "成人です"
+End If
+
+' If-Else文
+If 点数 >= 60 Then
+    MsgBox "合格です"
+Else
+    MsgBox "不合格です"
+End If
+
+' 複数の条件分岐
+If 点数 >= 90 Then
+    MsgBox "優"
+ElseIf 点数 >= 80 Then
+    MsgBox "良"
+ElseIf 点数 >= 70 Then
+    MsgBox "可"
+Else
+    MsgBox "不可"
+End If
+
+' 1行のIf文（簡単な処理の場合）
+If 年齢 >= 20 Then MsgBox "成人です"
+</div>
+                    
+                    <h4>Select Case文</h4>
+                    <p>Select Case文は複数の値によって分岐を行う場合に使用します。</p>
+                    
+                    <div class="code-block">
+' 基本的なSelect Case文
+Select Case 曜日
+    Case "月"
+        MsgBox "月曜日です"
+    Case "火"
+        MsgBox "火曜日です"
+    Case "水"
+        MsgBox "水曜日です"
+    Case "木"
+        MsgBox "木曜日です"
+    Case "金"
+        MsgBox "金曜日です"
+    Case "土", "日"
+        MsgBox "週末です"
+    Case Else
+        MsgBox "不明な曜日です"
+End Select
+
+' 範囲を使用したSelect Case
+Select Case 点数
+    Case 90 To 100
+        MsgBox "優"
+    Case 80 To 89
+        MsgBox "良"
+    Case 70 To 79
+        MsgBox "可"
+    Case 0 To 69
+        MsgBox "不可"
+    Case Else
+        MsgBox "無効な点数です"
+End Select
+
+' 式を使用したSelect Case
+Select Case True
+    Case 年齢 >= 65
+        MsgBox "高齢者"
+    Case 年齢 >= 20
+        MsgBox "成人"
+    Case 年齢 >= 13
+        MsgBox "青少年"
+    Case Else
+        MsgBox "子供"
+End Select
+</div>
+                </section>
+                
+                <section id="loops">
+                    <h3>ループ</h3>
+                    
+                    <h4>For...Next ループ</h4>
+                    <p>For...Nextループは、指定した回数だけ処理を繰り返します。</p>
+                    
+                    <div class="code-block">
+' 基本的なFor...Nextループ
+For i = 1 To 5
+    MsgBox "カウント: " & i
+Next i
+
+' ステップ値の指定
+For i = 10 To 1 Step -1
+    MsgBox "カウントダウン: " & i
+Next i
+
+' 多重ループ
+For 行 = 1 To 3
+    For 列 = 1 To 3
+        Cells(行, 列).Value = 行 * 列
+    Next 列
+Next 行
+
+' ループの途中終了
+For i = 1 To 100
+    If i > 10 Then
+        Exit For  ' iが10より大きくなったらループを終了
+    End If
+    MsgBox i
+Next i
+</div>
+                    
+                    <h4>For Each...Next ループ</h4>
+                    <p>For Each...Nextループは、コレクション（配列やオブジェクトの集まり）の各要素に対して処理を繰り返します。</p>
+                    
+                    <div class="code-block">
+' セル範囲に対するループ
+Dim セル As Range
+
+For Each セル In Range("A1:C5")
+    セル.Value = セル.Address
+Next セル
+
+' ワークシートに対するループ
+Dim シート As Worksheet
+
+For Each シート In ThisWorkbook.Worksheets
+    MsgBox シート.Name
+Next シート
+
+' 配列に対するループ
+Dim 果物() As String
+果物 = Array("りんご", "バナナ", "オレンジ", "ぶどう")
+
+Dim 項目 As Variant  ' Variantを使用する
+For Each 項目 In 果物
+    MsgBox 項目
+Next 項目
+</div>
+                    
+                    <h4>Do...Loop</h4>
+                    <p>Do...Loopは、条件が満たされる間または条件が満たされるまで処理を繰り返します。</p>
+                    
+                    <div class="code-block">
+' 条件が真の間ループ
+Dim i As Integer
+i = 1
+
+Do While i <= 5
+    MsgBox i
+    i = i + 1
+Loop
+
+' 条件が偽になるまでループ
+i = 1
+
+Do Until i > 5
+    MsgBox i
+    i = i + 1
+Loop
+
+' ループ後に条件チェック（少なくとも1回は実行）
+i = 1
+
+Do
+    MsgBox i
+    i = i + 1
+Loop While i <= 5
+
+' ループ後に条件チェック（反対条件）
+i = 1
+
+Do
+    MsgBox i
+    i = i + 1
+Loop Until i > 5
+
+' ループの途中終了
+i = 1
+
+Do While True  ' 無限ループ
+    MsgBox i
+    i = i + 1
+    
+    If i > 10 Then
+        Exit Do  ' iが10より大きくなったらループを終了
+    End If
+Loop
+</div>
+                    
+                    <h4>While...Wend</h4>
+                    <p>While...Wendは、Do...Whileループの古い形式です。互換性のために残されていますが、新しいコードではDo...Loopを使用することが推奨されます。</p>
+                    
+                    <div class="code-block">
+' While...Wendループ
+Dim i As Integer
+i = 1
+
+While i <= 5
+    MsgBox i
+    i = i + 1
+Wend
+</div>
+                </section>
+                
+                <section id="subs-functions">
+                    <h3>サブプロシージャと関数</h3>
+                    
+                    <h4>サブプロシージャ</h4>
+                    <p>サブプロシージャ（Sub）は、特定の処理をまとめたコードブロックです。値を返しません。</p>
+                    
+                    <div class="code-block">
+' 基本的なサブプロシージャ
+Sub 挨拶()
+    MsgBox "こんにちは、世界！"
+End Sub
+
+' 引数を持つサブプロシージャ
+Sub 個人挨拶(名前 As String)
+    MsgBox "こんにちは、" & 名前 & "さん！"
+End Sub
+
+' 複数の引数を持つサブプロシージャ
+Sub 計算表示(数値1 As Double, 数値2 As Double)
+    Dim 合計 As Double
+    
+    合計 = 数値1 + 数値2
+    
+    MsgBox 数値1 & " + " & 数値2 & " = " & 合計
+End Sub
+
+' サブプロシージャの呼び出し
+Sub テスト()
+    挨拶  ' 引数なしの呼び出し
+    
+    個人挨拶 "山田"  ' 引数付きの呼び出し
+    
+    計算表示 10, 20  ' 複数引数の呼び出し
+    
+    ' Call文を使用した呼び出し（オプション）
+    Call 挨拶
+    
+    Call 個人挨拶("山田")
+    
+    Call 計算表示(10, 20)
+End Sub
+</div>
+                    
+                    <h4>関数プロシージャ</h4>
+                    <p>関数プロシージャ（Function）は、処理を行い、結果を呼び出し元に返すコードブロックです。</p>
+                    
+                    <div class="code-block">
+' 基本的な関数
+Function 合計(数値1 As Double, 数値2 As Double) As Double
+    合計 = 数値1 + 数値2
+End Function
+
+' 関数の別の書き方
+Function 乗算(数値1 As Double, 数値2 As Double) As Double
+    Dim 結果 As Double
+    
+    結果 = 数値1 * 数値2
+    
+    乗算 = 結果  ' 関数名に値を代入して返す
+End Function
+
+' 関数の使用例
+Sub 関数テスト()
+    Dim 結果 As Double
+    
+    結果 = 合計(10, 20)
+    
+    MsgBox "合計: " & 結果
+    
+    MsgBox "乗算: " & 乗算(5, 6)
+    
+    ' Excelのセルに関数の結果を設定
+    Range("A1").Value = 合計(100, 200)
+End Sub
+
+' 再帰的な関数（自分自身を呼び出す）
+Function 階乗(n As Integer) As Long
+    If n <= 1 Then
+        階乗 = 1
+    Else
+        階乗 = n * 階乗(n - 1)
+    End If
+End Function
+</div>
+                    
+                    <h4>Optional引数</h4>
+                    <p>Optional引数を使用すると、省略可能な引数を定義できます。</p>
+                    
+                    <div class="code-block">
+' 省略可能な引数を持つサブプロシージャ
+Sub メッセージ表示(メッセージ As String, Optional タイトル As String = "情報")
+    MsgBox メッセージ, vbInformation, タイトル
+End Sub
+
+' 省略可能な引数の使用例
+Sub オプション引数テスト()
+    メッセージ表示 "こんにちは"  ' タイトルはデフォルト値を使用
+    
+    メッセージ表示 "注意事項", "警告"  ' 両方の引数を指定
+End Sub
+
+' 複数の省略可能な引数
+Function 計算(数値1 As Double, 数値2 As Double, _
+            Optional 演算子 As String = "+") As Double
+            
+    Select Case 演算子
+        Case "+"
+            計算 = 数値1 + 数値2
+        Case "-"
+            計算 = 数値1 - 数値2
+        Case "*"
+            計算 = 数値1 * 数値2
+        Case "/"
+            If 数値2 <> 0 Then
+                計算 = 数値1 / 数値2
+            Else
+                MsgBox "0で除算できません"
+                計算 = 0
+            End If
+        Case Else
+            MsgBox "無効な演算子: " & 演算子
+            計算 = 0
+    End Select
+End Function
+</div>
+                    
+                    <h4>ByRef と ByVal</h4>
+                    <p>引数の渡し方には、ByRef（参照渡し、デフォルト）とByVal（値渡し）の2種類があります。</p>
+                    
+                    <div class="code-block">
+' 値渡し（ByVal）
+Sub 値を変更_値渡し(ByVal 数値 As Integer)
+    数値 = 数値 * 2
+    
+    MsgBox "サブ内の数値: " & 数値
+End Sub
+
+' 参照渡し（ByRef）
+Sub 値を変更_参照渡し(ByRef 数値 As Integer)
+    数値 = 数値 * 2
+    
+    MsgBox "サブ内の数値: " & 数値
+End Sub
+
+' 渡し方の違いをテスト
+Sub 渡し方テスト()
+    Dim テスト値 As Integer
+    
+    テスト値 = 10
+    値を変更_値渡し テスト値
+    MsgBox "値渡し後: " & テスト値  ' 結果: 10（変更されない）
+    
+    テスト値 = 10
+    値を変更_参照渡し テスト値
+    MsgBox "参照渡し後: " & テスト値  ' 結果: 20（変更される）
+End Sub
+</div>
+                </section>
+                
+                <div class="tip">
+                    <p><strong>コーディングのヒント：</strong> VBAのコードを書く際は、適切なインデントと意味のある変数名を使用することで、コードの可読性が大幅に向上します。また、コメント（'で始まる）を使って、コードの目的や複雑な部分の説明を記述することをお勧めします。複雑なロジックは、小さなサブプロシージャや関数に分割すると、理解しやすく再利用可能なコードになります。</p>
+                </div>
+            </section>
+            
+            <section id="excel-vba">
+                <h2>4. Excel VBAの基本操作</h2>
+                
+                <section id="object-model">
+                    <h3>Excelオブジェクトモデル</h3>
+                    
+                    <p>ExcelのVBAでは、階層構造のオブジェクトモデルを通じてExcelの機能にアクセスします。主要なオブジェクトの階層は以下の通りです：</p>
+                    
+                    <ul>
+                        <li><strong>Application</strong>: Excel自体を表すオブジェクト
+                            <ul>
+                                <li><strong>Workbooks</strong>: 開いているすべてのブックのコレクション
+                                    <ul>
+                                        <li><strong>Workbook</strong>: 個々のブック
+                                            <ul>
+                                                <li><strong>Worksheets</strong>: ブック内のすべてのワークシートのコレクション
+                                                    <ul>
+                                                        <li><strong>Worksheet</strong>: 個々のワークシート
+                                                            <ul>
+                                                                <li><strong>Range</strong>: セルまたはセル範囲</li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h4>オブジェクトへの参照</h4>
+                    
+                    <div class="code-block">
+' Applicationオブジェクト（Excel自体）
+Application.ScreenUpdating = False  ' 画面更新を一時停止
+
+' アクティブなワークブック
+ActiveWorkbook.Name  ' 現在アクティブなブックの名前
+
+' 特定のワークブック
+Workbooks("Book1.xlsx")  ' 名前によるブックの参照
+
+' ThisWorkbook（マクロを含むブック）
+ThisWorkbook.Path  ' 現在のブックが保存されているパス
+
+' アクティブなワークシート
+ActiveSheet.Name  ' 現在アクティブなシートの名前
+
+' 特定のワークシート
+Worksheets("Sheet1")  ' 名前によるシートの参照
+Sheets(1)  ' インデックスによるシートの参照（1から始まる）
+
+' アクティブなセル
+ActiveCell.Value  ' 現在選択されているセルの値
+
+' 特定のセルや範囲
+Range("A1").Value  ' セルA1の値
+Range("A1:C5").Select  ' 範囲A1:C5を選択
+Cells(1, 1).Value  ' 行1,列1（=A1）のセルの値
+Cells(5, 3).Value  ' 行5,列3（=C5）のセルの値
+</div>
+                    
+                    <h4>プロパティとメソッド</h4>
+                    <p>オブジェクトには、属性（プロパティ）と動作（メソッド）があります。</p>
+                    
+                    <div class="code-block">
+' プロパティの例
+Range("A1").Value = 100  ' Valueプロパティを設定
+
+Range("A2").Font.Bold = True  ' Fontプロパティの下のBoldプロパティを設定
+
+Range("A3").Interior.Color = RGB(255, 0, 0)  ' 背景色を赤に設定
+
+' メソッドの例
+Range("A1:C5").Clear  ' Clearメソッドを呼び出す
+
+Range("A1").Copy Destination:=Range("D1")  ' Copyメソッドで範囲をコピー
+
+Worksheets.Add  ' 新しいワークシートを追加
+</div>
+                </section>
+                
+                <section id="cells">
+                    <h3>セルとレンジの操作</h3>
+                    
+                    <h4>セルの値の取得と設定</h4>
+                    
+                    <div class="code-block">
+' セルの値の取得
+Dim セル値 As Variant
+
+セル値 = Range("A1").Value
+
+MsgBox "A1の値: " & セル値
+
+' セルの値の設定
+Range("B1").Value = 100
+Range("B2").Value = "テキスト"
+Range("B3").Value = Date  ' 現在の日付
+Range("B4").Formula = "=SUM(A1:A10)"  ' 数式を設定
+
+' 複数のセルに同じ値を設定
+Range("C1:C5").Value = 10
+
+' 複数のセルに異なる値を設定
+Range("D1:D3").Value = Array(1, 2, 3)  ' 縦方向に設定
+Range("E1:G1").Value = Array(4, 5, 6)  ' 横方向に設定
+</div>
+                    
+                    <h4>セル範囲の選択</h4>
+                    
+                    <div class="code-block">
+' 基本的な範囲選択
+Range("A1:C5").Select
+
+' 行全体の選択
+Rows(1).Select  ' 1行目を選択
+Rows("1:3").Select  ' 1〜3行目を選択
+
+' 列全体の選択
+Columns(1).Select  ' A列を選択
+Columns("A:C").Select  ' A〜C列を選択
+
+' 結合して範囲を作成
+Range(Cells(1, 1), Cells(5, 3)).Select  ' A1:C5を選択
+
+' アクティブセルを基準とした相対範囲
+ActiveCell.Offset(1, 0).Select  ' 1行下のセルを選択
+ActiveCell.Offset(-1, 2).Select  ' 1行上、2列右のセルを選択
+
+' 特殊な範囲選択
+Range("A1").CurrentRegion.Select  ' データ領域を選択
+Range("A1").End(xlDown).Select  ' A列の最初の空白セルまで下に移動
+
+' 使用されているセル範囲
+ActiveSheet.UsedRange.Select
+</div>
+                    
+                    <h4>セルの書式設定</h4>
+                    
+                    <div class="code-block">
+' フォント書式
+With Range("A1:A5").Font
+    .Bold = True
+    .Italic = True
+    .Size = 12
+    .Color = RGB(255, 0, 0)  ' 赤色
+    .Name = "Arial"
+End With
+
+' セルの背景色
+Range("B1:B5").Interior.Color = RGB(255, 255, 0)  ' 黄色
+
+' 罫線
+With Range("C1:C5").Borders
+    .LineStyle = xlContinuous
+    .Weight = xlThin
+    .Color = RGB(0, 0, 255)  ' 青色
+End With
+
+' 数値書式
+Range("D1").NumberFormat = "#,##0"  ' 桁区切り
+Range("D2").NumberFormat = "#,##0.00"  ' 小数点以下2桁
+Range("D3").NumberFormat = "0%"  ' パーセンテージ
+Range("D4").NumberFormat = "yyyy/mm/dd"  ' 日付書式
+Range("D5").NumberFormat = "[$¥-411]#,##0;[赤][$¥-411]-#,##0"  ' 通貨書式
+
+' セルの幅と高さ
+Columns("A:A").ColumnWidth = 15
+Rows("1:1").RowHeight = 20
+
+' セルの結合
+Range("E1:G1").Merge
+Range("E1").Value = "結合されたセル"
+Range("E1").HorizontalAlignment = xlCenter
+</div>
+                    
+                    <h4>セルの操作</h4>
+                    
+                    <div class="code-block">
+' セルの挿入
+Range("A1").Insert Shift:=xlToRight  ' 右にシフト
+Range("A1").Insert Shift:=xlDown  ' 下にシフト
+
+' セルの削除
+Range("B1").Delete Shift:=xlToLeft  ' 左にシフト
+Range("B1").Delete Shift:=xlUp  ' 上にシフト
+
+' 行の挿入と削除
+Rows(1).Insert  ' 1行目に新しい行を挿入
+Rows(2).Delete  ' 2行目を削除
+
+' 列の挿入と削除
+Columns("A").Insert  ' A列に新しい列を挿入
+Columns("B").Delete  ' B列を削除
+
+' セルのクリア
+Range("A1:C5").Clear  ' すべてをクリア
+Range("A1:C5").ClearContents  ' 内容のみクリア
+Range("A1:C5").ClearFormats  ' 書式のみクリア
+
+' セルのコピーと貼り付け
+Range("A1").Copy
+Range("B1").PasteSpecial  ' すべてを貼り付け
+Range("C1").PasteSpecial xlPasteValues  ' 値のみ貼り付け
+Range("D1").PasteSpecial xlPasteFormats  ' 書式のみ貼り付け
+Application.CutCopyMode = False  ' コピーモードを解除
+</div>
+                </section>
+                
+                <section id="worksheets">
+                    <h3>ワークシートの操作</h3>
+                    
+                    <h4>ワークシートの追加と削除</h4>
+                    
+                    <div class="code-block">
+' 新しいワークシートを追加
+Worksheets.Add  ' アクティブシートの前に追加
+
+Worksheets.Add After:=Worksheets(Worksheets.Count)  ' 最後に追加
+
+' 複数のワークシートを追加
+Worksheets.Add Count:=3  ' 3つのシートを追加
+
+' 特定の場所にワークシートを追加
+Worksheets.Add Before:=Worksheets(1)  ' 最初のシートの前に追加
+
+Worksheets.Add After:=Worksheets("Sheet1")  ' Sheet1の後に追加
+
+' ワークシートの削除
+Worksheets("Sheet2").Delete  ' Sheet2を削除
+
+' 確認メッセージなしで削除
+Application.DisplayAlerts = False
+Worksheets("Sheet3").Delete
+Application.DisplayAlerts = True
+</div>
+                    
+                    <h4>ワークシートの選択と名前変更</h4>
+                    
+                    <div class="code-block">
+' ワークシートをアクティブにする
+Worksheets("Sheet1").Activate
+
+' ワークシートの名前を変更
+Worksheets("Sheet1").Name = "データ"
+
+' 複数のワークシートを選択
+Worksheets(Array("Sheet1", "Sheet2")).Select  ' 連続していないシートを選択
+
+Worksheets("Sheet1:Sheet3").Select  ' 連続したシートを選択
+
+' すべてのワークシートを選択
+Worksheets.Select
+</div>
+                    
+                    <h4>ワークシートのコピーと移動</h4>
+                    
+                    <div class="code-block">
+' ワークシートをコピー
+Worksheets("Sheet1").Copy Before:=Worksheets(1)  ' 最初の位置にコピー
+
+Worksheets("Sheet1").Copy After:=Worksheets(Worksheets.Count)  ' 最後にコピー
+
+' 別のブックにコピー
+Worksheets("Sheet1").Copy Before:=Workbooks("Book2.xlsx").Worksheets(1)
+
+' ワークシートを移動
+Worksheets("Sheet1").Move Before:=Worksheets(1)  ' 最初の位置に移動
+
+Worksheets("Sheet1").Move After:=Worksheets(Worksheets.Count)  ' 最後に移動
+</div>
+                    
+                    <h4>ワークシートの保護</h4>
+                    
+                    <div class="code-block">
+' ワークシートの保護
+Worksheets("Sheet1").Protect Password:="パスワード", UserInterfaceOnly:=True
+
+' 特定の操作を許可してワークシートを保護
+Worksheets("Sheet1").Protect Password:="パスワード", _
+    DrawingObjects:=True, Contents:=True, Scenarios:=True, _
+    AllowFormattingCells:=True, AllowFormattingColumns:=True
+
+' ワークシートの保護を解除
+Worksheets("Sheet1").Unprotect Password:="パスワード"
+</div>
+                    
+                    <h4>ワークシートのその他の操作</h4>
+                    
+                    <div class="code-block">
+' ワークシートの表示/非表示
+Worksheets("Sheet1").Visible = xlSheetHidden  ' 非表示
+
+Worksheets("Sheet1").Visible = xlSheetVisible  ' 表示
+
+Worksheets("Sheet1").Visible = xlSheetVeryHidden  ' VBAからのみアクセス可能
+
+' シート間の移動
+Worksheets("Sheet1").Move Before:=Worksheets("Sheet3")  ' Sheet3の前に移動
+
+' ワークシートの印刷設定
+With Worksheets("Sheet1").PageSetup
+    .Orientation = xlLandscape  ' 横向き
+    .PaperSize = xlPaperA4  ' A4サイズ
+    .Zoom = 100  ' 拡大率100%
+    .PrintTitleRows = "$1:$2"  ' 印刷タイトル行
+    .PrintArea = "$A$1:$G$20"  ' 印刷範囲
+    .CenterHorizontally = True  ' 水平方向に中央配置
+    .CenterVertically = True  ' 垂直方向に中央配置
+    .LeftHeader = "会社名"  ' 左ヘッダー
+    .CenterHeader = "タイトル"  ' 中央ヘッダー
+    .RightHeader = "ページ &P / &N"  ' 右ヘッダー
+End With
+</div>
+                </section>
+                
+                <section id="workbooks">
+                    <h3>ブックの操作</h3>
+                    
+                    <h4>ブックの作成と開く</h4>
+                    
+                    <div class="code-block">
+' 新しいブックを作成
+Workbooks.Add  ' 新しい空のブック
+
+Workbooks.Add Template:="Book.xltx"  ' テンプレートから新しいブック
+
+' 既存のブックを開く
+Workbooks.Open Filename:="C:\データ\ファイル.xlsx"
+
+Workbooks.Open Filename:="C:\データ\ファイル.xlsx", ReadOnly:=True  ' 読み取り専用で開く
+
+Workbooks.Open Filename:="C:\データ\ファイル.xlsx", Password:="パスワード"  ' パスワード付きファイル
+</div>
+                    
+                    <h4>ブックの保存</h4>
+                    
+                    <div class="code-block">
+' ブックを保存
+ActiveWorkbook.Save  ' 現在のパスで保存（既存ファイル）
+
+' 名前を付けて保存
+ActiveWorkbook.SaveAs Filename:="C:\データ\新しいファイル.xlsx"
+
+ActiveWorkbook.SaveAs Filename:="C:\データ\新しいファイル.xlsx", FileFormat:=xlOpenXMLWorkbook
+
+' 別の形式で保存
+ActiveWorkbook.SaveAs Filename:="C:\データ\ファイル.xlsm", FileFormat:=xlOpenXMLWorkbookMacroEnabled  ' マクロ有効
+
+ActiveWorkbook.SaveAs Filename:="C:\データ\ファイル.csv", FileFormat:=xlCSV  ' CSV形式
+
+ActiveWorkbook.SaveAs Filename:="C:\データ\ファイル.pdf", FileFormat:=xlTypePDF  ' PDF形式
+</div>
+                    
+                    <h4>ブックを閉じる</h4>
+                    
+                    <div class="code-block">
+' ブックを閉じる
+ActiveWorkbook.Close  ' 変更があれば保存するかを確認
+
+' 保存せずに閉じる
+ActiveWorkbook.Close SaveChanges:=False
+
+' 変更を保存して閉じる
+ActiveWorkbook.Close SaveChanges:=True
+
+' 特定のブックを閉じる
+Workbooks("Book1.xlsx").Close
+</div>
+                    
+                    <h4>ブックのプロパティと操作</h4>
+                    
+                    <div class="code-block">
+' ブックのパスとファイル名
+Dim ファイルパス As String
+
+ファイルパス = ActiveWorkbook.Path
+
+MsgBox "ファイルパス: " & ファイルパス
+MsgBox "ファイル名: " & ActiveWorkbook.Name
+MsgBox "フルパス: " & ActiveWorkbook.FullName
+
+' ブックの保護
+ActiveWorkbook.Protect Password:="パスワード"
+ActiveWorkbook.Unprotect Password:="パスワード"
+
+' ブックの共有設定
+ActiveWorkbook.SaveAs Filename:="C:\データ\共有ファイル.xlsx", AccessMode:=xlShared
+
+' ブックのプロパティ設定
+With ActiveWorkbook
+    .Title = "四半期レポート"
+    .Subject = "販売データ"
+    .Author = "山田太郎"
+    .Comments = "2023年第1四半期の販売データ分析"
+End With
+</div>
+                </section>
+                
+                <section id="events">
+                    <h3>イベントプログラミング</h3>
+                    
+                    <p>イベントプログラミングでは、特定のアクションが発生したときに自動的に実行されるコードを記述します。</p>
+                    
+                    <h4>WorkbookのOpen/Closeイベント</h4>
+                    
+                    <div class="code-block">
+' ThisWorkbookモジュールに記述
+Private Sub Workbook_Open()
+    MsgBox "ブックが開かれました！"
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    Dim 応答 As VbMsgBoxResult
+    
+    応答 = MsgBox("ブックを閉じる前に保存しますか？", vbYesNoCancel)
+    
+    If 応答 = vbYes Then
+        ThisWorkbook.Save
+    ElseIf 応答 = vbCancel Then
+        Cancel = True  ' 閉じる操作をキャンセル
+    End If
+End Sub
+</div>
+                    
+                    <h4>WorksheetのChange/Selectイベント</h4>
+                    
+                    <div class="code-block">
+' Sheet1モジュールに記述
+Private Sub Worksheet_Change(ByVal Target As Range)
+    ' セルの値が変更されたときに実行
+    If Target.Address = "$A$1" Then
+        MsgBox "セルA1が変更されました！新しい値: " & Target.Value
+    End If
+End Sub
+
+Private Sub Worksheet_SelectionChange(ByVal Target As Range)
+    ' 選択セルが変更されたときに実行
+    Application.StatusBar = "選択中: " & Target.Address
+End Sub
+</div>
+                    
+                    <h4>イベントの有効化/無効化</h4>
+                    
+                    <div class="code-block">
+' イベントの有効化/無効化
+Application.EnableEvents = False  ' イベントを無効化
+
+' ここでイベントを発生させるような操作を行っても、イベントハンドラは実行されない
+
+Application.EnableEvents = True  ' イベントを再度有効化
+</div>
+                    
+                    <h4>その他の一般的なイベント</h4>
+                    
+                    <div class="code-block">
+' ThisWorkbookモジュールのイベント
+Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
+    ' ブック保存前の処理
+End Sub
+
+Private Sub Workbook_SheetActivate(ByVal Sh As Object)
+    ' シートがアクティブになったときの処理
+    MsgBox "シート " & Sh.Name & " がアクティブになりました"
+End Sub
+
+Private Sub Workbook_NewSheet(ByVal Sh As Object)
+    ' 新しいシートが追加されたときの処理
+End Sub
+
+' Worksheetモジュールのイベント
+Private Sub Worksheet_BeforeDoubleClick(ByVal Target As Range, Cancel As Boolean)
+    ' セルがダブルクリックされる前の処理
+    MsgBox "セル " & Target.Address & " がダブルクリックされました"
+    Cancel = True  ' デフォルトのダブルクリック動作をキャンセル
+End Sub
+
+Private Sub Worksheet_BeforeRightClick(ByVal Target As Range, Cancel As Boolean)
+    ' セルが右クリックされる前の処理
+End Sub
+
+Private Sub Worksheet_Calculate()
+    ' シートが再計算されたときの処理
+End Sub
+</div>
+                </section>
+                
+                <div class="tip">
+                    <p><strong>効率的なExcel VBAのヒント：</strong></p>
+                    <ul>
+                        <li>大量のデータを操作する場合は、処理前に<code>Application.ScreenUpdating = False</code>を設定し、処理後に<code>True</code>に戻すことで、処理速度が大幅に向上します。</li>
+                        <li>Rangeオブジェクトを変数に格納して再利用すると、コードの実行速度が向上します。</li>
+                        <li>With構文を使用すると、同じオブジェクトの複数のプロパティを設定する際にコードを簡潔にできます。</li>
+                        <li>エラーが発生する可能性がある操作には、必ずエラー処理（On Error構文）を追加しましょう。</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section id="userforms">
+                <h2>5. ユーザーフォーム</h2>
+                
+                <section id="form-basics">
+                    <h3>フォームの基本</h3>
+                    
+                    <h4>新しいユーザーフォームの作成</h4>
+                    
+                    <div class="step">
+                        <p>VBエディタで、プロジェクトエクスプローラを表示します（表示されていない場合は「表示」→「プロジェクトエクスプローラ」）。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>プロジェクトを右クリックし、「挿入」→「UserForm」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>新しいユーザーフォームが追加され、デザインビューが表示されます。</p>
+                    </div>
+                    
+                    <h4>フォームのプロパティ設定</h4>
+                    <p>フォームのプロパティウィンドウ（表示されていない場合は「表示」→「プロパティウィンドウ」）で、以下のような一般的なプロパティを設定できます：</p>
+                    
+                    <table>
+                        <tr>
+                            <th>プロパティ</th>
+                            <th>説明</th>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>フォームの名前（コードからの参照に使用）</td>
+                        </tr>
+                        <tr>
+                            <td>Caption</td>
+                            <td>フォームのタイトルバーに表示されるテキスト</td>
+                        </tr>
+                        <tr>
+                            <td>Width</td>
+                            <td>フォームの幅</td>
+                        </tr>
+                        <tr>
+                            <td>Height</td>
+                            <td>フォームの高さ</td>
+                        </tr>
+                        <tr>
+                            <td>StartUpPosition</td>
+                            <td>フォームの初期位置（0=手動、1=画面中央、2=画面上端、3=Windowsデフォルト）</td>
+                        </tr>
+                        <tr>
+                            <td>BackColor</td>
+                            <td>背景色</td>
+                        </tr>
+                        <tr>
+                            <td>BorderStyle</td>
+                            <td>ボーダーのスタイル</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>フォームの表示と非表示</h4>
+                    
+                    <div class="code-block">
+' フォームを表示
+Sub ShowMyForm()
+    UserForm1.Show  ' モーダルで表示（他の操作をブロック）
+End Sub
+
+' フォームをモードレスで表示（他の操作を許可）
+Sub ShowMyFormModeless()
+    UserForm1.Show vbModeless
+End Sub
+
+' フォームを非表示
+Sub HideMyForm()
+    UserForm1.Hide
+End Sub
+
+' フォームのアンロード（メモリから解放）
+Sub UnloadMyForm()
+    Unload UserForm1
+End Sub
+</div>
+                </section>
+                
+                <section id="controls">
+                    <h3>コントロールの追加と設定</h3>
+                    
+                    <h4>コントロールの種類</h4>
+                    <p>ユーザーフォームには様々な種類のコントロールを追加できます：</p>
+                    
+                    <table>
+                        <tr>
+                            <th>コントロール</th>
+                            <th>説明</th>
+                        </tr>
+                        <tr>
+                            <td>Label</td>
+                            <td>テキストラベル（表示のみ）</td>
+                        </tr>
+                        <tr>
+                            <td>TextBox</td>
+                            <td>テキスト入力フィールド</td>
+                        </tr>
+                        <tr>
+                            <td>CommandButton</td>
+                            <td>ボタン</td>
+                        </tr>
+                        <tr>
+                            <td>CheckBox</td>
+                            <td>チェックボックス（オン/オフの選択）</td>
+                        </tr>
+                        <tr>
+                            <td>OptionButton</td>
+                            <td>ラジオボタン（複数の選択肢から1つを選択）</td>
+                        </tr>
+                        <tr>
+                            <td>ComboBox</td>
+                            <td>ドロップダウンリスト（テキスト入力も可能）</td>
+                        </tr>
+                        <tr>
+                            <td>ListBox</td>
+                            <td>リストボックス（複数項目の表示と選択）</td>
+                        </tr>
+                        <tr>
+                            <td>Frame</td>
+                            <td>フレーム（コントロールをグループ化）</td>
+                        </tr>
+                        <tr>
+                            <td>Image</td>
+                            <td>画像の表示</td>
+                        </tr>
+                        <tr>
+                            <td>ScrollBar</td>
+                            <td>スクロールバー</td>
+                        </tr>
+                        <tr>
+                            <td>SpinButton</td>
+                            <td>上下ボタン</td>
+                        </tr>
+                        <tr>
+                            <td>TabStrip</td>
+                            <td>タブコントロール</td>
+                        </tr>
+                        <tr>
+                            <td>MultiPage</td>
+                            <td>複数ページのコンテナ</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>コントロールの追加</h4>
+                    
+                    <div class="step">
+                        <p>VBエディタのツールボックスからコントロールをクリックします（ツールボックスが表示されていない場合は「表示」→「ツールボックス」）。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ユーザーフォーム上でドラッグして、コントロールの位置とサイズを設定します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>プロパティウィンドウで、コントロールのプロパティを設定します。</p>
+                    </div>
+                    
+                    <h4>一般的なコントロールのプロパティ設定例</h4>
+                    
+                    <div class="code-block">
+' CommandButtonの設定
+CommandButton1.Caption = "保存"
+CommandButton1.Width = 72
+CommandButton1.Height = 24
+
+' TextBoxの設定
+TextBox1.Text = "初期値"
+TextBox1.Width = 120
+TextBox1.Height = 20
+TextBox1.MultiLine = True  ' 複数行のテキスト入力を許可
+
+' CheckBoxの設定
+CheckBox1.Caption = "確認しました"
+CheckBox1.Value = True  ' 初期状態でチェック
+
+' ComboBoxの設定
+ComboBox1.AddItem "オプション1"
+ComboBox1.AddItem "オプション2"
+ComboBox1.AddItem "オプション3"
+ComboBox1.ListIndex = 0  ' 最初の項目を選択
+
+' ListBoxの設定
+ListBox1.AddItem "項目1"
+ListBox1.AddItem "項目2"
+ListBox1.AddItem "項目3"
+ListBox1.MultiSelect = fmMultiSelectMulti  ' 複数選択を許可
+</div>
+                    
+                    <h4>コントロールの配置とグループ化</h4>
+                    
+                    <div class="step">
+                        <p>複数のコントロールを選択するには、Ctrlキーを押しながら各コントロールをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>右クリックメニューから「整列」を選択し、左揃え、上揃えなどを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>複数のコントロールをグループ化するには、まずFrameコントロールを追加し、その中に他のコントロールを配置します。</p>
+                    </div>
+                </section>
+                
+                <section id="form-events">
+                    <h3>フォームとコントロールのイベント</h3>
+                    
+                    <h4>フォームのイベント</h4>
+                    
+                    <div class="code-block">
+' フォームの初期化時に実行
+Private Sub UserForm_Initialize()
+    ' コンボボックスに項目を追加
+    ComboBox1.Clear
+    ComboBox1.AddItem "項目1"
+    ComboBox1.AddItem "項目2"
+    ComboBox1.AddItem "項目3"
+    
+    ' 初期値を設定
+    TextBox1.Text = ""
+    CheckBox1.Value = False
+    
+    ' フォームの位置を設定
+    Me.StartUpPosition = 0  ' 手動設定
+    Me.Left = Application.Left + (Application.Width - Me.Width) / 2
+    Me.Top = Application.Top + (Application.Height - Me.Height) / 2
+End Sub
+
+' フォームが表示されるときに実行
+Private Sub UserForm_Activate()
+    TextBox1.SetFocus  ' テキストボックスにフォーカスを設定
+End Sub

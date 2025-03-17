@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Automate 入門チュートリアル</title>
+    <style>
+        :root {
+            --primary-color: #0066FF;
+            --secondary-color: #0052CC;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --light-gray: #f2f2f2;
+            --border-color: #ddd;
+            --success-color: #28a745;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding-top: 60px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        header h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            white-space: nowrap;
+            display: block;
+            visibility: visible !important;
+            color: white;
+        }
+        
+        header .nav-toggle {
+            display: none;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: 0.85rem;
+        }
+        
+        nav a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        main {
+            margin: 2rem 0;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        p, ul, ol {
+            margin-bottom: 1.2rem;
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #0052CC;
+        }
+        
+        .toc {
+            background-color: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+            font-size: 1.5rem;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: var(--primary-color);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .toc .level-2 {
+            padding-left: 1.5rem;
+        }
+        
+        .toc .level-3 {
+            padding-left: 3rem;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--light-gray);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        .note {
+            background-color: #e8f4fd;
+            border-left: 5px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .tip {
+            background-color: #d4edda;
+            border-left: 5px solid var(--success-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--light-gray);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.8rem;
+            height: 1.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .image-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .caption {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            color: #333;
+            white-space: pre-line;
+        }
+        
+        .screenshot {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            header .nav-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            nav {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 60px);
+                background-color: var(--primary-color);
+                flex-direction: column;
+                padding: 1rem;
+                transition: left 0.3s;
+                z-index: 99;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Power Automate 入門チュートリアル</h1>
+            <button class="nav-toggle">☰</button>
+            <nav id="main-nav">
+                <a href="#intro">はじめに</a>
+                <a href="#interface">インターフェース</a>
+                <a href="#flow-types">フロータイプ</a>
+                <a href="#create-flow">フロー作成</a>
+                <a href="#connectors">コネクタ</a>
+                <a href="#advanced">高度な機能</a>
+                <a href="#examples">実践例</a>
+                <a href="#best-practices">ベストプラクティス</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="content">
+            <h1>Power Automate 入門チュートリアル</h1>
+            
+            <div class="toc">
+                <h2>目次</h2>
+                <ul>
+                    <li><a href="#intro">1. Power Automateとは</a></li>
+                    <li><a href="#getting-started">2. 始めるための準備</a>
+                        <ul class="level-2">
+                            <li><a href="#requirements">必要条件</a></li>
+                            <li><a href="#access">アクセス方法</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#interface">3. Power Automateインターフェースの概要</a>
+                        <ul class="level-2">
+                            <li><a href="#navigation">ナビゲーション</a></li>
+                            <li><a href="#flow-designer">フローデザイナー</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#flow-types">4. フロータイプ</a>
+                        <ul class="level-2">
+                            <li><a href="#automated-flows">自動化されたフロー</a></li>
+                            <li><a href="#instant-flows">インスタントフロー</a></li>
+                            <li><a href="#scheduled-flows">スケジュールされたフロー</a></li>
+                            <li><a href="#desktop-flows">デスクトップフロー</a></li>
+                            <li><a href="#business-process-flows">ビジネスプロセスフロー</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#create-flow">5. 基本的なフローの作成</a>
+                        <ul class="level-2">
+                            <li><a href="#flow-template">テンプレートの使用</a></li>
+                            <li><a href="#flow-from-scratch">ゼロからのフロー作成</a></li>
+                            <li><a href="#trigger">トリガーの設定</a></li>
+                            <li><a href="#actions">アクションの追加</a></li>
+                            <li><a href="#testing">フローのテスト</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#connectors">6. コネクタの使用</a>
+                        <ul class="level-2">
+                            <li><a href="#popular-connectors">人気のコネクタ</a></li>
+                            <li><a href="#connection-setup">接続の設定</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#advanced">7. 高度な機能</a>
+                        <ul class="level-2">
+                            <li><a href="#conditions">条件と分岐</a></li>
+                            <li><a href="#loops">ループと配列</a></li>
+                            <li><a href="#variables">変数の使用</a></li>
+                            <li><a href="#expressions">式と関数</a></li>
+                            <li><a href="#error-handling">エラー処理</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#examples">8. 実践例：サンプルフロー</a>
+                        <ul class="level-2">
+                            <li><a href="#example-approval">承認ワークフロー</a></li>
+                            <li><a href="#example-notification">自動通知</a></li>
+                            <li><a href="#example-data">データ処理自動化</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#best-practices">9. ベストプラクティス</a></li>
+                    <li><a href="#troubleshooting">10. トラブルシューティング</a></li>
+                    <li><a href="#faq">11. よくある質問</a></li>
+                    <li><a href="#resources">12. 参考リソース</a></li>
+                </ul>
+            </div>
+            
+            <section id="intro">
+                <h2>1. Power Automateとは</h2>
+                <p>Power Automateは、Microsoft Power Platformの一部であり、反復的な業務タスクを簡単に自動化できるクラウドベースのサービスです。ドラッグアンドドロップインターフェースを使用して、複数のアプリケーションやサービス間でのワークフローを作成することができます。</p>
+                
+                <h3>主な特徴</h3>
+                <ul>
+                    <li>ノーコードでの自動化ワークフロー（フロー）の作成</li>
+                    <li>400以上のアプリケーションとサービスへの接続</li>
+                    <li>Microsoft 365アプリケーションとの緊密な統合</li>
+                    <li>モバイルアプリでの管理とトリガー</li>
+                    <li>AI Builderとの連携による高度な機能</li>
+                    <li>RPA（Robotic Process Automation）機能</li>
+                </ul>
+                
+                <h3>Power Automateでできること</h3>
+                <ul>
+                    <li><strong>業務プロセスの自動化：</strong> 承認フロー、通知、データ処理など</li>
+                    <li><strong>データ収集と整理：</strong> さまざまなソースからのデータ取得と加工</li>
+                    <li><strong>繰り返しタスクの自動化：</strong> 定期的なレポート送信、バックアップなど</li>
+                    <li><strong>モバイル通知：</strong> 重要なイベントが発生したときのアラート</li>
+                    <li><strong>ドキュメント管理：</strong> ファイルの自動保存、変換、共有</li>
+                    <li><strong>レガシーシステムの自動化：</strong> デスクトップフローによるRPA</li>
+                </ul>
+                
+                <div class="tip">
+                    <p><strong>ポイント：</strong> Power Automateは以前「Microsoft Flow」という名前でしたが、2019年にPower Automateに改名されました。ドキュメントやチュートリアルを検索するときにこの点に注意すると、より多くの情報を見つけることができます。</p>
+                </div>
+            </section>
+            
+            <section id="getting-started">
+                <h2>2. 始めるための準備</h2>
+                
+                <section id="requirements">
+                    <h3>必要条件</h3>
+                    <p>Power Automateを使用するには以下が必要です：</p>
+                    <ul>
+                        <li><strong>アカウント：</strong> 以下のいずれかのアカウント
+                            <ul>
+                                <li>職場または学校のMicrosoftアカウント（Office 365）</li>
+                                <li>Power Apps個人環境で使用できる個人用Microsoftアカウント</li>
+                            </ul>
+                        </li>
+                        <li><strong>ブラウザ：</strong> 最新のWebブラウザ（Microsoft Edge、Google Chrome、Safari、Firefoxなど）</li>
+                        <li><strong>インターネット接続</strong></li>
+                    </ul>
+                    
+                    <h4>ライセンスオプション</h4>
+                    <table>
+                        <tr>
+                            <th>ライセンスタイプ</th>
+                            <th>特徴</th>
+                            <th>制限事項</th>
+                        </tr>
+                        <tr>
+                            <td>無料プラン</td>
+                            <td>
+                                <ul>
+                                    <li>基本的なコネクタの利用</li>
+                                    <li>月あたり750回のフロー実行</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>プレミアムコネクタは使用不可</li>
+                                    <li>実行頻度の制限あり</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Power Automate per user</td>
+                            <td>
+                                <ul>
+                                    <li>プレミアムコネクタの利用</li>
+                                    <li>無制限のフロー作成</li>
+                                    <li>オンプレミスデータゲートウェイ</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>1ユーザーライセンス</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Power Automate per flow</td>
+                            <td>
+                                <ul>
+                                    <li>組織全体での特定のフロー利用</li>
+                                    <li>無制限のユーザー</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>フローごとの料金</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Office 365ライセンス</td>
+                            <td>
+                                <ul>
+                                    <li>Office 365サービスに限定したフロー</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Office 365コネクタのみ</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                
+                <section id="access">
+                    <h3>アクセス方法</h3>
+                    
+                    <h4>Webブラウザからのアクセス</h4>
+                    <div class="step">
+                        <p>Webブラウザを開き、<a href="https://flow.microsoft.com" target="_blank">https://flow.microsoft.com</a> にアクセスします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Microsoftアカウントでサインインします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Power Automateのホーム画面が表示されます。</p>
+                    </div>
+                    
+                    <h4>Microsoft 365アプリからのアクセス</h4>
+                    <div class="step">
+                        <p>Microsoft 365アプリ（Outlook、SharePoint、Teamsなど）を開きます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリランチャー（左上の9つのドット）をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「Power Automate」を選択します。</p>
+                    </div>
+                    
+                    <h4>モバイルアプリからのアクセス</h4>
+                    <div class="step">
+                        <p>App StoreまたはGoogle Play Storeから「Power Automate」アプリをダウンロードします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アプリを起動し、Microsoftアカウントでサインインします。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>ヒント：</strong> 日常的に使用するアプリからPower Automateにアクセスできると便利です。例えば、TeamsやSharePointから直接フローを作成したり管理したりすることができます。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="interface">
+                <h2>3. Power Automateインターフェースの概要</h2>
+                
+                <section id="navigation">
+                    <h3>ナビゲーション</h3>
+                    <p>Power Automateのホーム画面には、以下の主要なナビゲーション要素があります：</p>
+                    
+                    <h4>左側のナビゲーションメニュー</h4>
+                    <ul>
+                        <li><strong>ホーム：</strong> ダッシュボード、最近のフロー、おすすめテンプレート</li>
+                        <li><strong>マイフロー：</strong> 作成したフローの管理
+                            <ul>
+                                <li>クラウドフロー</li>
+                                <li>デスクトップフロー</li>
+                                <li>ビジネスプロセスフロー</li>
+                            </ul>
+                        </li>
+                        <li><strong>テンプレート：</strong> 事前構築されたフローテンプレート</li>
+                        <li><strong>コネクタ：</strong> 利用可能なコネクタとその接続状態</li>
+                        <li><strong>AI Builder：</strong> AIモデルの構築と管理</li>
+                        <li><strong>データ：</strong> テーブルやエンティティの管理</li>
+                        <li><strong>モニター：</strong> フローの実行履歴と分析</li>
+                        <li><strong>学習：</strong> チュートリアルとヘルプリソース</li>
+                    </ul>
+                    
+                    <h4>上部のアクションバー</h4>
+                    <ul>
+                        <li><strong>作成：</strong> 新しいフローの作成オプション</li>
+                        <li><strong>検索：</strong> フローやテンプレートの検索</li>
+                        <li><strong>通知：</strong> システム通知やアラート</li>
+                        <li><strong>設定：</strong> 環境設定やアカウント情報</li>
+                    </ul>
+                    
+                    <h4>ホームダッシュボード</h4>
+                    <ul>
+                        <li><strong>おすすめテンプレート：</strong> よく使われるテンプレート</li>
+                        <li><strong>最近使用したフロー：</strong> 最近編集または実行したフロー</li>
+                        <li><strong>学習リソース：</strong> チュートリアルや学習コンテンツ</li>
+                    </ul>
+                </section>
+                
+                <section id="flow-designer">
+                    <h3>フローデザイナー</h3>
+                    <p>フローデザイナーは、フローを作成・編集するための主要なインターフェースです。</p>
+                    
+                    <h4>主要コンポーネント</h4>
+                    <ul>
+                        <li><strong>フローヘッダー：</strong> フロー名、保存、テスト、実行ボタンなど</li>
+                        <li><strong>トリガーセクション：</strong> フローを開始するトリガーの設定</li>
+                        <li><strong>アクションセクション：</strong> 実行する一連のアクション</li>
+                        <li><strong>+ 新しいステップ：</strong> アクションの追加ボタン</li>
+                        <li><strong>式エディタ：</strong> 動的コンテンツと式の挿入</li>
+                        <li><strong>コネクション：</strong> 接続済みサービスの管理</li>
+                    </ul>
+                    
+                    <h4>右側のペイン（編集中に表示）</h4>
+                    <ul>
+                        <li><strong>設定：</strong> 現在選択しているステップの設定</li>
+                        <li><strong>動的コンテンツ：</strong> 以前のステップからのデータ参照</li>
+                        <li><strong>式：</strong> 関数と式の入力</li>
+                    </ul>
+                    
+                    <div class="tip">
+                        <p><strong>ナビゲーションのヒント：</strong> フローデザイナーでは、ステップ間を移動するときに「←戻る」ボタンを使用して前の画面に戻ることができます。また、フローの概要を確認するには、右上の「フロー概要」ボタンをクリックします。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="flow-types">
+                <h2>4. フロータイプ</h2>
+                <p>Power Automateでは、様々な自動化シナリオに対応するために複数のタイプのフローが提供されています。</p>
+                
+                <section id="automated-flows">
+                    <h3>自動化されたフロー</h3>
+                    <p>自動化されたフローは、特定のイベントが発生したときに自動的に実行されるフローです。</p>
+                    
+                    <h4>主な特徴</h4>
+                    <ul>
+                        <li>イベントベースのトリガーで自動実行</li>
+                        <li>バックグラウンドで動作し、ユーザー操作不要</li>
+                        <li>クラウドサービスとの統合に最適</li>
+                    </ul>
+                    
+                    <h4>一般的なトリガー例</h4>
+                    <ul>
+                        <li>新しいメールが届いた時</li>
+                        <li>SharePointリストに項目が追加された時</li>
+                        <li>Forms回答が送信された時</li>
+                        <li>Teamsでメッセージが投稿された時</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>使用例：</strong> 新しい顧客がCRMシステムに追加されたときに、自動的に歓迎メールを送信し、Teams通知を担当者に送り、顧客データをExcelスプレッドシートに記録する。</p>
+                    </div>
+                </section>
+                
+                <section id="instant-flows">
+                    <h3>インスタントフロー</h3>
+                    <p>インスタントフローは、ボタンを押すなどのユーザーアクションによって手動で開始されるフローです。</p>
+                    
+                    <h4>主な特徴</h4>
+                    <ul>
+                        <li>手動でトリガーされる</li>
+                        <li>ボタン、アプリ内、モバイルからの起動</li>
+                        <li>入力パラメータを受け付けることが可能</li>
+                        <li>ユーザーインタラクションを含むことができる</li>
+                    </ul>
+                    
+                    <h4>一般的なトリガー例</h4>
+                    <ul>
+                        <li>モバイルボタンのタップ</li>
+                        <li>Power Automateモバイルアプリからの実行</li>
+                        <li>SharePointリスト内のボタン</li>
+                        <li>Teams内のコマンド</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>使用例：</strong> 外出先で急ぎの承認依頼があった場合に、モバイルアプリのボタンをタップして承認プロセスを開始し、関連するデータを表示して承認または却下の選択肢を提供する。</p>
+                    </div>
+                </section>
+                
+                <section id="scheduled-flows">
+                    <h3>スケジュールされたフロー</h3>
+                    <p>スケジュールされたフローは、指定した時間間隔または特定の日時に自動的に実行されるフローです。</p>
+                    
+                    <h4>主な特徴</h4>
+                    <ul>
+                        <li>定期的なスケジュールに基づいて実行</li>
+                        <li>繰り返しパターンの設定が可能</li>
+                        <li>バッチ処理や定期的なタスクに最適</li>
+                    </ul>
+                    
+                    <h4>一般的なスケジュールオプション</h4>
+                    <ul>
+                        <li>分、時間、日、週、月単位の繰り返し</li>
+                        <li>特定の曜日や日付での実行</li>
+                        <li>カスタム設定（例：毎週月水金の午前9時）</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>使用例：</strong> 毎週金曜日の午後5時に、週間の販売データをSharePointリストから取得し、集計して分析レポートを作成し、チームメンバーにメールで送信する。</p>
+                    </div>
+                </section>
+                
+                <section id="desktop-flows">
+                    <h3>デスクトップフロー（UI flows）</h3>
+                    <p>デスクトップフローは、Windowsデスクトップアプリやレガシーシステムを自動化するためのRPA（Robotic Process Automation）機能を提供します。</p>
+                    
+                    <h4>主な特徴</h4>
+                    <ul>
+                        <li>デスクトップアプリケーションの自動操作</li>
+                        <li>画面上の要素を認識して操作</li>
+                        <li>キーボードやマウス操作の自動化</li>
+                        <li>APIがないレガシーシステムの自動化に最適</li>
+                    </ul>
+                    
+                    <h4>作成方法</h4>
+                    <ul>
+                        <li>操作を記録する方法（録画モード）</li>
+                        <li>手動でステップを設定する方法</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>必要条件：</strong> デスクトップフローを使用するには、Power Automate for Desktopをインストールする必要があります。また、デスクトップフローを実行するコンピュータが実行時に利用可能である必要があります。</p>
+                    </div>
+                    
+                    <div class="note">
+                        <p><strong>使用例：</strong> ウェブフォームから取得したデータをレガシーシステムに手動で入力する作業を自動化し、デスクトップアプリケーションを自動的に操作してデータエントリや報告作業を完了させる。</p>
+                    </div>
+                </section>
+                
+                <section id="business-process-flows">
+                    <h3>ビジネスプロセスフロー</h3>
+                    <p>ビジネスプロセスフローは、主にDynamics 365と連携して使用され、一連のステップを通じてユーザーをガイドするフローです。</p>
+                    
+                    <h4>主な特徴</h4>
+                    <ul>
+                        <li>ユーザーをプロセスに沿ってガイド</li>
+                        <li>複数のステージを持つプロセス</li>
+                        <li>Dynamics 365データモデルとの緊密な統合</li>
+                        <li>視覚的なプロセスガイダンス</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>使用例：</strong> 営業プロセスのステージ（見込み客、商談、提案、クロージング）を視覚的に表示し、各ステージで必要な情報入力や承認のガイダンスを提供する。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>ヒント：</strong> 適切なフロータイプを選択することが、効率的な自動化の第一歩です。目的と要件に最も適したフロータイプを選ぶことで、より効果的な自動化が実現できます。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="create-flow">
+                <h2>5. 基本的なフローの作成</h2>
+                
+                <section id="flow-template">
+                    <h3>テンプレートの使用</h3>
+                    <p>Power Automateには、一般的なシナリオ用の多数の事前構築されたテンプレートが用意されています。これらを利用することで、すぐに自動化を始めることができます。</p>
+                    
+                    <h4>テンプレートからフローを作成する手順</h4>
+                    <div class="step">
+                        <p>Power Automateのホーム画面で「テンプレート」をクリックするか、ホーム画面に表示されているおすすめテンプレートから選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>テンプレートの検索ボックスを使用して、特定のシナリオや使用したいサービスに関連するテンプレートを検索します。
+                        （例：「承認」「Teams」「Excel」など）</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>使用したいテンプレートをクリックして詳細を確認します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「続行」または「このテンプレートを使用」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>各サービスへの接続を要求された場合は、指示に従って接続を設定します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>テンプレートのパラメータや設定を必要に応じて調整します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>フローの名前を変更する場合は、上部のフロー名をクリックして編集します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「保存」ボタンをクリックしてフローを保存します。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>テンプレート選択のコツ：</strong> テンプレートは出発点として考え、必要に応じてカスタマイズすることをお勧めします。類似のシナリオを見つけて、それを自分のニーズに合わせて修正するのが効率的です。</p>
+                    </div>
+                </section>
+                
+                <section id="flow-from-scratch">
+                    <h3>ゼロからのフロー作成</h3>
+                    <p>特定のニーズに合わせてカスタムフローを作成したい場合は、ゼロから始めることができます。</p>
+                    
+                    <h4>新しいフローを作成する手順</h4>
+                    <div class="step">
+                        <p>Power Automateのホーム画面で「作成」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>作成したいフロータイプを選択します：
+                            <ul>
+                                <li>自動化されたフロー</li>
+                                <li>インスタントフロー</li>
+                                <li>スケジュールされたフロー</li>
+                                <li>デスクトップフロー</li>
+                                <li>ビジネスプロセスフロー</li>
+                            </ul>
+                        </p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>選択したフロータイプに応じて、必要な情報を入力します：
+                            <ul>
+                                <li>自動化されたフロー：トリガーを選択</li>
+                                <li>インスタントフロー：トリガーと必要なインプットを設定</li>
+                                <li>スケジュールされたフロー：繰り返しスケジュールを設定</li>
+                            </ul>
+                        </p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>フローの名前を入力します。わかりやすく、目的を示す名前をつけることをお勧めします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「作成」ボタンをクリックして、フローデザイナーに進みます。</p>
+                    </div>
+                    
+                    <h4>フローエディターの基本操作</h4>
+                    <ul>
+                        <li><strong>+ 新しいステップ：</strong> アクションを追加</li>
+                        <li><strong>条件の追加：</strong> 条件分岐を追加</li>
+                        <li><strong>ステップの名前変更：</strong> ステップ名をクリックして編集</li>
+                        <li><strong>ステップの削除：</strong> ステップの「...」メニューから削除を選択</li>
+                        <li><strong>ステップの複製：</strong> ステップの「...」メニューから複製を選択</li>
+                    </ul>
+                </section>
+                
+                <section id="trigger">
+                    <h3>トリガーの設定</h3>
+                    <p>トリガーは、フローを開始するイベントやアクションを定義します。適切なトリガーを選択することが、効果的なフローを作成する第一歩です。</p>
+                    
+                    <h4>主要なトリガーカテゴリ</h4>
+                    <ul>
+                        <li><strong>スケジュール：</strong> 時間ベースのトリガー（繰り返し、特定日時）</li>
+                        <li><strong>イベント：</strong> アプリやサービスのイベント（メール受信、ファイル更新など）</li>
+                        <li><strong>手動：</strong> ユーザーによる起動（ボタン、フォーム入力など）</li>
+                    </ul>
+                    
+                    <h4>人気のトリガー例</h4>
+                    <ul>
+                        <li><strong>Microsoft 365 Outlook：</strong> 新しいメールが届いたとき、予定が作成されたとき</li>
+                        <li><strong>SharePoint：</strong> アイテムが作成・変更されたとき、ファイルが追加・変更されたとき</li>
+                        <li><strong>Microsoft Forms：</strong> 新しい回答が送信されたとき</li>
+                        <li><strong>Teams：</strong> 新しいメッセージが投稿されたとき</li>
+                        <li><strong>ボタン：</strong> 手動でフローを開始（モバイル、Teams、SharePointなど）</li>
+                        <li><strong>スケジュール：</strong> 定期的に実行（毎日、毎週、毎月など）</li>
+                    </ul>
+                    
+                    <h4>トリガーの詳細設定</h4>
+                    <p>トリガーには、動作をカスタマイズするための設定オプションがあります：</p>
+                    <ul>
+                        <li><strong>フィルター：</strong> 特定の条件に一致するイベントのみでトリガーする（例：特定の差出人からのメール）</li>
+                        <li><strong>頻度：</strong> イベントをチェックする頻度（数秒から数時間）</li>
+                        <li><strong>詳細オプション：</strong> トリガー固有の追加設定</li>
+                    </ul>
+                    
+                    <div class="code-block">
+// SharePointリストアイテムが作成されたときのトリガーの例（詳細設定）
+{
+  "inputs": {
+    "host": {
+      "connection": {
+        "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+      }
+    },
+    "method": "get",
+    "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://contoso.sharepoint.com/sites/teamsite'))}/tables/@{encodeURIComponent(encodeURIComponent('d7ece4d4-1384-4282-a381-22b862a81df6'))}/onnewitems",
+    "queries": {
+      "folderPath": "/Shared Documents"
+    }
+  },
+  "recurrence": {
+    "frequency": "Minute",
+    "interval": 3
+  },
+  "splitOn": "@triggerBody()?['value']",
+  "type": "ApiConnection"
+}
+</div>
+                    
+                    <div class="tip">
+                        <p><strong>トリガー選択のヒント：</strong> フローの効率性とリソース使用を最適化するには、できるだけイベントベースのトリガーを使用してください。ポーリングベースのトリガー（定期的にチェックするタイプ）よりも、即時実行でき、API呼び出し回数も少なくなります。</p>
+                    </div>
+                </section>
+                
+                <section id="actions">
+                    <h3>アクションの追加</h3>
+                    <p>アクションは、トリガーの後に実行される一連のタスクです。アクションを組み合わせることで、複雑な業務プロセスを自動化できます。</p>
+                    
+                    <h4>アクションの追加方法</h4>
+                    <div class="step">
+                        <p>フローデザイナーで「＋新しいステップ」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>検索ボックスを使用して、必要なアクションやサービスを検索します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>目的のアクションをクリックして選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アクションに必要なパラメータを設定します。動的コンテンツを使用して、前のステップのデータを参照することができます。</p>
+                    </div>
+                    
+                    <h4>一般的なアクションの例</h4>
+                    <ul>
+                        <li><strong>メールの送信：</strong> Outlook、Gmail、SMTP</li>
+                        <li><strong>データの操作：</strong> SharePointリストの更新、Excelへの書き込み</li>
+                        <li><strong>通知：</strong> Teams通知、モバイル通知</li>
+                        <li><strong>承認プロセス：</strong> 承認メールの送信、承認結果の処理</li>
+                        <li><strong>条件とループ：</strong> 条件に基づいた分岐、繰り返し処理</li>
+                        <li><strong>データ変換：</strong> JSONの解析、変数の操作</li>
+                    </ul>
+                    
+                    <h4>動的コンテンツの使用</h4>
+                    <p>動的コンテンツを使用すると、フロー内の前のステップからデータを参照できます：</p>
+                    <div class="step">
+                        <p>アクションのパラメータフィールドをクリックすると、「動的コンテンツの追加」オプションが表示されます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>動的コンテンツパネルから、使用したい値を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>複数の値を結合したり、式を使用して値を加工したりすることもできます。</p>
+                    </div>
+                    
+                    <div class="code-block">
+// 動的コンテンツを使用したメール送信アクションの例
+{
+  "inputs": {
+    "host": {
+      "connection": {
+        "name": "@parameters('$connections')['office365']['connectionId']"
+      }
+    },
+    "method": "post",
+    "body": {
+      "To": "@{triggerBody()?['From']}",
+      "Subject": "RE: @{triggerBody()?['Subject']}",
+      "Body": "<p>感謝申し上げます。お問い合わせを受け付けました。</p><p>参照番号: @{variables('ticketNumber')}</p>",
+      "Importance": "Normal"
+    },
+    "path": "/v2/Mail"
+  }
+}
+</div>
+                    
+                    <div class="tip">
+                        <p><strong>アクション設定のコツ：</strong> 複雑なフローを作成する場合は、ステップごとに「ステップの名前変更」オプションを使用して、分かりやすい名前を付けることをお勧めします。これにより、特に動的コンテンツを参照する際に、どのステップからデータが来ているかが分かりやすくなります。</p>
+                    </div>
+                </section>
+                
+                <section id="testing">
+                    <h3>フローのテスト</h3>
+                    <p>フローを作成したら、実際に実行してみて、期待通りに動作するかテストすることが重要です。</p>
+                    
+                    <h4>フローをテストする方法</h4>
+                    <div class="step">
+                        <p>フローエディターで「テスト」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「手動」または「最近のトリガーを使用」のいずれかを選択します。</p>
+                        <ul>
+                            <li><strong>手動：</strong> 今すぐフローを実行</li>
+                            <li><strong>最近のトリガー：</strong> 過去のトリガーデータを使用してテスト</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>インスタントフローの場合、必要な入力値を提供します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「テストの実行」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>実行中のフローの各ステップの状態が表示されます。各ステップをクリックして詳細を確認できます。</p>
+                    </div>
+                    
+                    <h4>フローの実行履歴を確認する</h4>
+                    <div class="step">
+                        <p>フロー詳細ページで「実行履歴」タブをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>特定の実行をクリックして、詳細な実行ログを表示します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>各ステップの入力と出力を確認して、期待通りの結果かどうかを検証します。</p>
+                    </div>
+                    
+                    <h4>エラーのトラブルシューティング</h4>
+                    <ul>
+                        <li>エラーが発生したステップは赤で表示されます</li>
+                        <li>エラーステップをクリックして詳細を確認</li>
+                        <li>エラーメッセージを確認して問題を特定</li>
+                        <li>一般的なエラー：
+                            <ul>
+                                <li>接続の問題</li>
+                                <li>データ形式の不一致</li>
+                                <li>パラメータの不足</li>
+                                <li>権限の問題</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>注意：</strong> テストを実行すると実際にフローのアクションが実行されます。例えば、メール送信ステップがある場合、テスト中に実際にメールが送信されます。テスト環境や、実際のシステムに影響を与えないテスト方法を検討することをお勧めします。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>テストのヒント：</strong> 複雑なフローを作成する場合は、少しずつ構築してテストすることをお勧めします。すべてのアクションを一度に追加するのではなく、数ステップごとに保存してテストすることで、問題が発生した場合に特定しやすくなります。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="connectors">
+                <h2>6. コネクタの使用</h2>
+                
+                <section id="popular-connectors">
+                    <h3>人気のコネクタ</h3>
+                    <p>コネクタは、Power Automateと他のアプリケーションやサービスとの橋渡しをするコンポーネントです。Power Automateには400以上のコネクタが用意されています。</p>
+                    
+                    <h4>Microsoft 365コネクタ</h4>
+                    <ul>
+                        <li><strong>Office 365 Outlook：</strong> メールの送受信、予定の管理</li>
+                        <li><strong>SharePoint：</strong> リストとドキュメントライブラリの操作</li>
+                        <li><strong>OneDrive for Business：</strong> ファイルの管理</li>
+                        <li><strong>Microsoft Teams：</strong> メッセージ、チャネル、タスクの管理</li>
+                        <li><strong>Excel Online：</strong> スプレッドシートの読み書き</li>
+                        <li><strong>Microsoft Forms：</strong> フォーム応答の処理</li>
+                        <li><strong>Planner：</strong> タスクの作成と管理</li>
+                    </ul>
+                    
+                    <h4>一般的なビジネスコネクタ</h4>
+                    <ul>
+                        <li><strong>Dynamics 365：</strong> CRMおよびERPデータの操作</li>
+                        <li><strong>Salesforce：</strong> 顧客データの管理</li>
+                        <li><strong>SQL Server：</strong> データベースの操作</li>
+                        <li><strong>Azure：</strong> Azureサービスとの連携</li>
+                        <li><strong>Common Data Service：</strong> Microsoft Dataverseとの連携</li>
+                        <li><strong>SAP：</strong> SAPシステムとの連携</li>
+                    </ul>
+                    
+                    <h4>ファイルとデータコネクタ</h4>
+                    <ul>
+                        <li><strong>Excel Online/Business：</strong> スプレッドシートの操作</li>
+                        <li><strong>CSV：</strong> CSVファイルの読み書き</li>
+                        <li><strong>FTP/SFTP：</strong> ファイル転送</li>
+                        <li><strong>Box/Dropbox/Google Drive：</strong> クラウドストレージ</li>
+                        <li><strong>SQL Server/MySQL/Oracle：</strong> データベース操作</li>
+                    </ul>
+                    
+                    <h4>その他の人気コネクタ</h4>
+                    <ul>
+                        <li><strong>HTTP：</strong> RESTful APIへのリクエスト</li>
+                        <li><strong>Twitter/Facebook/Instagram：</strong> ソーシャルメディア連携</li>
+                        <li><strong>Slack：</strong> メッセージングとチャネル管理</li>
+                        <li><strong>GitHub：</strong> リポジトリとイシューの管理</li>
+                        <li><strong>Trello：</strong> カードとボードの管理</li>
+                        <li><strong>RSS：</strong> フィードの監視</li>
+                        <li><strong>Webhook：</strong> カスタムWebhookの処理</li>
+                    </ul>
+                    
+                    <h4>コネクタの種類</h4>
+                    <ul>
+                        <li><strong>標準コネクタ：</strong> 無料プランでも使用可能</li>
+                        <li><strong>プレミアムコネクタ：</strong> 有料プランが必要</li>
+                        <li><strong>カスタムコネクタ：</strong> 独自のAPIに接続するために作成</li>
+                        <li><strong>オンプレミスデータゲートウェイコネクタ：</strong> ローカルリソースに接続</li>
+                    </ul>
+                </section>
+                
+                <section id="connection-setup">
+                    <h3>接続の設定</h3>
+                    <p>コネクタを使用するには、まず対象のサービスとの接続を設定する必要があります。</p>
+                    
+                    <h4>新しい接続を作成する手順</h4>
+                    <div class="step">
+                        <p>フロー作成時にコネクタを選択すると、接続の設定画面が表示されます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「＋新しい接続の作成」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>サービスにサインインするか、必要な認証情報を入力します。サービスによって認証方法は異なります：
+                            <ul>
+                                <li>OAuth認証（ユーザー名とパスワードでログイン）</li>
+                                <li>APIキー認証</li>
+                                <li>基本認証（ユーザー名とパスワード）</li>
+                                <li>証明書ベースの認証</li>
+                            </ul>
+                        </p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>必要な権限を確認し、「許可」または「接続」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>接続が正常に作成されると、コネクタでその接続を使用できるようになります。</p>
+                    </div>
+                    
+                    <h4>接続の管理</h4>
+                    <div class="step">
+                        <p>Power Automateの左側のナビゲーションメニューから「データ」→「接続」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ここですべての接続を確認、編集、削除することができます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>接続の詳細を表示するには、接続名をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>接続の問題をトラブルシューティングするには、「接続の確認」をクリックします。</p>
+                    </div>
+                    
+                    <h4>オンプレミスデータゲートウェイの設定</h4>
+                    <p>オンプレミスのデータソース（SQL Server、SharePoint Serverなど）に接続するには、オンプレミスデータゲートウェイを設定する必要があります：</p>
+                    <div class="step">
+                        <p><a href="https://powerautomate.microsoft.com/gateway/" target="_blank">Microsoft Power Automateサイト</a>からゲートウェイインストーラーをダウンロードします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>オンプレミスネットワーク内のサーバーまたはコンピュータにインストールします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Microsoft アカウントでサインインし、ゲートウェイを登録します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Power Automateでゲートウェイを選択して、オンプレミスデータソースへの接続を作成します。</p>
+                    </div>
+                    
+                    <div class="note">
+                        <p><strong>セキュリティ上の注意：</strong> 組織の要件に応じて、適切な権限を持つアカウントで接続を設定してください。最小権限の原則に従い、フローが必要とする操作のみを許可するアカウントを使用することをお勧めします。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>接続管理のヒント：</strong> 複数の環境やフローで同じ接続を使いまわすことができます。一度設定した接続は、他のフローでも再利用できるため、効率的に管理できます。ただし、接続のパスワードや資格情報が変更された場合は、接続を更新する必要があります。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="advanced">
+                <h2>7. 高度な機能</h2>
+                
+                <section id="conditions">
+                    <h3>条件と分岐</h3>
+                    <p>条件を使用することで、特定の条件に基づいてフローの実行経路を分岐させることができます。</p>
+                    
+                    <h4>条件を追加する方法</h4>
+                    <div class="step">
+                        <p>フローエディターで「＋新しいステップ」をクリックし、「条件」を検索します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>条件アクションを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>条件式を設定します：
+                            <ul>
+                                <li>左側の値：変数または動的コンテンツ</li>
+                                <li>演算子：equals, greater than, less than, contains など</li>
+                                <li>右側の値：比較対象の値</li>
+                            </ul>
+                        </p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>複数の条件を追加する場合は、「さらに追加」をクリックし、ANDまたはOR論理演算子を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「はい」と「いいえ」のブランチにそれぞれアクションを追加します。</p>
+                    </div>
+                    
+                    <h4>高度な条件式</h4>
+                    <p>より複雑な条件が必要な場合は、式エディタを使用して関数を組み合わせることができます：</p>
+                    
+                    <div class="code-block">
+// 複数条件の例（AND条件）
+@and(greater(triggerBody()?['価格'], 1000), equals(triggerBody()?['カテゴリ'], '電子機器'))
+
+// 複数条件の例（OR条件）
+@or(contains(triggerBody()?['件名'], '緊急'), equals(triggerBody()?['優先度'], '高'))
+
+// 否定条件
+@not(equals(variables('承認ステータス'), '承認済み'))
+
+// 条件の組み合わせ
+@and(
+    or(
+        equals(variables('部門'), 'マーケティング'),
+        equals(variables('部門'), '営業')
+    ),
+    greater(variables('金額'), 10000)
+)
+</div>
+                    
+                    <h4>Switch文を使用した複数分岐</h4>
+                    <p>3つ以上の分岐が必要な場合、Switch文を使用できます：</p>
+                    <div class="step">
+                        <p>フローエディターで「＋新しいステップ」をクリックし、「Switch」を検索します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Switch文のOn式に評価対象の値を設定します（例：<code>@variables('ステータス')</code>）。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「ケースの追加」をクリックし、各ケースの値とアクションを設定します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>必要に応じて「Default」ケースを設定します。</p>
+                    </div>
+                    
+                    <div class="note">
+                        <p><strong>パフォーマンスの考慮事項：</strong> 条件分岐を使用すると、フローの実行経路が複雑になり、実行時間が長くなる可能性があります。可能な限り、条件のネストを深くしすぎないようにしましょう。</p>
+                    </div>
+                </section>
+                
+                <section id="loops">
+                    <h3>ループと配列</h3>
+                    <p>ループを使用すると、配列（リスト）の各アイテムに対して同じ処理を繰り返し実行できます。</p>
+                    
+                    <h4>Apply to each（各項目に適用）</h4>
+                    <p>配列の各アイテムに対してアクションを実行するための基本的なループです。</p>
+                    <div class="step">
+                        <p>フローエディターで「＋新しいステップ」をクリックし、「Apply to each」を検索します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「選択する出力」の項目で、ループ処理する配列を選択します。例えば：
+                            <ul>
+                                <li>SharePointのリストアイテム</li>
+                                <li>Outlookのメール添付ファイル</li>
+                                <li>JSONパースの結果配列</li>
+                                <li>変数に格納した配列</li>
+                            </ul>
+                        </p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ループ内に実行するアクションを追加します。ループ内では、「現在のアイテム」を参照して各アイテムのプロパティにアクセスできます。</p>
+                    </div>
+                    
+                    <div class="code-block">
+// シンプルなApply to each
+{
+  "type": "Foreach",
+  "foreach": "@triggerBody()?['value']",
+  "actions": {
+    "Send_an_email": {
+      "type": "ApiConnection",
+      "inputs": {
+        "host": {
+          "connection": {
+            "name": "@parameters('$connections')['office365']['connectionId']"
+          }
+        },
+        "method": "post",
+        "body": {
+          "To": "@items('Apply_to_each')?['Email']",
+          "Subject": "お知らせ",
+          "Body": "こんにちは、@{items('Apply_to_each')?['Name']}さん"
+        },
+        "path": "/v2/Mail"
+      }
+    }
+  },
+  "runAfter": {}
+}
+</div>
+                    
+                    <h4>Do until（条件満たすまで繰り返し）</h4>
+                    <p>特定の条件が満たされるまでアクションを繰り返し実行します。</p>
+                    <div class="step">
+                        <p>フローエディターで「＋新しいステップ」をクリックし、「Do until」を検索します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>繰り返しの終了条件を設定します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>繰り返し間隔と最大反復回数を設定します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ループ内に実行するアクションを追加します。</p>
+                    </div>
+                    
+                    <h4>配列操作関数</h4>
+                    <p>配列を操作するための便利な関数があります：</p>
+                    <ul>
+                        <li><strong>union(array1, array2)：</strong> 2つの配列を結合</li>
+                        <li><strong>intersection(array1, array2)：</strong> 共通要素の抽出</li>
+                        <li><strong>first(array)：</strong> 配列の最初の要素を取得</li>
+                        <li><strong>last(array)：</strong> 配列の最後の要素を取得</li>
+                        <li><strong>length(array)：</strong> 配列の要素数を取得</li>
+                        <li><strong>skip(array, count)：</strong> 指定数の要素をスキップ</li>
+                        <li><strong>take(array, count)：</strong> 指定数の要素を取得</li>
+                        <li><strong>createArray(item1, item2, ...)：</strong> 配列を作成</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>ループの制限：</strong> ループには以下の制限があります：</p>
+                        <ul>
+                            <li>最大ネスティング（入れ子）レベル：8</li>
+                            <li>Do Untilの最大反復回数：60 (デフォルト）</li>
+                            <li>Apply to eachの最大アイテム数：100,000</li>
+                            <li>大量のアイテムを処理する場合は、バッチ処理を検討してください</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>パフォーマンスヒント：</strong> 大きな配列を処理する場合、ループの前に<code>Select</code>アクションを使用して必要なプロパティだけを抽出することで、処理速度を向上させ、実行時間を短縮できます。また、ループ内でのHTTP呼び出しなどの外部サービス操作は、可能な限り減らすことをお勧めします。</p>
+                    </div>
+                </section>
+                
+                <section id="variables">
+                    <h3>変数の使用</h3>
+                    <p>変数を使用することで、フロー内で一時的にデータを保存し、後のステップで参照することができます。</p>
+                    
+                    <h4>変数の種類</h4>
+                    <ul>
+                        <li><strong>String：</strong> テキスト値</li>
+                        <li><strong>Integer：</strong> 整数値</li>
+                        <li><strong>Float：</strong> 小数値</li>
+                        <li><strong>Boolean：</strong> 真偽値（true/false）</li>
+                        <li><strong>Array：</strong> 配列（リスト）</li>
+                        <li><strong>Object：</strong> オブジェクト（JSONオブジェクト）</li>
+                    </ul>
+                    
+                    <h4>変数の操作</h4>
+                    <p>変数を操作するための主なアクションは以下の通りです：</p>
+                    <ul>
+                        <li><strong>変数の初期化：</strong> 変数を作成し、初期値を設定します</li>
+                        <li><strong>変数の設定：</strong> 既存の変数に新しい値を設定します</li>
+                        <li><strong>変数の追加：</strong> 数値変数に値を加算します</li>
+                        <li><strong>配列変数に追加：</strong> 配列変数に新しい項目を追加します</li>
+                    </ul>
+                    
+                    <h4>変数の使用例</h4>
+                    <div class="code-block">
+// 1. 変数の初期化
+{
+  "type": "InitializeVariable",
+  "inputs": {
+    "variables": [
+      {
+        "name": "カウンター",
+        "type": "integer",
+        "value": 0
+      }
+    ]
+  },
+  "runAfter": {}
+}
+
+// 2. 変数の設定
+{
+  "type": "SetVariable",
+  "inputs": {
+    "name": "メッセージ",
+    "value": "処理が完了しました。"
+  },
+  "runAfter": {}
+}
+
+// 3. 変数の追加
+{
+  "type": "IncrementVariable",
+  "inputs": {
+    "name": "カウンター",
+    "value": 1
+  },
+  "runAfter": {}
+}
+
+// 4. 配列変数に追加
+{
+  "type": "AppendToArrayVariable",
+  "inputs": {
+    "name": "商品リスト",
+    "value": {
+      "商品名": "@variables('新商品')",
+      "価格": "@variables('価格')",
+      "在庫": "@variables('在庫数')"
+    }
+  },
+  "runAfter": {}
+}
+</div>
+                    
+                    <h4>変数の参照方法</h4>
+                    <p>フロー内の他のアクションで変数を参照するには、以下の構文を使用します：</p>
+                    <div class="code-block">
+// 変数の参照（式エディタ内）
+@variables('変数名')
+
+// オブジェクト変数のプロパティを参照
+@variables('ユーザー情報').名前
+@variables('ユーザー情報')['メールアドレス']
+
+// 配列変数の要素を参照
+@variables('商品リスト')[0]
+@variables('商品リスト')[0].商品名
+</div>
+                    
+                    <div class="tip">
+                        <p><strong>変数活用のコツ：</strong> 変数は、フローの状態管理に非常に役立ちます。特に、ループの回数をカウントしたり、複数のステップで同じ値を再利用したり、一時的な結果を保存したりする場合に便利です。また、フローの開始時に変数を初期化し、フローの実行中に状態を追跡することで、デバッグが容易になります。</p>
+                    </div>
+                </section>
+                
+                <section id="expressions">
+                    <h3>式と関数</h3>
+                    <p>Power Automateの式と関数を使用すると、データの変換や操作を柔軟に行うことができます。</p>
+                    
+                    <h4>式エディタの使用方法</h4>
+                    <div class="step">
+                        <p>アクションのパラメータフィールドをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「動的コンテンツの追加」メニューから「式」タブを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>式エディタに式を入力します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「OK」をクリックして式を挿入します。</p>
+                    </div>
+                    
+                    <h4>よく使用される関数</h4>
+                    <p>文字列関数：</p>
+                    <ul>
+                        <li><strong>concat(string1, string2, ...)：</strong> 文字列を連結</li>
+                        <li><strong>replace(text, search, replace)：</strong> 文字列内の部分文字列を置き換え</li>
+                        <li><strong>substring(text, start, length)：</strong> 部分文字列を抽出</li>
+                        <li><strong>indexOf(text, search)：</strong> 検索文字列の位置を取得</li>
+                        <li><strong>length(text)：</strong> 文字列の長さを取得</li>
+                        <li><strong>toLower(text)／toUpper(text)：</strong> 小文字／大文字に変換</li>
+                        <li><strong>trim(text)：</strong> 前後の空白を削除</li>
+                    </ul>
+                    
+                    <p>数値関数：</p>
+                    <ul>
+                        <li><strong>add(num1, num2)：</strong> 加算</li>
+                        <li><strong>sub(num1, num2)：</strong> 減算</li>
+                        <li><strong>mul(num1, num2)：</strong> 乗算</li>
+                        <li><strong>div(num1, num2)：</strong> 除算</li>
+                        <li><strong>mod(num1, num2)：</strong> 剰余</li>
+                        <li><strong>min(num1, num2, ...)／max(num1, num2, ...)：</strong> 最小値／最大値</li>
+                        <li><strong>rand(min, max)：</strong> 乱数生成</li>
+                    </ul>
+                    
+                    <p>日付関数：</p>
+                    <ul>
+                        <li><strong>utcNow()：</strong> 現在のUTC日時</li>
+                        <li><strong>addDays(timestamp, days)：</strong> 日数を加算（addHours, addMinutesなども同様）</li>
+                        <li><strong>formatDateTime(timestamp, format)：</strong> 日時を指定形式に変換</li>
+                        <li><strong>dayOfWeek(timestamp)：</strong> 曜日を取得</li>
+                        <li><strong>dayOfMonth(timestamp)：</strong> 日を取得</li>
+                        <li><strong>startOfDay(timestamp)：</strong> 日の始まりを取得</li>
+                    </ul>
+                    
+                    <p>論理関数：</p>
+                    <ul>
+                        <li><strong>and(condition1, condition2, ...)：</strong> 論理AND</li>
+                        <li><strong>or(condition1, condition2, ...)：</strong> 論理OR</li>
+                        <li><strong>not(condition)：</strong> 論理NOT</li>
+                        <li><strong>if(condition, trueValue, falseValue)：</strong> 条件分岐</li>
+                        <li><strong>equals(object1, object2)：</strong> 等価比較</li>
+                        <li><strong>less(value1, value2)／greater(value1, value2)：</strong> 比較</li>
+                    </ul>
+                    
+                    <p>コレクション関数：</p>
+                    <ul>
+                        <li><strong>union(array1, array2)：</strong> 配列の結合</li>
+                        <li><strong>intersection(array1, array2)：</strong> 共通要素の抽出</li>
+                        <li><strong>first(array)／last(array)：</strong> 最初／最後の要素</li>
+                        <li><strong>length(array)：</strong> 要素数</li>
+                        <li><strong>contains(array, item)：</strong> 要素の存在確認</li>
+                        <li><strong>createArray(item1, item2, ...)：</strong> 配列の作成</li>
+                    </ul>
+                    
+                    <h4>式の組み合わせ例</h4>
+                    <div class="code-block">
+// 文字列の連結と書式設定
+@concat('こんにちは、', outputs('GetUser').body.name, 'さん。現在の時刻は', formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm'), 'です。')
+
+// 条件に基づく値の設定
+@if(greater(variables('金額'), 10000), '承認が必要です', '自動承認されました')
+
+// 日付計算（営業日の計算 - 土日を除く）
+@addDays(variables('提出日'), if(equals(dayOfWeek(variables('提出日')), 5), 3, if(equals(dayOfWeek(variables('提出日')), 6), 2, 1)))
+
+// 複数条件のチェック
+@and(not(equals(variables('ステータス'), '完了')), or(equals(variables('優先度'), '高'), contains(variables('タイトル'), '緊急')))
+
+// JSONデータの変換と加工
+@json(replace(string(body('HTTP_リクエスト')), '\\"', '"'))
+</div>
+                    
+                    <div class="tip">
+                        <p><strong>式のデバッグヒント：</strong> 複雑な式をデバッグするには、変数を初期化して式の結果を保存し、フローの実行後に変数の値を確認するとよいでしょう。また、式を小さな部分に分割して段階的に構築することで、エラーを特定しやすくなります。</p>
+                    </div>
+                </section>
+                
+                <section id="error-handling">
+                    <h3>エラー処理</h3>
+                    <p>エラー処理を実装することで、フローの堅牢性が向上し、予期しない状況でも適切に対応できるようになります。</p>
+                    
+                    <h4>並列分岐</h4>
+                    <p>「並列分岐」アクションを使用すると、一方のブランチでエラーが発生しても、他のブランチは影響を受けずに実行を継続できます。</p>
+                    <div class="step">
+                        <p>フローエディターで「＋新しいステップ」をクリックし、「並列分岐」を検索します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>各ブランチにアクションを追加します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>いずれかのブランチでエラーが発生しても、他のブランチは実行されます。</p>
+                    </div>
+                    
+                    <h4>スコープとRunAfter</h4>
+                    <p>「スコープ」アクションを使用すると、関連するアクションをグループ化し、エラー処理を一括して行うことができます。</p>
+                    <div class="step">
+                        <p>フローエディターで「＋新しいステップ」をクリックし、「スコープ」を検索します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>スコープ内にアクションを追加します。</p>
+                    </div>
+                    
+                    <div class

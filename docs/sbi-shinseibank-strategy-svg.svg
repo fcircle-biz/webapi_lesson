@@ -1,0 +1,444 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- 背景 -->
+  <rect width="1920" height="1080" fill="#f8fafc" />
+  
+  <!-- ヘッダー部分 -->
+  <g id="header">
+    <!-- タイトル部分 -->
+    <defs>
+      <linearGradient id="titleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#2563EB" />
+        <stop offset="100%" stop-color="#1E40AF" />
+      </linearGradient>
+    </defs>
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#titleGradient)">SBI新生銀行の経営戦略分析と今後の予測</text>
+    <text x="100" y="130" font-family="Arial, sans-serif" font-size="22" fill="#475569">統合シナジーと持続的成長への道筋</text>
+    
+    <!-- 右上の日付 -->
+    <text x="1820" y="90" font-family="Arial, sans-serif" font-size="20" fill="#475569" text-anchor="end">2025年3月17日</text>
+    <text x="1820" y="120" font-family="Arial, sans-serif" font-size="20" fill="#475569" text-anchor="end">戦略アナリシスレポート</text>
+  </g>
+  
+  <!-- 左側カラム (60%) -->
+  <g id="left-column">
+    <!-- 財務ハイライトカード -->
+    <g transform="translate(100, 180)">
+      <rect width="1050" height="260" rx="12" ry="12" fill="white" stroke="#e2e8f0" stroke-width="1" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      
+      <!-- カードヘッダー -->
+      <g transform="translate(25, 30)">
+        <circle cx="12" cy="12" r="12" fill="#1E40AF" opacity="0.1" />
+        <path d="M4,12 L9,17 L20,7" stroke="#1E40AF" stroke-width="2" fill="none" />
+        <text x="35" y="18" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#1E40AF">財務ハイライト（2024年度第3四半期）</text>
+      </g>
+      
+      <!-- メトリクスグリッド -->
+      <g transform="translate(50, 70)">
+        <!-- 純利益 -->
+        <g transform="translate(0, 0)">
+          <rect width="220" height="90" rx="8" ry="8" fill="#f9fafb" />
+          <text x="110" y="30" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="middle">純利益</text>
+          <text x="110" y="60" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#2563EB" text-anchor="middle">746億円</text>
+          <text x="110" y="80" font-family="Arial, sans-serif" font-size="14" fill="#2563EB" text-anchor="middle">前年同期比 +95%</text>
+        </g>
+        
+        <!-- 業務粗利益 -->
+        <g transform="translate(240, 0)">
+          <rect width="220" height="90" rx="8" ry="8" fill="#f9fafb" />
+          <text x="110" y="30" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="middle">業務粗利益</text>
+          <text x="110" y="60" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#f59e0b" text-anchor="middle">2,274億円</text>
+          <text x="110" y="80" font-family="Arial, sans-serif" font-size="14" fill="#f59e0b" text-anchor="middle">前年同期比 +15%</text>
+        </g>
+        
+        <!-- 実質業務純益 -->
+        <g transform="translate(480, 0)">
+          <rect width="220" height="90" rx="8" ry="8" fill="#f9fafb" />
+          <text x="110" y="30" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="middle">実質業務純益</text>
+          <text x="110" y="60" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#10b981" text-anchor="middle">1,029億円</text>
+          <text x="110" y="80" font-family="Arial, sans-serif" font-size="14" fill="#10b981" text-anchor="middle">前年同期比 +36%</text>
+        </g>
+        
+        <!-- SBIシナジー効果 -->
+        <g transform="translate(720, 0)">
+          <rect width="220" height="90" rx="8" ry="8" fill="#f9fafb" />
+          <text x="110" y="30" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="middle">SBIシナジー効果</text>
+          <text x="110" y="60" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#6366f1" text-anchor="middle">183億円</text>
+          <text x="110" y="80" font-family="Arial, sans-serif" font-size="14" fill="#6366f1" text-anchor="middle">中計目標 150億円</text>
+        </g>
+      </g>
+      
+      <!-- 業績進捗バー -->
+      <g transform="translate(50, 180)">
+        <!-- 純利益 -->
+        <g>
+          <text x="0" y="15" font-family="Arial, sans-serif" font-size="14" fill="#64748b">純利益</text>
+          <text x="200" y="15" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#64748b" text-anchor="end">746億円</text>
+          <rect x="220" y="6" width="400" height="10" rx="5" ry="5" fill="#e2e8f0" />
+          <rect x="220" y="6" width="416" height="10" rx="5" ry="5" fill="#2563EB" />
+          <text x="650" y="15" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="end">通期計画比 104%</text>
+        </g>
+        
+        <!-- SBIシナジー -->
+        <g transform="translate(0, 30)">
+          <text x="0" y="15" font-family="Arial, sans-serif" font-size="14" fill="#64748b">SBIシナジー</text>
+          <text x="200" y="15" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#64748b" text-anchor="end">183億円</text>
+          <rect x="220" y="6" width="400" height="10" rx="5" ry="5" fill="#e2e8f0" />
+          <rect x="220" y="6" width="460" height="10" rx="5" ry="5" fill="#6366f1" />
+          <text x="650" y="15" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="end">中計目標比 122%</text>
+        </g>
+      </g>
+    </g>
+    
+    <!-- 主要事業の成長戦略 -->
+    <g transform="translate(100, 460)">
+      <rect width="510" height="500" rx="12" ry="12" fill="white" stroke="#e2e8f0" stroke-width="1" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      
+      <!-- カードヘッダー -->
+      <g transform="translate(25, 30)">
+        <circle cx="12" cy="12" r="12" fill="#1E40AF" opacity="0.1" />
+        <path d="M12,4 L12,20 M6,12 L18,12" stroke="#1E40AF" stroke-width="2" fill="none" />
+        <text x="35" y="18" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#1E40AF">主要事業の成長戦略</text>
+      </g>
+      
+      <!-- リテールバンキング -->
+      <g transform="translate(25, 70)">
+        <text x="0" y="0" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#475569">リテールバンキング</text>
+        
+        <g transform="translate(20, 20)">
+          <circle cx="4" cy="4" r="4" fill="#ef4444" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">競争力ある金利設定と顧客層拡大策により預金残高が急増</text>
+        </g>
+        
+        <g transform="translate(20, 45)">
+          <circle cx="4" cy="4" r="4" fill="#f59e0b" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">SBI証券顧客や若年層（28歳以下）向け優遇施策が奏功</text>
+        </g>
+        
+        <g transform="translate(20, 70)">
+          <circle cx="4" cy="4" r="4" fill="#10b981" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">住宅ローン実行額は前年度通期を上回る好調な推移</text>
+        </g>
+      </g>
+      
+      <!-- 法人営業 -->
+      <g transform="translate(25, 180)">
+        <text x="0" y="0" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#475569">法人営業</text>
+        
+        <g transform="translate(20, 20)">
+          <circle cx="4" cy="4" r="4" fill="#ef4444" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">事業・金融法人向け貸出が拡大、SBIグループ連携が寄与</text>
+        </g>
+        
+        <g transform="translate(20, 45)">
+          <circle cx="4" cy="4" r="4" fill="#f59e0b" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">地域金融機関のプラットフォーマー化を推進</text>
+        </g>
+        
+        <g transform="translate(20, 70)">
+          <circle cx="4" cy="4" r="4" fill="#10b981" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">ストラクチャードファイナンスでGX関連案件に注力</text>
+        </g>
+      </g>
+      
+      <!-- 海外・証券投資 -->
+      <g transform="translate(25, 290)">
+        <text x="0" y="0" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#475569">海外事業・証券投資</text>
+        
+        <g transform="translate(20, 20)">
+          <circle cx="4" cy="4" r="4" fill="#ef4444" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">UDC Finance（NZ）が安定的な収益源として貢献</text>
+        </g>
+        
+        <g transform="translate(20, 45)">
+          <circle cx="4" cy="4" r="4" fill="#f59e0b" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">証券投資ポートフォリオの戦略的アロケーション高度化</text>
+        </g>
+        
+        <g transform="translate(20, 70)">
+          <circle cx="4" cy="4" r="4" fill="#10b981" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">NECキャピタルソリューションの関連会社化によるシナジー創出</text>
+        </g>
+      </g>
+      
+      <!-- グループ会社 -->
+      <g transform="translate(25, 400)">
+        <text x="0" y="0" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#475569">グループ会社展開</text>
+        
+        <g transform="translate(20, 20)">
+          <circle cx="4" cy="4" r="4" fill="#ef4444" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">昭和リース：環境配慮型建築物ファンドを累計422億円組成</text>
+        </g>
+        
+        <g transform="translate(20, 45)">
+          <circle cx="4" cy="4" r="4" fill="#f59e0b" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">アプラス：ショッピングクレジットが伸長、アプリ刷新</text>
+        </g>
+        
+        <g transform="translate(20, 70)">
+          <circle cx="4" cy="4" r="4" fill="#10b981" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">新生フィナンシャル：債権品質維持と新規申込増加（+21%）</text>
+        </g>
+      </g>
+    </g>
+    
+    <!-- SBIグループとのシナジー -->
+    <g transform="translate(630, 460)">
+      <rect width="520" height="245" rx="12" ry="12" fill="white" stroke="#e2e8f0" stroke-width="1" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      
+      <!-- カードヘッダー -->
+      <g transform="translate(25, 30)">
+        <circle cx="12" cy="12" r="12" fill="#1E40AF" opacity="0.1" />
+        <path d="M6,12 C8,8 12,8 14,12 M6,16 A6,6 0 0,0 18,16" stroke="#1E40AF" stroke-width="2" fill="none" />
+        <text x="35" y="18" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#1E40AF">SBIグループとのシナジー</text>
+      </g>
+      
+      <!-- シナジー進捗グラフ -->
+      <g transform="translate(40, 70)">
+        <text x="0" y="0" font-family="Arial, sans-serif" font-size="16" font-weight="500" fill="#475569">シナジー創出額の推移（累計）</text>
+        
+        <!-- 棒グラフ -->
+        <g transform="translate(0, 20)">
+          <rect x="0" y="0" width="100" height="120" fill="#f9fafb" />
+          <rect x="0" y="90" width="100" height="30" fill="#6366f1" />
+          <text x="50" y="110" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">51億円</text>
+          <text x="50" y="140" font-family="Arial, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">2022年度</text>
+          
+          <rect x="120" y="0" width="100" height="120" fill="#f9fafb" />
+          <rect x="120" y="50" width="100" height="70" fill="#6366f1" />
+          <text x="170" y="85" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">128億円</text>
+          <text x="170" y="140" font-family="Arial, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">2023年度</text>
+          
+          <rect x="240" y="0" width="100" height="120" fill="#f9fafb" />
+          <rect x="240" y="0" width="100" height="120" fill="#6366f1" />
+          <text x="290" y="60" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">183億円</text>
+          <text x="290" y="140" font-family="Arial, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">2024年度Q3</text>
+          
+          <rect x="360" y="0" width="100" height="120" fill="#f9fafb" />
+          <rect x="360" y="0" width="100" height="120" fill="#e2e8f0" opacity="0.5" />
+          <line x1="360" y1="30" x2="460" y2="30" stroke="#6366f1" stroke-width="2" stroke-dasharray="4 2" />
+          <text x="410" y="24" font-family="Arial, sans-serif" font-size="14" fill="#6366f1" text-anchor="middle">中計目標 150億円</text>
+          <text x="410" y="140" font-family="Arial, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">中計期間</text>
+        </g>
+      </g>
+    </g>
+    
+    <!-- 公的資金返済戦略 -->
+    <g transform="translate(630, 715)">
+      <rect width="520" height="245" rx="12" ry="12" fill="white" stroke="#e2e8f0" stroke-width="1" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      
+      <!-- カードヘッダー -->
+      <g transform="translate(25, 30)">
+        <circle cx="12" cy="12" r="12" fill="#1E40AF" opacity="0.1" />
+        <path d="M4,12 L12,20 L20,4" stroke="#1E40AF" stroke-width="2" fill="none" />
+        <text x="35" y="18" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#1E40AF">公的資金返済戦略</text>
+      </g>
+      
+      <!-- 内容 -->
+      <g transform="translate(35, 70)">
+        <rect x="0" y="0" width="450" height="150" rx="8" ry="8" fill="#f9fafb" />
+        
+        <g transform="translate(20, 20)">
+          <circle cx="4" cy="4" r="4" fill="#ef4444" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">公的資金残額約3,300億円のうち、1,000億円を2025年度内に返済</text>
+        </g>
+        
+        <g transform="translate(20, 50)">
+          <circle cx="4" cy="4" r="4" fill="#f59e0b" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">自己資本から500億円拠出、SBIホールディングスから500億円出資</text>
+        </g>
+        
+        <g transform="translate(20, 80)">
+          <circle cx="4" cy="4" r="4" fill="#10b981" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">残額2,300億円の返済方法は6月期限にこだわらず早期合意を目指す</text>
+        </g>
+        
+        <g transform="translate(20, 110)">
+          <circle cx="4" cy="4" r="4" fill="#6366f1" />
+          <text x="15" y="8" font-family="Arial, sans-serif" font-size="14" fill="#334155">公的資金返済の道筋を明確にした上で、再上場の検討・準備を開始</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  
+  <!-- 右側カラム (40%) -->
+  <g id="right-column">
+    <!-- B/Sハイライトと金利影響 -->
+    <g transform="translate(1170, 180)">
+      <rect width="650" height="260" rx="12" ry="12" fill="white" stroke="#e2e8f0" stroke-width="1" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      
+      <!-- カードヘッダー -->
+      <g transform="translate(25, 30)">
+        <circle cx="12" cy="12" r="12" fill="#1E40AF" opacity="0.1" />
+        <path d="M6,12 L18,12 M6,6 L18,6 M6,18 L12,18" stroke="#1E40AF" stroke-width="2" fill="none" />
+        <text x="35" y="18" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#1E40AF">B/Sハイライトと金利上昇の影響</text>
+      </g>
+      
+      <!-- B/S概要 -->
+      <g transform="translate(40, 70)">
+        <text x="0" y="0" font-family="Arial, sans-serif" font-size="16" font-weight="500" fill="#475569">B/S概要 (2024年12月末)</text>
+        
+        <!-- B/Sの簡略図 -->
+        <g transform="translate(0, 30)">
+          <rect x="0" y="0" width="200" height="120" fill="#f9fafb" stroke="#e2e8f0" stroke-width="1" />
+          <text x="100" y="20" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#475569" text-anchor="middle">資産 18.8兆円</text>
+          
+          <g transform="translate(20, 40)">
+            <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569">貸出金</text>
+            <text x="120" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569" text-anchor="end">8.9兆円</text>
+          </g>
+          
+          <g transform="translate(20, 60)">
+            <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569">有価証券</text>
+            <text x="120" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569" text-anchor="end">2.5兆円</text>
+          </g>
+          
+          <g transform="translate(20, 80)">
+            <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569">日銀預け金</text>
+            <text x="120" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569" text-anchor="end">4.9兆円</text>
+          </g>
+          
+          <g transform="translate(20, 100)">
+            <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569">その他</text>
+            <text x="120" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569" text-anchor="end">2.5兆円</text>
+          </g>
+          
+          <rect x="250" y="0" width="200" height="120" fill="#f9fafb" stroke="#e2e8f0" stroke-width="1" />
+          <text x="350" y="20" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#475569" text-anchor="middle">負債・純資産 18.8兆円</text>
+          
+          <g transform="translate(270, 40)">
+            <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569">預金</text>
+            <text x="120" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569" text-anchor="end">13.6兆円</text>
+          </g>
+          
+          <g transform="translate(270, 60)">
+            <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569">借入金</text>
+            <text x="120" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569" text-anchor="end">1.5兆円</text>
+          </g>
+          
+          <g transform="translate(270, 80)">
+            <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569">その他負債</text>
+            <text x="120" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569" text-anchor="end">2.7兆円</text>
+          </g>
+          
+          <g transform="translate(270, 100)">
+            <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569">純資産</text>
+            <text x="120" y="0" font-family="Arial, sans-serif" font-size="12" fill="#475569" text-anchor="end">1.0兆円</text>
+          </g>
+        </g>
+      </g>
+      
+      <!-- 金利上昇の影響 -->
+      <g transform="translate(40, 200)">
+        <text x="260" y="0" font-family="Arial, sans-serif" font-size="16" font-weight="500" fill="#475569">金利上昇の資金利益への影響</text>
+        
+        <g transform="translate(280, 20)">
+          <rect x="0" y="0" width="280" height="30" rx="4" ry="4" fill="#bfdbfe" opacity="0.7" />
+          <text x="10" y="20" font-family="Arial, sans-serif" font-size="14" fill="#1e40af">25bps上昇時の年間影響額：約130億円</text>
+        </g>
+      </g>
+    </g>
+    
+    <!-- 中期目標達成状況 -->
+    <g transform="translate(1170, 460)">
+      <rect width="650" height="280" rx="12" ry="12" fill="white" stroke="#e2e8f0" stroke-width="1" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      
+      <!-- カードヘッダー -->
+      <g transform="translate(25, 30)">
+        <circle cx="12" cy="12" r="12" fill="#1E40AF" opacity="0.1" />
+        <path d="M6,12 L10,16 L18,8" stroke="#1E40AF" stroke-width="2" fill="none" />
+        <text x="35" y="18" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#1E40AF">中期目標達成状況</text>
+      </g>
+      
+      <!-- KPIの達成状況 -->
+      <g transform="translate(35, 70)">
+        <!-- 純利益 -->
+        <g transform="translate(0, 0)">
+          <text x="0" y="12" font-family="Arial, sans-serif" font-size="14" fill="#475569">連結純利益</text>
+          <text x="120" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#334155">746億円</text>
+          <rect x="200" y="5" width="300" height="15" rx="7.5" ry="7.5" fill="#e2e8f0" />
+          <rect x="200" y="5" width="300" height="15" rx="7.5" ry="7.5" fill="#2563EB" />
+          <text x="510" y="12" font-family="Arial, sans-serif" font-size="14" fill="#334155">目標 700億円</text>
+          <text x="580" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2563EB">107%</text>
+        </g>
+        
+        <!-- ROE -->
+        <g transform="translate(0, 40)">
+          <text x="0" y="12" font-family="Arial, sans-serif" font-size="14" fill="#475569">ROE</text>
+          <text x="120" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#334155">8.0%</text>
+          <rect x="200" y="5" width="300" height="15" rx="7.5" ry="7.5" fill="#e2e8f0" />
+          <rect x="200" y="5" width="285" height="15" rx="7.5" ry="7.5" fill="#f59e0b" />
+          <text x="510" y="12" font-family="Arial, sans-serif" font-size="14" fill="#334155">目標 8%台</text>
+          <text x="580" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#f59e0b">100%</text>
+        </g>
+        
+        <!-- 預金量 -->
+        <g transform="translate(0, 80)">
+          <text x="0" y="12" font-family="Arial, sans-serif" font-size="14" fill="#475569">預金量</text>
+          <text x="120" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#334155">13.6兆円</text>
+          <rect x="200" y="5" width="300" height="15" rx="7.5" ry="7.5" fill="#e2e8f0" />
+          <rect x="200" y="5" width="510" height="15" rx="7.5" ry="7.5" fill="#10b981" />
+          <text x="510" y="12" font-family="Arial, sans-serif" font-size="14" fill="#334155">目標 8兆円</text>
+          <text x="580" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981">170%</text>
+        </g>
+        
+        <!-- 営業性資産 -->
+        <g transform="translate(0, 120)">
+          <text x="0" y="12" font-family="Arial, sans-serif" font-size="14" fill="#475569">営業性資産</text>
+          <text x="120" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#334155">13.5兆円</text>
+          <rect x="200" y="5" width="300" height="15" rx="7.5" ry="7.5" fill="#e2e8f0" />
+          <rect x="200" y="5" width="400" height="15" rx="7.5" ry="7.5" fill="#10b981" />
+          <text x="510" y="12" font-family="Arial, sans-serif" font-size="14" fill="#334155">目標 10兆円</text>
+          <text x="580" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981">135%</text>
+        </g>
+        
+        <!-- シナジー効果 -->
+        <g transform="translate(0, 160)">
+          <text x="0" y="12" font-family="Arial, sans-serif" font-size="14" fill="#475569">シナジー効果</text>
+          <text x="120" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#334155">183億円</text>
+          <rect x="200" y="5" width="300" height="15" rx="7.5" ry="7.5" fill="#e2e8f0" />
+          <rect x="200" y="5" width="365" height="15" rx="7.5" ry="7.5" fill="#6366f1" />
+          <text x="510" y="12" font-family="Arial, sans-serif" font-size="14" fill="#334155">目標 150億円</text>
+          <text x="580" y="12" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#6366f1">122%</text>
+        </g>
+      </g>
+    </g>
+    
+    <!-- 今後の戦略予測 -->
+    <g transform="translate(1170, 760)">
+      <rect width="650" height="200" rx="12" ry="12" fill="white" stroke="#e2e8f0" stroke-width="1" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      
+      <!-- カードヘッダー -->
+      <g transform="translate(25, 30)">
+        <circle cx="12" cy="12" r="12" fill="#1E40AF" opacity="0.1" />
+        <path d="M8,16 L12,12 L16,16 M12,12 L12,4" stroke="#1E40AF" stroke-width="2" fill="none" />
+        <text x="35" y="18" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#1E40AF">今後の戦略予測</text>
+      </g>
+      
+      <!-- 戦略ポイント -->
+      <g transform="translate(40, 70)">
+        <rect x="0" y="0" width="570" height="110" rx="8" ry="8" fill="#f0f9ff" />
+        
+        <g transform="translate(20, 25)">
+          <circle cx="5" cy="5" r="5" fill="#2563EB" />
+          <text x="20" y="9" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#1e40af">公的資金完全返済後のIPO実現による資本基盤強化</text>
+        </g>
+        
+        <g transform="translate(20, 55)">
+          <circle cx="5" cy="5" r="5" fill="#2563EB" />
+          <text x="20" y="9" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#1e40af">SBIグループとの統合シナジーの更なる深化・拡大</text>
+        </g>
+        
+        <g transform="translate(20, 85)">
+          <circle cx="5" cy="5" r="5" fill="#2563EB" />
+          <text x="20" y="9" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#1e40af">金利上昇環境を活かした収益力の持続的向上</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  
+  <!-- フッター -->
+  <g id="footer" transform="translate(0, 1030)">
+    <text x="100" y="20" font-family="Arial, sans-serif" font-size="14" fill="#64748b">© 2025 Strategic Financial Analysis</text>
+    <text x="1820" y="20" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="end">出典：SBI新生銀行財務データ、決算説明資料、公式発表</text>
+  </g>
+</svg>

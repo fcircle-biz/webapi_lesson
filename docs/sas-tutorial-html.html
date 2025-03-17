@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAS 入門チュートリアル</title>
+    <style>
+        :root {
+            --primary-color: #00629B;
+            --secondary-color: #004B76;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --light-gray: #f2f2f2;
+            --border-color: #ddd;
+            --success-color: #28a745;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding-top: 60px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        header h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            white-space: nowrap;
+            display: block;
+            visibility: visible !important;
+            color: white;
+        }
+        
+        header .nav-toggle {
+            display: none;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: 0.85rem;
+        }
+        
+        nav a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        main {
+            margin: 2rem 0;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        p, ul, ol {
+            margin-bottom: 1.2rem;
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #004B76;
+        }
+        
+        .toc {
+            background-color: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+            font-size: 1.5rem;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: var(--primary-color);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .toc .level-2 {
+            padding-left: 1.5rem;
+        }
+        
+        .toc .level-3 {
+            padding-left: 3rem;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--light-gray);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        .note {
+            background-color: #e8f4fd;
+            border-left: 5px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .tip {
+            background-color: #d4edda;
+            border-left: 5px solid var(--success-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--light-gray);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.8rem;
+            height: 1.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .image-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .caption {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            color: #000080; /* SASコードの色を青色に */
+            white-space: pre-line; /* 改行を保持 */
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            header .nav-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            nav {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 60px);
+                background-color: var(--primary-color);
+                flex-direction: column;
+                padding: 1rem;
+                transition: left 0.3s;
+                z-index: 99;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>SAS 入門チュートリアル</h1>
+            <button class="nav-toggle">☰</button>
+            <nav id="main-nav">
+                <a href="#intro">はじめに</a>
+                <a href="#install">インストール</a>
+                <a href="#interface">インターフェース</a>
+                <a href="#basics">基本構文</a>
+                <a href="#data">データ操作</a>
+                <a href="#analysis">統計分析</a>
+                <a href="#visualization">可視化</a>
+                <a href="#export">出力と共有</a>
+                <a href="#example">実践例</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="content">
+            <h1>SAS 入門チュートリアル</h1>
+            
+            <div class="toc">
+                <h2>目次</h2>
+                <ul>
+                    <li><a href="#intro">1. SASとは</a></li>
+                    <li><a href="#install">2. SASのインストール手順</a></li>
+                    <li><a href="#interface">3. SASのインターフェース詳細ガイド</a>
+                        <ul class="level-2">
+                            <li><a href="#sas-components">SAS環境の主要コンポーネント</a></li>
+                            <li><a href="#sas-studio">SAS Studioの基本操作</a></li>
+                            <li><a href="#sas-enterprise">SAS Enterprise Guideの基本操作</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#basics">4. SASプログラミングの基本</a>
+                        <ul class="level-2">
+                            <li><a href="#sas-syntax">SAS構文の基本</a></li>
+                            <li><a href="#sas-data-step">データステップ</a></li>
+                            <li><a href="#sas-proc">プロシジャステップ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#data">5. データの読み込みと操作</a>
+                        <ul class="level-2">
+                            <li><a href="#import-data">外部データの読み込み</a></li>
+                            <li><a href="#data-manipulation">データの操作と加工</a></li>
+                            <li><a href="#data-cleaning">データクリーニング</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#analysis">6. 基本的な統計分析</a>
+                        <ul class="level-2">
+                            <li><a href="#descriptive">記述統計</a></li>
+                            <li><a href="#inferential">推測統計</a></li>
+                            <li><a href="#regression">回帰分析</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#visualization">7. データの可視化</a>
+                        <ul class="level-2">
+                            <li><a href="#basic-plots">基本的なグラフ作成</a></li>
+                            <li><a href="#advanced-viz">高度な可視化テクニック</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#export">8. 結果の出力と共有</a>
+                        <ul class="level-2">
+                            <li><a href="#export-results">結果のエクスポート</a></li>
+                            <li><a href="#reporting">レポート作成</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#example">9. 実践：サンプルデータでの分析シナリオ</a></li>
+                    <li><a href="#troubleshooting">10. トラブルシューティング</a></li>
+                    <li><a href="#faq">11. よくある質問</a></li>
+                    <li><a href="#resources">12. 参考リソース</a></li>
+                </ul>
+            </div>
+            
+            <section id="intro">
+                <h2>1. SASとは</h2>
+                <p>SAS（Statistical Analysis System）は、高度なデータ管理、予測分析、ビジネスインテリジェンス機能を備えた統合分析プラットフォームです。1966年に開発が始まり、現在では世界中の企業、研究機関、政府機関などで広く使用されています。</p>
+                
+                <h3>主な特徴</h3>
+                <ul>
+                    <li>強力なデータ処理と管理機能</li>
+                    <li>包括的な統計分析ツール</li>
+                    <li>高度なデータ可視化</li>
+                    <li>予測モデリングとマシンラーニング</li>
+                    <li>ビジネスインテリジェンスソリューション</li>
+                    <li>業界固有のソリューション（金融、医療、小売など）</li>
+                </ul>
+                
+                <h3>SASの主要製品</h3>
+                <ul>
+                    <li><strong>SAS Base</strong>: 基本的なプログラミング環境</li>
+                    <li><strong>SAS Studio</strong>: Webベースの統合開発環境</li>
+                    <li><strong>SAS Enterprise Guide</strong>: タスク指向のポイント＆クリックインターフェース</li>
+                    <li><strong>SAS Visual Analytics</strong>: インタラクティブなレポートと可視化</li>
+                    <li><strong>SAS Enterprise Miner</strong>: データマイニングと予測モデリング</li>
+                    <li><strong>SAS Viya</strong>: クラウドネイティブな分析プラットフォーム</li>
+                </ul>
+                
+                <div class="tip">
+                    <p><strong>ポイント：</strong> SASは商用ソフトウェアですが、学術用途向けの<a href="https://www.sas.com/ja_jp/software/university-edition.html" target="_blank">SAS University Edition</a>や、学習用の<a href="https://www.sas.com/ja_jp/software/on-demand-for-academics.html" target="_blank">SAS OnDemand for Academics</a>など、無料で利用できるオプションも提供しています。</p>
+                </div>
+            </section>
+            
+            <section id="install">
+                <h2>2. SASのインストール手順</h2>
+                
+                <h3>SAS University Edition（無料学習版）のインストール</h3>
+                
+                <div class="note">
+                    <p><strong>前提条件：</strong> SAS University Editionを使用するには、仮想化ソフトウェア（Oracle VM VirtualBox、VMware Player、またはVMware Fusionのいずれか）が必要です。</p>
+                </div>
+                
+                <h4>Oracle VM VirtualBoxのインストール</h4>
+                <div class="step">
+                    <p><a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">VirtualBoxの公式サイト</a>にアクセスし、お使いのOSに対応するバージョンをダウンロードします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>ダウンロードしたインストーラーを実行し、画面の指示に従ってインストールを完了します。</p>
+                </div>
+                
+                <h4>SAS University Editionのダウンロードとセットアップ</h4>
+                <div class="step">
+                    <p><a href="https://www.sas.com/ja_jp/software/university-edition.html" target="_blank">SAS University Editionのページ</a>にアクセスし、「今すぐダウンロード」をクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>SASプロファイルの作成またはログインを行います（無料）。</p>
+                </div>
+                
+                <div class="step">
+                    <p>使用許諾契約に同意し、お使いのOSに合わせたSAS University Edition vAppをダウンロードします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>VirtualBoxを起動し、「ファイル」→「仮想アプライアンスのインポート」を選択します。</p>
+                </div>
+                
+                <div class="step">
+                    <p>ダウンロードしたOVAファイルを選択し、「次へ」をクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>設定を確認し、「インポート」をクリックします。インポート処理が完了するまで待ちます。</p>
+                </div>
+                
+                <div class="step">
+                    <p>インポートが完了したら、SAS University Editionを選択し、「起動」ボタンをクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>仮想マシンが起動したら、表示されるURLにWebブラウザからアクセスします（通常は http://localhost:10080 ）。</p>
+                </div>
+                
+                <h3>SAS OnDemand for Academics（クラウド版）の利用</h3>
+                
+                <div class="step">
+                    <p><a href="https://www.sas.com/ja_jp/software/on-demand-for-academics.html" target="_blank">SAS OnDemand for Academics</a>のページにアクセスします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>「今すぐ登録」ボタンをクリックし、SASプロファイルの作成またはログインを行います。</p>
+                </div>
+                
+                <div class="step">
+                    <p>登録フォームに必要事項を入力し、アカウントを作成します。</p>
+                </div>
+                
+                <div class="step">
+                    <p>ログイン後、SAS Studioを起動して使用を開始できます。インストールは不要で、Webブラウザから直接アクセスできます。</p>
+                </div>
+                
+                <div class="tip">
+                    <p><strong>初心者向けのヒント：</strong> SAS OnDemand for Academicsはインストール不要でブラウザから利用できるため、初心者の方には最も手軽に始められるオプションです。</p>
+                </div>
+            </section>
+            
+            <section id="interface">
+                <h2>3. SASのインターフェース詳細ガイド</h2>
+                
+                <section id="sas-components">
+                    <h3>SAS環境の主要コンポーネント</h3>
+                    
+                    <p>SASの環境は、いくつかの主要なコンポーネントで構成されています：</p>
+                    
+                    <ul>
+                        <li><strong>エディタ：</strong> コードを記述する領域</li>
+                        <li><strong>ログウィンドウ：</strong> 処理の詳細やエラーメッセージを表示</li>
+                        <li><strong>結果ウィンドウ：</strong> 分析結果やグラフを表示</li>
+                        <li><strong>エクスプローラ：</strong> ライブラリとデータセットを表示・管理</li>
+                        <li><strong>ライブラリ：</strong> データセットを格納する論理的な場所</li>
+                    </ul>
+                </section>
+                
+                <section id="sas-studio">
+                    <h3>SAS Studioの基本操作</h3>
+                    
+                    <p>SAS StudioはWebベースの統合開発環境で、特にSAS OnDemand for AcademicsやSAS University Editionで使用されます。</p>
+                    
+                    <h4>SAS Studioのインターフェース</h4>
+                    
+                    <ul>
+                        <li><strong>ナビゲーションペイン（左側）：</strong>
+                            <ul>
+                                <li>サーバーファイル</li>
+                                <li>マイフォルダ</li>
+                                <li>スニペット</li>
+                                <li>タスク</li>
+                            </ul>
+                        </li>
+                        <li><strong>コードエディタ（中央）：</strong>
+                            <ul>
+                                <li>コードの記述・編集</li>
+                                <li>構文ハイライト</li>
+                                <li>自動補完機能</li>
+                            </ul>
+                        </li>
+                        <li><strong>結果タブ（下部）：</strong>
+                            <ul>
+                                <li>ログ：実行ログとエラーメッセージ</li>
+                                <li>結果：プロシジャの出力結果</li>
+                                <li>出力データ：作成されたデータセット</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h4>基本的な操作方法</h4>
+                    
+                    <div class="step">
+                        <p>新しいプログラムを作成するには、「ファイル」→「新規」→「SASプログラム」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>コードエディタでSASコードを記述します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>コードを実行するには、「実行」ボタン（再生アイコン）をクリックするか、F3キーを押します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>結果タブで出力を確認します。エラーがある場合は「ログ」タブで詳細を確認します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>プログラムを保存するには、「ファイル」→「保存」を選択します。</p>
+                    </div>
+                </section>
+                
+                <section id="sas-enterprise">
+                    <h3>SAS Enterprise Guideの基本操作</h3>
+                    
+                    <p>SAS Enterprise Guideは、ポイント＆クリックインターフェースとSASプログラミングの両方をサポートするWindows用クライアントアプリケーションです。</p>
+                    
+                    <h4>Enterprise Guideのインターフェース</h4>
+                    
+                    <ul>
+                        <li><strong>プロジェクトツリー（左側）：</strong> プロジェクト内のデータ、タスク、結果の階層表示</li>
+                        <li><strong>作業領域（中央）：</strong> プロセスフロー図や結果の表示</li>
+                        <li><strong>サーバーリスト（左側）：</strong> 利用可能なSASサーバーやライブラリ</li>
+                        <li><strong>タスクリスト：</strong> 利用可能な分析タスク</li>
+                    </ul>
+                    
+                    <h4>基本的な操作方法</h4>
+                    
+                    <div class="step">
+                        <p>新しいプロジェクトを作成するには、「ファイル」→「新規」→「プロジェクト」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>データを開くには、「ファイル」→「開く」→「データ」を選択するか、サーバーリストからデータをドラッグします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>分析タスクを実行するには、タスクリストから適切なタスクを選択するか、「タスク」メニューから選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>コードを記述するには、「プログラム」→「新規コード」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>プロジェクトを保存するには、「ファイル」→「保存」または「名前を付けて保存」を選択します。</p>
+                    </div>
+                </section>
+                
+                <div class="tip">
+                    <p><strong>インターフェースの選択：</strong> プログラミング経験がある方はSAS Studioでコーディングを行うのが効率的です。一方、SAS Enterprise Guideはプログラミングを学ぶ前や、視覚的にプロセスを組み立てたい場合に適しています。</p>
+                </div>
+            </section>
+            
+            <section id="basics">
+                <h2>4. SASプログラミングの基本</h2>
+                
+                <section id="sas-syntax">
+                    <h3>SAS構文の基本</h3>
+                    
+                    <p>SASプログラムは、データステップとプロシジャステップの2つの基本的な構成要素からなります。各ステップはセミコロン（;）で終わります。</p>
+                    
+                    <h4>SASプログラムの基本構造</h4>
+                    
+                    <div class="code-block">
+/* これはコメントです */
+* これも一行コメントです;
+
+/* データステップ：データの読み込みや操作を行う */
+DATA 出力データセット名;
+    ステートメント1;
+    ステートメント2;
+    ...
+RUN;
+
+/* プロシジャステップ：データ分析や結果の表示を行う */
+PROC プロシジャ名 オプション;
+    ステートメント1;
+    ステートメント2;
+    ...
+RUN;
+</div>
+                    
+                    <h4>命名規則</h4>
+                    <ul>
+                        <li>名前は文字または下線(_)で始まる必要がある</li>
+                        <li>使用できる文字は、英字、数字、アンダースコア(_)</li>
+                        <li>長さは32文字以内</li>
+                        <li>大文字と小文字は区別されない（内部的にはすべて大文字に変換される）</li>
+                    </ul>
+                </section>
+                
+                <section id="sas-data-step">
+                    <h3>データステップ</h3>
+                    
+                    <p>データステップは、データセットの作成や編集を行うために使用されます。</p>
+                    
+                    <h4>基本的なデータステップの例</h4>
+                    
+                    <div class="code-block">
+/* 新しいデータセットの作成 */
+DATA 新しいデータセット;
+    input 変数1 変数2 変数3;
+    datalines;
+    1 10 100
+    2 20 200
+    3 30 300
+    ;
+RUN;
+</div>
+                    
+                    <h4>主要なデータステップの要素</h4>
+                    <ul>
+                        <li><strong>INPUT文：</strong> データの読み込み方法を指定</li>
+                        <li><strong>DATALINES文（またはCARDS文）：</strong> インラインデータの開始を示す</li>
+                        <li><strong>SET/MERGE/UPDATE文：</strong> 既存のデータセットを読み込む</li>
+                        <li><strong>IF-THEN/ELSE文：</strong> 条件付き処理</li>
+                        <li><strong>WHERE文：</strong> 条件に基づくデータの選択</li>
+                        <li><strong>BY文：</strong> データのグループ化</li>
+                        <li><strong>KEEP/DROP文：</strong> 変数の選択・除外</li>
+                    </ul>
+                    
+                    <h4>データステップの基本的な使用例</h4>
+                    
+                    <div class="code-block">
+/* 既存のデータセットを使用して新しいデータセットを作成 */
+DATA 新データセット;
+    SET 元データセット;
+    
+    WHERE 年齢 > 18;  /* 条件でフィルタリング */
+    
+    /* 新しい変数の計算 */
+    BMI = 体重 / ((身長/100)**2);
+    
+    /* 条件に基づく処理 */
+    IF BMI < 18.5 THEN 体型 = '痩せ型';
+    ELSE IF BMI < 25 THEN 体型 = '普通';
+    ELSE 体型 = '肥満';
+    
+    /* 使用する変数の指定 */
+    KEEP 名前 年齢 身長 体重 BMI 体型;
+RUN;
+</div>
+                </section>
+                
+                <section id="sas-proc">
+                    <h3>プロシジャステップ</h3>
+                    
+                    <p>プロシジャステップは、データ分析や結果の表示など特定のタスクを実行するために使用されます。</p>
+                    
+                    <h4>よく使用されるプロシジャ</h4>
+                    <ul>
+                        <li><strong>PROC PRINT：</strong> データセットの内容を表示</li>
+                        <li><strong>PROC SORT：</strong> データのソート</li>
+                        <li><strong>PROC MEANS：</strong> 基本的な記述統計量の計算</li>
+                        <li><strong>PROC FREQ：</strong> 度数分布と分割表の作成</li>
+                        <li><strong>PROC UNIVARIATE：</strong> 詳細な記述統計量の計算</li>
+                        <li><strong>PROC REG：</strong> 回帰分析</li>
+                        <li><strong>PROC SGPLOT：</strong> グラフ作成</li>
+                        <li><strong>PROC EXPORT：</strong> データのエクスポート</li>
+                    </ul>
+                    
+                    <h4>プロシジャの基本的な使用例</h4>
+                    
+                    <div class="code-block">
+/* データセットの内容を表示 */
+PROC PRINT DATA=新データセット;
+    TITLE 'データセットの内容';
+RUN;
+
+/* データをソートする */
+PROC SORT DATA=新データセット OUT=ソート済みデータ;
+    BY 年齢;
+RUN;
+
+/* 基本的な記述統計量を計算 */
+PROC MEANS DATA=新データセット MEAN MEDIAN MIN MAX;
+    VAR 身長 体重 BMI;
+    CLASS 性別;
+    TITLE '身体測定値の要約統計量';
+RUN;
+
+/* 度数分布表を作成 */
+PROC FREQ DATA=新データセット;
+    TABLES 体型 性別 体型*性別;
+    TITLE '体型と性別の分布';
+RUN;
+</div>
+                </section>
+                
+                <div class="tip">
+                    <p><strong>コーディングのヒント：</strong> SASプログラムは通常、上から下へ順番に実行されます。プログラムを整理するために、関連するステップをまとめ、適切なコメントを追加することをお勧めします。また、RUN文を忘れると意図しない結果になることがあるため注意しましょう。</p>
+                </div>
+            </section>
+            
+            <section id="data">
+                <h2>5. データの読み込みと操作</h2>
+                
+                <section id="import-data">
+                    <h3>外部データの読み込み</h3>
+                    
+                    <p>SASでは様々な形式のデータを読み込むことができます。</p>
+                    
+                    <h4>CSVやテキストファイルの読み込み</h4>
+                    
+                    <div class="code-block">
+/* INFILEを使ったCSVファイルの読み込み */
+DATA データセット名;
+    INFILE 'ファイルパス/ファイル名.csv' DLM=',' FIRSTOBS=2;
+    INPUT 変数1 変数2 変数3;
+RUN;
+
+/* PROC IMPORTを使ったCSVファイルの読み込み */
+PROC IMPORT DATAFILE='ファイルパス/ファイル名.csv'
+    OUT=データセット名
+    DBMS=CSV
+    REPLACE;
+    GETNAMES=YES;
+RUN;
+</div>
+                    
+                    <h4>Excelファイルの読み込み</h4>
+                    
+                    <div class="code-block">
+/* Excelファイルの読み込み */
+PROC IMPORT DATAFILE='ファイルパス/ファイル名.xlsx'
+    OUT=データセット名
+    DBMS=XLSX
+    REPLACE;
+    SHEET="シート名";
+    GETNAMES=YES;
+RUN;
+</div>
+                    
+                    <h4>データベースからの読み込み</h4>
+                    
+                    <div class="code-block">
+/* SQLを使ったデータベースからの読み込み */
+PROC SQL;
+    CONNECT TO ODBC AS データベース接続名
+    (DATASRC=データソース名 USER=ユーザー名 PASSWORD=パスワード);
+    
+    CREATE TABLE データセット名 AS
+    SELECT *
+    FROM CONNECTION TO データベース接続名
+    (SELECT カラム1, カラム2
+     FROM テーブル名
+     WHERE 条件);
+     
+    DISCONNECT FROM データベース接続名;
+QUIT;
+</div>
+                </section>
+                
+                <section id="data-manipulation">
+                    <h3>データの操作と加工</h3>
+                    
+                    <h4>変数の作成と変換</h4>
+                    
+                    <div class="code-block">
+DATA 新データセット;
+    SET 元データセット;
+    
+    /* 算術演算による新変数の作成 */
+    売上合計 = 製品A売上 + 製品B売上 + 製品C売上;
+    
+    /* 条件に基づく変数の作成 */
+    IF 売上合計 > 1000000 THEN 売上カテゴリ = 'ハイ';
+    ELSE IF 売上合計 > 500000 THEN 売上カテゴリ = 'ミドル';
+    ELSE 売上カテゴリ = 'ロー';
+    
+    /* 日付の操作 */
+    今日 = TODAY();
+    年齢 = FLOOR((今日 - 生年月日) / 365.25);
+    
+    /* 文字列の操作 */
+    姓名 = CATX(' ', 姓, 名);
+    頭文字 = SUBSTR(名, 1, 1);
+RUN;
+</div>
+                    
+                    <h4>データセットの結合（マージ）</h4>
+                    
+                    <div class="code-block">
+/* 一対一のマージ（同じ観測数、同じ順序のデータセット） */
+DATA マージ結果1;
+    MERGE データセット1 データセット2;
+RUN;
+
+/* キー変数による一対一のマージ */
+PROC SORT DATA=データセット1;
+    BY ID;
+RUN;
+
+PROC SORT DATA=データセット2;
+    BY ID;
+RUN;
+
+DATA マージ結果2;
+    MERGE データセット1 データセット2;
+    BY ID;
+RUN;
+
+/* キー変数によるマッチマージ（内部結合に類似） */
+DATA マージ結果3;
+    MERGE データセット1(IN=a) データセット2(IN=b);
+    BY ID;
+    IF a AND b;  /* 両方のデータセットに存在する観測のみ保持 */
+RUN;
+</div>
+                    
+                    <h4>グループごとの処理</h4>
+                    
+                    <div class="code-block">
+/* グループごとの集計 */
+PROC SORT DATA=データセット;
+    BY グループ変数;
+RUN;
+
+DATA グループ集計;
+    SET データセット;
+    BY グループ変数;
+    
+    IF FIRST.グループ変数 THEN グループ合計 = 0;
+    グループ合計 + 数値変数;
+    
+    IF LAST.グループ変数 THEN OUTPUT;
+    KEEP グループ変数 グループ合計;
+RUN;
+</div>
+                </section>
+                
+                <section id="data-cleaning">
+                    <h3>データクリーニング</h3>
+                    
+                    <h4>欠損値の処理</h4>
+                    
+                    <div class="code-block">
+/* 欠損値の確認 */
+PROC MEANS DATA=データセット N NMISS;
+    VAR 変数1 変数2 変数3;
+RUN;
+
+/* 欠損値の処理 */
+DATA クリーニング済み;
+    SET データセット;
+    
+    /* 欠損値の置換 */
+    IF 変数1 = . THEN 変数1 = 0;
+    
+    /* 変数の欠損状態に基づく条件処理 */
+    IF MISSING(変数2) THEN 変数2_フラグ = 1;
+    ELSE 変数2_フラグ = 0;
+    
+    /* 特定の値を欠損値として扱う */
+    IF 変数3 = -999 THEN 変数3 = .;
+RUN;
+
+/* 欠損値を含む観測を除外 */
+DATA 完全観測のみ;
+    SET データセット;
+    IF NMISS(OF _NUMERIC_) = 0;  /* すべての数値変数に欠損がない場合のみ保持 */
+RUN;
+</div>
+                    
+                    <h4>外れ値の検出と処理</h4>
+                    
+                    <div class="code-block">
+/* 外れ値の検出（箱ひげ図法） */
+PROC UNIVARIATE DATA=データセット;
+    VAR 変数1;
+    OUTPUT OUT=統計量 Q1=Q1 MEDIAN=中央値 Q3=Q3;
+RUN;
+
+DATA 外れ値処理;
+    IF _N_ = 1 THEN SET 統計量;
+    SET データセット;
+    
+    IQR = Q3 - Q1;
+    下限 = Q1 - 1.5*IQR;
+    上限 = Q3 + 1.5*IQR;
+    
+    /* 外れ値の識別 */
+    IF 変数1 < 下限 OR 変数1 > 上限 THEN 外れ値フラグ = 1;
+    ELSE 外れ値フラグ = 0;
+    
+    /* 外れ値の処理（例：ウィンソライズ） */
+    変数1_処理済 = 変数1;
+    IF 変数1 < 下限 THEN 変数1_処理済 = 下限;
+    ELSE IF 変数1 > 上限 THEN 変数1_処理済 = 上限;
+RUN;
+</div>
+                    
+                    <h4>データの検証</h4>
+                    
+                    <div class="code-block">
+/* データの検証 */
+DATA 検証済み;
+    SET データセット;
+    
+    /* 範囲チェック */
+    IF 年齢 < 0 OR 年齢 > 120 THEN 年齢_エラー = 1;
+    ELSE 年齢_エラー = 0;
+    
+    /* 論理チェック */
+    IF 開始日 > 終了日 THEN 日付_エラー = 1;
+    ELSE 日付_エラー = 0;
+    
+    /* 書式チェック（例：郵便番号） */
+    IF COMPRESS(郵便番号, '0123456789') NE '' THEN 郵便番号_エラー = 1;
+    ELSE 郵便番号_エラー = 0;
+RUN;
+</div>
+                </section>
+                
+                <div class="tip">
+                    <p><strong>データハンドリングのコツ：</strong> SASでのデータ処理における「ゴールデンルール」の1つは、元のデータを変更せずに新しいデータセットを作成することです。これにより、問題が発生した場合に元のデータに戻ることができます。また、データステップの効率を高めるために、不要な変数はDROP文で除外し、必要な変数のみをKEEP文で保持するようにしましょう。</p>
+                </div>
+            </section>
+            
+            <section id="analysis">
+                <h2>6. 基本的な統計分析</h2>
+                
+                <section id="descriptive">
+                    <h3>記述統計</h3>
+                    
+                    <h4>PROC MEANSを使用した基本統計量の算出</h4>
+                    
+                    <div class="code-block">
+/* 基本的な記述統計量 */
+PROC MEANS DATA=データセット N MEAN MEDIAN STD MIN MAX;
+    VAR 変数1 変数2 変数3;
+    CLASS グループ変数;  /* グループ別の統計量 */
+    OUTPUT OUT=統計量結果
+           MEAN=平均1 平均2 平均3
+           STD=標準偏差1 標準偏差2 標準偏差3;
+RUN;
+</div>
+                    
+                    <h4>PROC UNIVARIATEを使用した詳細な統計分析</h4>
+                    
+                    <div class="code-block">
+/* 詳細な記述統計量とノーマル性検定 */
+PROC UNIVARIATE DATA=データセット NORMAL PLOT;
+    VAR 変数1;
+    HISTOGRAM / NORMAL;  /* ヒストグラムと正規分布曲線 */
+    PROBPLOT / NORMAL;   /* 正規確率プロット */
+    INSET MEAN STD MIN MAX / POSITION=NE;  /* 挿入する統計量 */
+RUN;
+</div>
+                    
+                    <h4>PROC FREQを使用した度数分析</h4>
+                    
+                    <div class="code-block">
+/* 度数分布表と分割表 */
+PROC FREQ DATA=データセット;
+    TABLES 変数1 変数2 変数1*変数2 / NOCUM NOPERCENT;
+    
+    /* カイ二乗検定を含む分割表 */
+    TABLES 変数1*変数2 / CHISQ EXPECTED CELLCHI2;
+    
+    /* オッズ比と相対リスク */
+    TABLES 変数1*変数2 / RELRISK;
+RUN;
+</div>
+                </section>
+                
+                <section id="inferential">
+                    <h3>推測統計</h3>
+                    
+                    <h4>T検定</h4>
+                    
+                    <div class="code-block">
+/* 一標本のT検定 */
+PROC TTEST DATA=データセット H0=0;  /* 帰無仮説：平均=0 */
+    VAR 変数1;
+RUN;
+
+/* 独立2標本のT検定 */
+PROC TTEST DATA=データセット;
+    CLASS グループ変数;  /* 2つの値を持つ変数 */
+    VAR 変数1;
+RUN;
+
+/* 対応のあるT検定 */
+PROC TTEST DATA=データセット;
+    PAIRED 変数1*変数2;  /* 変数1と変数2の差の検定 */
+RUN;
+</div>
+                    
+                    <h4>分散分析（ANOVA）</h4>
+                    
+                    <div class="code-block">
+/* 一元配置分散分析 */
+PROC ANOVA DATA=データセット;
+    CLASS 因子変数;
+    MODEL 応答変数 = 因子変数;
+    MEANS 因子変数 / TUKEY;  /* 多重比較（Tukey法） */
+RUN;
+
+/* 二元配置分散分析 */
+PROC ANOVA DATA=データセット;
+    CLASS 因子変数1 因子変数2;
+    MODEL 応答変数 = 因子変数1 因子変数2 因子変数1*因子変数2;
+RUN;
+
+/* 一般線形モデル（不均衡データなど） */
+PROC GLM DATA=データセット;
+    CLASS 因子変数1 因子変数2;
+    MODEL 応答変数 = 因子変数1 因子変数2 因子変数1*因子変数2;
+    LSMEANS 因子変数1 / PDIFF ADJUST=TUKEY;  /* 調整済み平均の比較 */
+RUN;
+</div>
+                    
+                    <h4>ノンパラメトリック検定</h4>
+                    
+                    <div class="code-block">
+/* Wilcoxon符号付順位検定（対応あり） */
+PROC UNIVARIATE DATA=データセット;
+    VAR 差分変数;  /* 差分を含む変数 */
+    RUN;
+
+/* Wilcoxon順位和検定（Mann-Whitney U検定、対応なし） */
+PROC NPAR1WAY DATA=データセット WILCOXON;
+    CLASS グループ変数;
+    VAR 変数1;
+RUN;
+
+/* Kruskal-Wallis検定（3群以上の比較） */
+PROC NPAR1WAY DATA=データセット;
+    CLASS グループ変数;  /* 3つ以上の値を持つ変数 */
+    VAR 変数1;
+RUN;
+</div>
+                </section>
+                
+                <section id="regression">
+                    <h3>回帰分析</h3>
+                    
+                    <h4>単回帰分析</h4>
+                    
+                    <div class="code-block">
+/* 単回帰分析 */
+PROC REG DATA=データセット;
+    MODEL 従属変数 = 独立変数;
+    PLOT 従属変数*独立変数;  /* 散布図 */
+    OUTPUT OUT=回帰結果 PREDICTED=予測値 RESIDUAL=残差;
+RUN;
+</div>
+                    
+                    <h4>重回帰分析</h4>
+                    
+                    <div class="code-block">
+/* 重回帰分析 */
+PROC REG DATA=データセット;
+    MODEL 従属変数 = 独立変数1 独立変数2 独立変数3 / VIF COLLIN;  /* 多重共線性の診断 */
+    PLOT RESIDUAL.*PREDICTED.;  /* 残差プロット */
+    OUTPUT OUT=回帰結果 PREDICTED=予測値 RESIDUAL=残差 
+           COOKD=クックの距離 H=てこ比;  /* 影響診断 */
+RUN;
+</div>
+                    
+                    <h4>ロジスティック回帰分析</h4>
+                    
+                    <div class="code-block">
+/* ロジスティック回帰分析 */
+PROC LOGISTIC DATA=データセット;
+    CLASS カテゴリ変数1 カテゴリ変数2 / PARAM=REF;
+    MODEL 目的変数(EVENT='1') = 独立変数1 独立変数2 カテゴリ変数1 カテゴリ変数2
+          / SELECTION=STEPWISE SLENTRY=0.05 SLSTAY=0.05;  /* 変数選択法 */
+    OUTPUT OUT=ロジスティック結果 PREDICTED=予測確率 PREDPROBS=INDIVIDUAL;
+RUN;
+</div>
+                </section>
+                
+                <div class="note">
+                    <p><strong>適切な分析手法の選択：</strong> データの種類（量的・質的）と研究目的に応じて適切な統計手法を選択することが重要です。不確かな場合は、データの分布や性質を確認するための探索的データ分析から始めることをお勧めします。</p>
+                </div>
+            </section>
+            
+            <section id="visualization">
+                <h2>7. データの可視化</h2>
+                
+                <section id="basic-plots">
+                    <h3>基本的なグラフ作成</h3>
+                    
+                    <h4>PROC SGPLOTを使用した高品質なグラフ</h4>
+                    
+                    <div class="code-block">
+/* 散布図 */
+PROC SGPLOT DATA=データセット;
+    SCATTER X=独立変数 Y=従属変数 / MARKERATTRS=(SYMBOL=CIRCLEFILLED COLOR=BLUE);
+    REG X=独立変数 Y=従属変数 / CLM;  /* 回帰線と信頼区間 */
+    TITLE 'シンプルな散布図と回帰線';
+RUN;
+
+/* 折れ線グラフ */
+PROC SGPLOT DATA=データセット;
+    SERIES X=時間変数 Y=応答変数 / GROUP=グループ変数 MARKERS;
+    XAXIS LABEL='時間';
+    YAXIS LABEL='応答';
+    TITLE '時系列データの折れ線グラフ';
+RUN;
+
+/* 棒グラフ */
+PROC SGPLOT DATA=要約データセット;
+    VBAR カテゴリ変数 / RESPONSE=応答変数 STAT=MEAN;
+    YAXIS LABEL='平均値';
+    TITLE 'カテゴリ別の平均値';
+RUN;
+
+/* ヒストグラム */
+PROC SGPLOT DATA=データセット;
+    HISTOGRAM 連続変数 / BINWIDTH=10 SHOWBINS;
+    DENSITY 連続変数 / TYPE=NORMAL;  /* 正規分布曲線 */
+    TITLE '連続変数のヒストグラムと正規分布曲線';
+RUN;
+
+/* 箱ひげ図 */
+PROC SGPLOT DATA=データセット;
+    VBOX 連続変数 / CATEGORY=グループ変数;
+    TITLE 'グループ別の箱ひげ図';
+RUN;
+</div>
+                    
+                    <h4>PROC SGPANELを使用したパネルチャート</h4>
+                    
+                    <div class="code-block">
+/* パネルチャート */
+PROC SGPANEL DATA=データセット;
+    PANELBY グループ変数1 グループ変数2 / COLUMNS=3 ROWS=2;
+    SCATTER X=独立変数 Y=従属変数;
+    TITLE 'グループ別の散布図パネル';
+RUN;
+</div>
+                    
+                    <h4>古典的なSASグラフ（PROC GPLOT等）</h4>
+                    
+                    <div class="code-block">
+/* PROC GPLOTを使用した散布図 */
+PROC GPLOT DATA=データセット;
+    PLOT 従属変数*独立変数;
+    SYMBOL1 V=DOT C=BLUE I=NONE;
+    TITLE 'シンプルな散布図';
+RUN;
+QUIT;
+</div>
+                </section>
+                
+                <section id="advanced-viz">
+                    <h3>高度な可視化テクニック</h3>
+                    
+                    <h4>グラフの結合とアノテーション</h4>
+                    
+                    <div class="code-block">
+/* 複数のプロットタイプを組み合わせたグラフ */
+PROC SGPLOT DATA=データセット;
+    BAND X=時間変数 LOWER=下限 UPPER=上限 / FILLATTRS=(COLOR=LIGHTBLUE);
+    SERIES X=時間変数 Y=応答変数 / LINEATTRS=(COLOR=DARKBLUE THICKNESS=2);
+    SCATTER X=時間変数 Y=応答変数 / MARKERATTRS=(SYMBOL=CIRCLEFILLED COLOR=RED);
+    REFLINE 参照値 / AXIS=Y LINEATTRS=(PATTERN=DASH COLOR=RED);
+    INSET ("参照値" = "重要な閾値") / POSITION=TOPLEFT;
+    XAXIS LABEL='時間';
+    YAXIS LABEL='応答';
+    TITLE '時系列データと信頼区間';
+RUN;
+
+/* グラフテンプレート言語（GTL）を使用した高度なカスタマイズ */
+PROC TEMPLATE;
+    DEFINE STATGRAPH カスタムグラフ;
+        BEGINGRAPH;
+            ENTRYTITLE "カスタマイズされたグラフ";
+            LAYOUT OVERLAY / XAXISOPTS=(LABEL="X軸") YAXISOPTS=(LABEL="Y軸");
+                SCATTERPLOT X=独立変数 Y=従属変数 / GROUP=グループ変数;
+                REGRESSIONPLOT X=独立変数 Y=従属変数 / GROUP=グループ変数;
+            ENDLAYOUT;
+        ENDGRAPH;
+    END;
+RUN;
+
+PROC SGRENDER DATA=データセット TEMPLATE=カスタムグラフ;
+RUN;
+</div>
+                    
+                    <h4>地図と地理空間データ</h4>
+                    
+                    <div class="code-block">
+/* 地図データと結合 */
+PROC GMAP DATA=地理データ MAP=地図データ;
+    ID 地域ID;
+    CHORO 分析変数 / DISCRETE;
+    TITLE '地域別の分布';
+RUN;
+QUIT;
+
+/* PROC SGMAPを使用した地図（SAS 9.4以降） */
+PROC SGMAP DATA=地理データ;
+    OPENSTREETMAP;
+    SCATTER X=経度 Y=緯度 / MARKERATTRS=(SYMBOL=CIRCLEFILLED COLOR=RED);
+    TITLE 'ポイントマップ';
+RUN;
+</div>
+                </section>
+                
+                <div class="tip">
+                    <p><strong>効果的な可視化のヒント：</strong> データ可視化の目的（探索、説明、プレゼンテーションなど）を明確にし、それに適したグラフタイプを選択しましょう。色やマーカーの選択、軸のスケーリング、タイトルや注釈の追加などを工夫することで、情報伝達力を高めることができます。SAS 9.4以降ではSG（Statistical Graphics）プロシジャがお勧めです。</p>
+                </div>
+            </section>
+            
+            <section id="export">
+                <h2>8. 結果の出力と共有</h2>
+                
+                <section id="export-results">
+                    <h3>結果のエクスポート</h3>
+                    
+                    <h4>データセットのエクスポート</h4>
+                    
+                    <div class="code-block">
+/* CSVにエクスポート */
+PROC EXPORT DATA=データセット
+    OUTFILE='ファイルパス/出力ファイル.csv'
+    DBMS=CSV REPLACE;
+RUN;
+
+/* Excelにエクスポート */
+PROC EXPORT DATA=データセット
+    OUTFILE='ファイルパス/出力ファイル.xlsx'
+    DBMS=XLSX REPLACE;
+    SHEET="シート名";
+RUN;
+
+/* データベースにエクスポート */
+PROC EXPORT DATA=データセット
+    OUTFILE='ファイルパス/出力ファイル.mdb'
+    DBMS=ACCESS REPLACE;
+    TABLE="テーブル名";
+RUN;
+</div>
+                    
+                    <h4>結果の出力形式の設定</h4>
+                    
+                    <div class="code-block">
+/* ODS（Output Delivery System）を使用した出力形式の設定 */
+ODS HTML FILE='ファイルパス/結果.html' STYLE=HTMLBlue;
+ODS PDF FILE='ファイルパス/結果.pdf' STYLE=Journal;
+ODS RTF FILE='ファイルパス/結果.rtf' STYLE=RTF;
+ODS EXCEL FILE='ファイルパス/結果.xlsx';
+
+/* 分析プロシジャ */
+PROC MEANS DATA=データセット;
+    VAR 変数1 変数2;
+RUN;
+
+/* ODSの終了 */
+ODS HTML CLOSE;
+ODS PDF CLOSE;
+ODS RTF CLOSE;
+ODS EXCEL CLOSE;
+</div>
+                    
+                    <h4>結果の選択的出力</h4>
+                    
+                    <div class="code-block">
+/* 特定の結果表のみを出力 */
+ODS SELECT Means Summary;  /* MEANSプロシジャのMeansおよびSummary表のみ出力 */
+
+PROC MEANS DATA=データセット;
+    VAR 変数1 変数2;
+RUN;
+
+ODS SELECT ALL;  /* すべての出力を再度有効化 */
+</div>
+                </section>
+                
+                <section id="reporting">
+                    <h3>レポート作成</h3>
+                    
+                    <h4>PROC REPORTを使用したカスタムレポート</h4>
+                    
+                    <div class="code-block">
+/* 基本的なレポート */
+PROC REPORT DATA=データセット;
+    COLUMN グループ変数 変数1 変数2 変数3;
+    DEFINE グループ変数 / GROUP;
+    DEFINE 変数1 / ANALYSIS SUM 'Sum' FORMAT=COMMA10.2;
+    DEFINE 変数2 / ANALYSIS MEAN 'Average' FORMAT=8.2;
+    DEFINE 変数3 / DISPLAY 'Value' FORMAT=$20.;
+    TITLE 'グループ別サマリーレポート';
+RUN;
+</div>
+                    
+                    <h4>PROC TABULATEを使用した集計表</h4>
+                    
+                    <div class="code-block">
+/* クロス集計表 */
+PROC TABULATE DATA=データセット;
+    CLASS グループ変数1 グループ変数2;
+    VAR 変数1 変数2;
+    TABLE グループ変数1 ALL,
+          グループ変数2 ALL,
+          (変数1 変数2)*(N MEAN STD MIN MAX);
+    TITLE 'クロス集計表';
+RUN;
+</div>
+                    
+                    <h4>ODS Layoutを使用したカスタムページレイアウト</h4>
+                    
+                    <div class="code-block">
+/* カスタムページレイアウト */
+ODS PDF FILE='ファイルパス/カスタムレポート.pdf' STARTPAGE=NO;
+
+ODS LAYOUT START;
+
+/* タイトル領域 */
+ODS REGION X=0% Y=0% WIDTH=100% HEIGHT=10%;
+PROC REPORT DATA=_NULL_ NOHEADER;
+    COLUMN dummy;
+    DEFINE dummy / COMPUTED;
+    COMPUTE dummy;
+        LINE @1 "会社名: XXX株式会社" @50 "レポート日付: " DATE9.;
+        LINE @1 "タイトル: 月次分析レポート";
+    ENDCOMP;
+RUN;
+
+/* 左側 - 要約表 */
+ODS REGION X=0% Y=10% WIDTH=50% HEIGHT=40%;
+PROC REPORT DATA=要約データ;
+    /* ... */
+RUN;
+
+/* 右側 - グラフ */
+ODS REGION X=50% Y=10% WIDTH=50% HEIGHT=40%;
+PROC SGPLOT DATA=グラフデータ;
+    /* ... */
+RUN;
+
+/* 下部 - 詳細テーブル */
+ODS REGION X=0% Y=50% WIDTH=100% HEIGHT=50%;
+PROC REPORT DATA=詳細データ;
+    /* ... */
+RUN;
+
+ODS LAYOUT END;
+
+ODS PDF CLOSE;
+</div>
+                </section>
+                
+                <div class="note">
+                    <p><strong>レポート作成のポイント：</strong> 効果的なレポートは、明確な目的と対象読者を念頭に置いて設計されるべきです。要約情報や視覚的要素（グラフなど）を先に配置し、詳細データは後に続けると読みやすさが向上します。また、ODSスタイルを活用して一貫性のある外観を維持し、プロフェッショナルな印象を与えましょう。</p>
+                </div>
+            </section>
+            
+            <section id="example">
+                <h2>9. 実践：サンプルデータでの分析シナリオ</h2>
+                
+                <h3>シナリオ：小売業の売上分析</h3>
+                
+                <p>以下は、SASの組み込みデータセット「SASHELP.SHOES」を使用した小売業の売上分析の例です。</p>
+                
+                <div class="code-block">
+/* ステップ1: データの探索 */
+PROC CONTENTS DATA=SASHELP.SHOES;
+RUN;
+
+PROC PRINT DATA=SASHELP.SHOES(OBS=10);
+    TITLE '最初の10観測値';
+RUN;
+
+/* ステップ2: 記述統計 */
+PROC MEANS DATA=SASHELP.SHOES MEAN MEDIAN SUM MIN MAX;
+    VAR SALES RETURNS INVENTORY;
+    CLASS REGION PRODUCT;
+    TITLE '地域と製品別の販売統計';
+RUN;
+
+/* ステップ3: 地域別・製品別の売上分析 */
+PROC SORT DATA=SASHELP.SHOES OUT=SHOES_SORTED;
+    BY REGION PRODUCT;
+RUN;
+
+PROC MEANS DATA=SHOES_SORTED NOPRINT;
+    BY REGION PRODUCT;
+    VAR SALES;
+    OUTPUT OUT=REGION_PRODUCT_SALES SUM=TOTAL_SALES;
+RUN;
+
+/* ステップ4: 売上上位の製品を特定 */
+PROC RANK DATA=REGION_PRODUCT_SALES OUT=RANKED_SALES DESCENDING;
+    BY REGION;
+    VAR TOTAL_SALES;
+    RANKS RANK;
+RUN;
+
+DATA TOP_PRODUCTS;
+    SET RANKED_SALES;
+    IF RANK <= 3;  /* 各地域の上位3製品 */
+RUN;
+
+PROC PRINT DATA=TOP_PRODUCTS;
+    BY REGION;
+    ID PRODUCT;
+    VAR TOTAL_SALES RANK;
+    TITLE '各地域の売上上位3製品';
+RUN;
+
+/* ステップ5: 視覚化 - 地域別売上 */
+PROC SGPLOT DATA=REGION_PRODUCT_SALES;
+    VBAR REGION / RESPONSE=TOTAL_SALES STAT=SUM
+                 CATEGORYORDER=RESPDESC;
+    YAXIS LABEL='総売上額';
+    TITLE '地域別総売上額';
+RUN;
+
+/* ステップ6: 視覚化 - 製品別売上（上位製品のみ） */
+PROC SQL;
+    CREATE TABLE TOP_PRODUCTS_OVERALL AS
+    SELECT PRODUCT, SUM(TOTAL_SALES) AS OVERALL_SALES
+    FROM REGION_PRODUCT_SALES
+    GROUP BY PRODUCT
+    ORDER BY OVERALL_SALES DESC;
+QUIT;
+
+DATA TOP5_PRODUCTS;
+    SET TOP_PRODUCTS_OVERALL(OBS=5);
+RUN;
+
+PROC SGPIE DATA=TOP5_PRODUCTS;
+    PIE PRODUCT / RESPONSE=OVERALL_SALES;
+    TITLE '売上上位5製品の割合';
+RUN;
+
+/* ステップ7: 回帰分析 - 在庫と売上の関係 */
+PROC REG DATA=SASHELP.SHOES;
+    MODEL SALES = INVENTORY;
+    TITLE '在庫と売上の関係';
+RUN;
+
+/* ステップ8: レポート作成 */
+ODS PDF FILE='小売業売上分析.pdf' STYLE=JOURNAL;
+
+PROC REPORT DATA=REGION_PRODUCT_SALES;
+    COLUMN REGION PRODUCT TOTAL_SALES;
+    DEFINE REGION / GROUP;
+    DEFINE PRODUCT / GROUP;
+    DEFINE TOTAL_SALES / ANALYSIS SUM 'Total Sales' FORMAT=DOLLAR12.2;
+    TITLE '地域・製品別売上レポート';
+RUN;
+
+ODS PDF CLOSE;
+</div>
+                
+                <div class="tip">
+                    <p><strong>分析アプローチ：</strong> 効果的なデータ分析は、通常、探索（データの理解）、分析（パターンや関係の発見）、視覚化（結果の表示）、そしてレポート（洞察の伝達）というステップで進めます。上記の例では、これらのステップに沿って構造化されたアプローチを示しています。</p>
+                </div>
+            </section>
+            
+            <section id="troubleshooting">
+                <h2>10. トラブルシューティング</h2>
+                
+                <h3>よくあるエラーと解決法</h3>
+                
+                <h4>構文エラー</h4>
+                <div class="note">
+                    <p><strong>エラーメッセージ:</strong> "ERROR: セミコロンが欠けている"</p>
+                    <p><strong>解決法:</strong> ステートメントの最後にセミコロンを追加します。SASの各ステートメントはセミコロンで終わる必要があります。</p>
+                </div>
+                
+                <div class="note">
+                    <p><strong>エラーメッセージ:</strong> "ERROR: 無効なオプション名"または"ERROR: 構文エラー"</p>
+                    <p><strong>解決法:</strong> ステートメントやオプションのスペルを確認し、SASのドキュメントでそのプロシジャで有効なオプションを確認します。</p>
+                </div>
+                
+                <h4>データ関連のエラー</h4>
+                <div class="note">
+                    <p><strong>エラーメッセージ:</strong> "ERROR: 指定されたデータセットが存在しません"</p>
+                    <p><strong>解決法:</strong> データセット名と使用しているライブラリを確認します。SASでは、一時データセットの場合はWORKライブラリ、永続データセットの場合は適切なライブラリを指定する必要があります。</p>
+                </div>
+                
+                <div class="note">
+                    <p><strong>エラーメッセージ:</strong> "WARNING: 変数XXXがデータセットに見つかりません"</p>
+                    <p><strong>解決法:</strong> PROC CONTENTSを使用してデータセットの変数を確認し、変数名のスペルや大文字・小文字が正しいか確認します。</p>
+                </div>
+                
+                <h4>メモリとパフォーマンスの問題</h4>
+                <div class="note">
+                    <p><strong>エラーメッセージ:</strong> "ERROR: 利用可能なメモリが不足しています"</p>
+                    <p><strong>解決法:</strong>
+                    <ul>
+                        <li>必要のない変数をDROP文で除外する</li>
+                        <li>WHERE文を使用して必要な観測値のみを処理する</li>
+                        <li>複数のステップに分割して処理する</li>
+                        <li>SASのオプションを調整してメモリ割り当てを増やす</li>
+                    </ul>
+                    </p>
+                </div>
+                
+                <h3>デバッグのヒント</h3>
+                
+                <ul>
+                    <li><strong>ログの確認：</strong> SASログを常に確認し、エラーや警告メッセージを見逃さないようにします。</li>
+                    <li><strong>PUT文の使用：</strong> データステップ内に<code>PUT 変数名=;</code>を挿入して変数の値をログに出力し、デバッグに役立てます。</li>
+                    <li><strong>_ERROR_変数の活用：</strong> <code>IF _ERROR_ THEN PUT _ALL_;</code>を使用して、エラーが発生した際にすべての変数値を出力します。</li>
+                    <li><strong>OPTIONSステートメント：</strong> <code>OPTIONS MPRINT SYMBOLGEN MLOGIC;</code>を使用して、マクロの処理内容を詳細に表示します。</li>
+                    <li><strong>段階的なアプローチ：</strong> 複雑なプログラムは小さなセクションに分割して順番にテストします。</li>
+                </ul>
+                
+                <h3>効率的なコーディングのヒント</h3>
+                
+                <ul>
+                    <li><strong>インデント：</strong> コードを適切にインデントして可読性を高めます。</li>
+                    <li><strong>コメント：</strong> コードの目的や複雑な部分には適切なコメントを追加します。</li>
+                    <li><strong>命名規則：</strong> 一貫性のある命名規則を使用して、変数やデータセットの追跡を容易にします。</li>
+                    <li><strong>変数のリスト：</strong> 変数名のリストは、必要に応じて配列や複数のステートメントで再利用できるように定義します。</li>
+                    <li><strong>条件の最適化：</strong> WHERE文はデータセットを読み込む前にフィルタリングするため、IF文よりも効率的です。</li>
+                </ul>
+            </section>
+            
+            <section id="faq">
+                <h2>11. よくある質問</h2>
+                
+                <div class="note">
+                    <p><strong>Q: SASとRやPythonとの主な違いは何ですか？</strong></p>
+                    <p>A: SASは商用ソフトウェアで、企業環境での大規模データ処理や統計分析に強みがあります。一方、RやPythonは無料のオープンソースで、コミュニティ開発のパッケージが豊富です。SASはポイント＆クリックインターフェースも提供していますが、RやPythonは主にコードベースです。業界によっては（特に製薬や金融）、SASが標準として使用されています。</p>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Q: SASを無料で使用する方法はありますか？</strong></p>
+                    <p>A: はい、SAS University EditionとSAS OnDemand for Academicsは、学術目的で無料で使用できます。SAS University Editionは仮想マシンとしてローカルにインストールでき、SAS OnDemand for Academicsはクラウドベースで使用できます。どちらも学習や研究目的には十分な機能を備えています。</p>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Q: SASのライセンスコストはどのくらいですか？</strong></p>
+                    <p>A: SASのライセンスコストは、必要なモジュール、ユーザー数、契約期間など様々な要因によって異なります。個人ライセンスから企業全体のライセンスまで幅広いオプションがあります。正確な価格情報については、SASセールス担当者に直接お問い合わせいただくことをお勧めします。</p>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Q: SASプログラミングを学ぶのにどのくらいの時間がかかりますか？</strong></p>
+                    <p>A: 基本的なデータ処理と分析技術を習得するには数週間から数ヶ月かかります。ただし、これは以前のプログラミング経験や統計知識にも依存します。SASの基本的な構文は比較的シンプルで、特にデータステップとプロシジャの基本概念を理解すれば、徐々にスキルを構築していくことができます。</p>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Q: SASで作成したプログラムを他の人と共有するにはどうすればよいですか？</strong></p>
+                    <p>A: SASプログラム（.sasファイル）を直接共有することができます。また、Enterprise Guideプロジェクト（.egpファイル）を共有することも可能です。チーム全体での共有が必要な場合は、SAS Managementコンソールやメタデータサーバーを使用して、集中管理されたリポジトリでコードとデータを共有することができます。SAS Studioでは、プログラムやフォルダを他のユーザーと共有する機能も提供されています。</p>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Q: SASはMacで動作しますか？</strong></p>
+                    <p>A: SAS 9.4などの通常のSASデスクトップ製品は、Windows用に設計されており、MacOSではネイティブに動作しません。ただし、以下の選択肢があります：
+                    <ul>
+                        <li>SAS University Edition（仮想マシン経由でMacでも動作）</li>
+                        <li>SAS OnDemand for Academics（ブラウザベース）</li>
+                        <li>SAS Viya（クラウドベース）</li>
+                        <li>BootcampやParallelsなどを使用してWindowsを実行</li>
+                    </ul>
+                    </p>
+                </div>
+            </section>
+            
+            <section id="resources">
+                <h2>12. 参考リソース</h2>
+                
+                <h3>公式ドキュメントとチュートリアル</h3>
+                <ul>
+                    <li><a href="https://support.sas.com/documentation/" target="_blank">SAS公式ドキュメント</a> - 包括的なドキュメントとユーザーガイド</li>
+                    <li><a href="https://www.sas.com/ja_jp/learn/academic-programs.html" target="_blank">SAS学術プログラム</a> - 学生や教育者向けのリソース</li>
+                    <li><a href="https://support.sas.com/edu/elearning.html" target="_blank">SAS e-Learning</a> - 無料のオンラインコース</li>
+                    <li><a href="https://blogs.sas.com/" target="_blank">SASブログ</a> - SASの専門家によるブログ記事</li>
+                </ul>
+                
+                <h3>コミュニティリソース</h3>
+                <ul>
+                    <li><a href="https://communities.sas.com/" target="_blank">SASコミュニティ</a> - 質問や情報共有のフォーラム</li>
+                    <li><a href="https://sasnrd.com/" target="_blank">SAS Notes R Us</a> - SASプログラミングのヒントとテクニック</li>
+                    <li><a href="https://www.lexjansen.com/" target="_blank">Lex Jansen's SAS Papers</a> - SUGIやSGFなどのカンファレンス論文のアーカイブ</li>
+                </ul>
+                
+                <h3>書籍</h3>
+                <ul>
+                    <li>「SAS入門」（SAS Institute著）- 初心者向けの基本ガイド</li>
+                    <li>「The Little SAS Book」（Lora Delwiche & Susan Slaughter著）- 初心者に人気のガイド</li>
+                    <li>「SAS統計解析ハンドブック」（高浪洋平著）- 日本語での詳細な統計解析ガイド</li>
+                    <li>「Learning SAS by Example: A Programmer's Guide」（Ron Cody著）- 実例を通じた学習書</li>
+                </ul>
+                
+                <div class="tip">
+                    <p><strong>学習のコツ：</strong> SASを学ぶ最良の方法は実践することです。このチュートリアルで紹介したコード例をSAS University EditionやSAS OnDemand for Academicsで試し、自分のデータや課題に適用してみましょう。また、SASコミュニティに参加して質問したり、他の人のコードを参考にしたりすることも効果的な学習方法です。</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <a href="#" class="back-to-top">↑</a>
+    
+    <footer>
+        <div class="container">
+            <p>SAS 入門チュートリアル</p>
+            <p><small>このチュートリアルは入門者向けに作成されています。より詳細な情報は<a href="https://www.sas.com/ja_jp/" target="_blank">SAS公式サイト</a>をご覧ください。</small></p>
+        </div>
+    </footer>
+    
+    <script>
+        // ナビゲーションの切り替え
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            document.getElementById('main-nav').classList.toggle('active');
+        });
+        
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                    
+                    // モバイルメニューが開いている場合は閉じる
+                    document.getElementById('main-nav').classList.remove('active');
+                }
+            });
+        });
+        
+        // Back to topボタンの表示・非表示
+        window.addEventListener('scroll', function() {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

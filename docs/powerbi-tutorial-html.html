@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power BI Free 入門チュートリアル</title>
+    <style>
+        :root {
+            --primary-color: #0078d4;
+            --secondary-color: #0062a8;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --light-gray: #f2f2f2;
+            --border-color: #ddd;
+            --success-color: #28a745;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding-top: 60px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        header .nav-toggle {
+            display: none;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        main {
+            margin: 2rem 0;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        p, ul, ol {
+            margin-bottom: 1.2rem;
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #0062a8;
+        }
+        
+        .toc {
+            background-color: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+            font-size: 1.5rem;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: var(--primary-color);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .toc .level-2 {
+            padding-left: 1.5rem;
+        }
+        
+        .toc .level-3 {
+            padding-left: 3rem;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--light-gray);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .note {
+            background-color: #e8f4fd;
+            border-left: 5px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .tip {
+            background-color: #d4edda;
+            border-left: 5px solid var(--success-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--light-gray);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.8rem;
+            height: 1.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .image-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .caption {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            header .nav-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            nav {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 60px);
+                background-color: var(--primary-color);
+                flex-direction: column;
+                padding: 1rem;
+                transition: left 0.3s;
+                z-index: 99;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Power BI Free 入門</h1>
+            <button class="nav-toggle">☰</button>
+            <nav id="main-nav">
+                <a href="#intro">はじめに</a>
+                <a href="#install">インストール</a>
+                <a href="#interface">インターフェース</a>
+                <a href="#data">データ接続</a>
+                <a href="#visuals">視覚化</a>
+                <a href="#dashboard">ダッシュボード</a>
+                <a href="#sharing">共有</a>
+                <a href="#example">実践例</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="content">
+            <h1>Power BI Free 入門チュートリアル</h1>
+            
+            <div class="toc">
+                <h2>目次</h2>
+                <ul>
+                    <li><a href="#intro">1. Power BI Freeとは</a></li>
+                    <li><a href="#install">2. Power BI Desktopのインストール手順</a></li>
+                    <li><a href="#interface">3. Power BIのインターフェース詳細ガイド</a></li>
+                    <li><a href="#data">4. データへの接続（詳細手順）</a>
+                        <ul class="level-2">
+                            <li><a href="#excel-connect">Excelファイルの接続</a></li>
+                            <li><a href="#csv-connect">CSVファイルの接続</a></li>
+                            <li><a href="#sample-data">サンプルデータの使用</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#visuals">5. 基本的な視覚化の作成</a>
+                        <ul class="level-2">
+                            <li><a href="#bar-chart">棒グラフの作成</a></li>
+                            <li><a href="#formatting">グラフの書式設定</a></li>
+                            <li><a href="#other-visuals">複数のビジュアルタイプ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#dashboard">6. ダッシュボードの構築</a>
+                        <ul class="level-2">
+                            <li><a href="#visual-arrange">ビジュアルの配置と整列</a></li>
+                            <li><a href="#interactions">ビジュアル間のインタラクション</a></li>
+                            <li><a href="#slicers">スライサーの追加</a></li>
+                            <li><a href="#formatting-dashboard">書式設定</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#sharing">7. レポートの保存と共有</a>
+                        <ul class="level-2">
+                            <li><a href="#save-report">レポートの保存</a></li>
+                            <li><a href="#export-report">レポートのエクスポート</a></li>
+                            <li><a href="#service-sharing">Power BI Serviceでの共有</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#example">8. 実践：サンプルデータでの分析シナリオ</a></li>
+                    <li><a href="#troubleshooting">9. トラブルシューティング</a></li>
+                    <li><a href="#faq">10. よくある質問</a></li>
+                    <li><a href="#resources">11. 参考リソース</a></li>
+                </ul>
+            </div>
+            
+            <section id="intro">
+                <h2>1. Power BI Freeとは</h2>
+                <p>Power BIは、マイクロソフトが提供するビジネスインテリジェンスおよびデータ可視化ツールです。Power BI Freeは無料版で、基本的なデータ分析と可視化機能を提供しています。</p>
+                
+                <h3>主な特徴</h3>
+                <ul>
+                    <li>データの接続と変換</li>
+                    <li>インタラクティブな視覚化の作成</li>
+                    <li>基本的なダッシュボードの構築</li>
+                    <li>個人での使用に最適化</li>
+                </ul>
+                
+                <div class="tip">
+                    <p><strong>ポイント：</strong> Power BI Freeは、個人でのデータ分析やレポート作成には十分な機能を持っていますが、チームでの共有や自動更新などの機能はPro版で利用できます。</p>
+                </div>
+            </section>
+            
+            <section id="install">
+                <h2>2. Power BI Desktopのインストール手順</h2>
+                
+                <div class="step">
+                    <p>Webブラウザを開き、<a href="https://powerbi.microsoft.com/ja-jp/desktop/" target="_blank">Power BIの公式サイト</a>にアクセスします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>ページ中央または上部にある「無料ダウンロード」ボタンをクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>ダウンロードしたインストーラーファイル（.msiファイル）をダブルクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>インストールウィザードが表示されたら「次へ」をクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>使用許諾契約書を読み、同意する場合は「同意する」にチェックを入れて「次へ」をクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>インストール先フォルダを確認または変更し、「次へ」をクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>「インストール」ボタンをクリックしてインストールを開始します。</p>
+                </div>
+                
+                <div class="step">
+                    <p>インストールが完了したら「完了」をクリックします。</p>
+                </div>
+                
+                <div class="step">
+                    <p>デスクトップに作成されたPower BI Desktopのアイコンをダブルクリックして起動します。</p>
+                </div>
+                
+                <h3>初回起動時</h3>
+                <ol>
+                    <li>Microsoftアカウントでのサインインを求められます（後でもサインイン可能）</li>
+                    <li>サインインする場合はメールアドレスとパスワードを入力、または「後で行う」を選択</li>
+                    <li>スタート画面が表示されます</li>
+                </ol>
+                
+                <div class="note">
+                    <p><strong>注意：</strong> Power BI Desktopは、Windows 8.1以降のOSでのみ動作します。MacOSでは直接実行できません。</p>
+                </div>
+            </section>
+            
+            <section id="interface">
+                <h2>3. Power BIのインターフェース詳細ガイド</h2>
+                
+                <p>Power BI Desktopを起動すると以下のインターフェースが表示されます：</p>
+                
+                <h3>リボンメニュー（上部）</h3>
+                <ul>
+                    <li><strong>ファイル：</strong> 保存、開く、インポート、エクスポートなどの基本操作</li>
+                    <li><strong>ホーム：</strong> よく使う機能（データの取得、視覚化、書式設定など）</li>
+                    <li><strong>表示：</strong> レポートビュー、データビュー、モデルビューの切り替え</li>
+                    <li><strong>モデリング：</strong> データモデル操作、計算列、メジャーの作成</li>
+                    <li><strong>視覚化：</strong> 選択したビジュアルの書式設定</li>
+                </ul>
+                
+                <h3>中央のキャンバス</h3>
+                <ul>
+                    <li>レポートを作成する主要な領域</li>
+                    <li>ここにビジュアルをドラッグ＆ドロップして配置</li>
+                </ul>
+                
+                <h3>右側のパネル</h3>
+                <ul>
+                    <li><strong>視覚化ペイン：</strong> 使用可能なすべてのビジュアルタイプのアイコン表示</li>
+                    <li><strong>フィールドペイン：</strong> 接続されたデータソースのフィールド一覧</li>
+                    <li><strong>フィルターペイン：</strong> ビジュアル、ページ、レポートレベルのフィルター設定</li>
+                </ul>
+                
+                <h3>下部</h3>
+                <ul>
+                    <li><strong>ページタブ：</strong> 複数ページのレポート間を移動するタブ</li>
+                    <li><strong>ステータスバー：</strong> 現在の状態や操作の進行状況を表示</li>
+                </ul>
+                
+                <div class="tip">
+                    <p><strong>プロのヒント：</strong> Alt キーを押すとリボンメニューのショートカットキーが表示されます。例えば、Alt + H でホームタブに移動できます。</p>
+                </div>
+            </section>
+            
+            <section id="data">
+                <h2>4. データへの接続（詳細手順）</h2>
+                
+                <section id="excel-connect">
+                    <h3>Excelファイルの接続手順</h3>
+                    
+                    <div class="step">
+                        <p>リボンの「ホーム」タブをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>左上の「データの取得」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>表示されたメニューから「Excel」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ファイル選択ダイアログで接続したいExcelファイルを選択し「開く」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「ナビゲーター」ウィンドウが表示され、ファイル内のシートやテーブルが一覧表示されます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>使用したいシートまたはテーブルにチェックを入れます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>画面下部で2つの選択肢から選びます：</p>
+                        <ul>
+                            <li>「読み込み」: データをそのままPower BIに読み込む</li>
+                            <li>「変換データ」: Power Queryエディタでデータを編集してから読み込む</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>データが読み込まれ、右側の「フィールド」ペインにフィールドが表示されます。</p>
+                    </div>
+                </section>
+                
+                <section id="csv-connect">
+                    <h3>CSVファイルの接続手順</h3>
+                    
+                    <div class="step">
+                        <p>「ホーム」タブから「データの取得」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「テキスト/CSV」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>CSVファイルを選択して「開く」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ファイルのプレビューが表示され、区切り文字や文字コードなどが自動検出されます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>必要に応じて「区切り記号」や「データ型の検出」などの設定を変更します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「読み込み」または「データの変換」をクリックします。</p>
+                    </div>
+                </section>
+                
+                <section id="sample-data">
+                    <h3>サンプルデータの取得と使用</h3>
+                    
+                    <div class="step">
+                        <p>Webブラウザで<a href="https://learn.microsoft.com/ja-jp/power-bi/create-reports/sample-datasets" target="_blank">Microsoft公式サンプル</a>にアクセスします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「小売分析サンプル」や「財務サンプル」などからExcelファイルをダウンロードします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ダウンロードしたファイルを保存したフォルダを開き、ファイルの場所を確認します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Power BIで「データの取得」→「Excel」と進み、ダウンロードしたファイルを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「ナビゲーター」でサンプルデータのテーブルにチェックを入れ「読み込み」をクリックします。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>初心者向けのヒント：</strong> 最初のうちは公式サンプルデータを使うことで、Power BIの機能を学ぶのに集中できます。データの準備よりも視覚化に焦点を当てることができます。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="visuals">
+                <h2>5. 基本的な視覚化の作成（ステップバイステップ）</h2>
+                
+                <section id="bar-chart">
+                    <h3>棒グラフの作成手順</h3>
+                    
+                    <div class="step">
+                        <p>データが読み込まれたら、右側の「フィールド」ペインを確認します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>キャンバス（中央の空白部分）をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>右側の「視覚化」ペインから棒グラフのアイコン（横向きの棒グラフ）をクリックします。</p>
+                        <p>視覚化ペインは右側パネルの上部にあり、様々なグラフアイコンが表示されています。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>空の棒グラフがキャンバスに作成されます。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「フィールド」ペインから以下のフィールドをドラッグします：</p>
+                        <ul>
+                            <li>例: 「製品カテゴリ」フィールドを「軸」にドラッグ</li>
+                            <li>例: 「売上金額」フィールドを「値」にドラッグ</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>グラフが自動的に更新され、カテゴリ別の売上が表示されます。</p>
+                    </div>
+                </section>
+                
+                <section id="formatting">
+                    <h3>グラフの書式設定</h3>
+                    
+                    <div class="step">
+                        <p>作成したグラフを選択した状態で、「視覚化」ペインの中央にある「フォーマット」アイコン（ペイントブラシのアイコン）をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>左側に表示される書式設定オプションを展開します：</p>
+                        <ul>
+                            <li><strong>全般</strong>: 背景色、枠線などの基本設定</li>
+                            <li><strong>タイトル</strong>: グラフタイトルの表示/非表示、テキスト、配置、サイズなど</li>
+                            <li><strong>X軸</strong>: 軸のタイトル、ラベルの回転、表示/非表示など</li>
+                            <li><strong>Y軸</strong>: スケール、表示形式、タイトルなど</li>
+                            <li><strong>データ色</strong>: 棒の色の変更</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>例えば、タイトルを追加する手順：</p>
+                        <ul>
+                            <li>「タイトル」を展開</li>
+                            <li>「タイトルテキスト」に「カテゴリ別売上金額」と入力</li>
+                            <li>「フォントの色」をクリックして好みの色を選択</li>
+                            <li>「テキストサイズ」を「14」に設定</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <section id="other-visuals">
+                    <h3>複数のビジュアルタイプを試す</h3>
+                    
+                    <h4>円グラフの作成</h4>
+                    <div class="step">
+                        <p>キャンバスの空白部分をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「視覚化」ペインから円グラフのアイコン（円形に切り分けられたアイコン）をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「フィールド」ペインから：</p>
+                        <ul>
+                            <li>「製品カテゴリ」を「凡例」にドラッグ</li>
+                            <li>「売上金額」を「値」にドラッグ</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「フォーマット」タブでタイトルを追加し、「カテゴリ別売上構成比」と入力します。</p>
+                    </div>
+                    
+                    <h4>カードビジュアル（単一の値を表示）</h4>
+                    <div class="step">
+                        <p>キャンバスの空白部分をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「視覚化」ペインからカードアイコン（数字が書かれた四角形）をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「売上金額」フィールドを「フィールド」にドラッグします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「フォーマット」タブで表示単位を調整します（例: 千単位、百万単位など）。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>ビジュアル選択のコツ：</strong> データの特性に合ったビジュアルを選びましょう。比較には棒グラフ、構成比には円グラフ、時系列データには折れ線グラフが適しています。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="dashboard">
+                <h2>6. ダッシュボードの構築（詳細ガイド）</h2>
+                
+                <section id="visual-arrange">
+                    <h3>ビジュアルの配置と整列</h3>
+                    
+                    <div class="step">
+                        <p>作成した複数のビジュアルを適切に配置します：</p>
+                        <ul>
+                            <li>ビジュアルをクリックして選択</li>
+                            <li>角や辺をドラッグしてサイズを変更</li>
+                            <li>ビジュアル全体をドラッグして位置を調整</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>整列を美しく保つコツ：</p>
+                        <ul>
+                            <li>複数のビジュアルを選択（Ctrlキーを押しながら各ビジュアルをクリック）</li>
+                            <li>右クリックメニューから「整列」を選び、「左揃え」「上揃え」などを選択</li>
+                            <li>または「配置」を選び、「均等に水平配置」などを選択</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <section id="interactions">
+                    <h3>ビジュアル間のインタラクション設定</h3>
+                    
+                    <div class="step">
+                        <p>任意のビジュアル（例: 棒グラフ）をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>リボンから「形式」タブをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「編集」グループ内の「インタラクション」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>他のビジュアルごとに以下のいずれかを選択します：</p>
+                        <ul>
+                            <li><strong>フィルター</strong>: 選択した項目でフィルタリング（デフォルト）</li>
+                            <li><strong>スライス</strong>: 選択した項目でハイライト</li>
+                            <li><strong>なし</strong>: 影響なし</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>例: 棒グラフで「オフィス用品」をクリックすると、円グラフも「オフィス用品」のデータだけを表示するよう設定します。</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>インタラクションのヒント：</strong> すべてのビジュアルがインタラクティブである必要はありません。KPIカードなどの重要な指標は、常に表示されるようにインタラクションを「なし」に設定することも検討しましょう。</p>
+                    </div>
+                </section>
+                
+                <section id="slicers">
+                    <h3>スライサーの追加（対話型フィルター）</h3>
+                    
+                    <div class="step">
+                        <p>キャンバスの空白部分をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「視覚化」ペインからスライサーアイコンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「フィールド」ペインから「年」や「地域」などのフィールドをスライサーの「フィールド」にドラッグします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>スライサーの形式を変更します（ドロップダウン、リスト、ボタンなど）：</p>
+                        <ul>
+                            <li>スライサーを選択</li>
+                            <li>「フォーマット」タブを開く</li>
+                            <li>「スライサーの設定」を展開</li>
+                            <li>「スタイル」ドロップダウンから好みのスタイルを選択</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <section id="formatting-dashboard">
+                    <h3>書式設定でダッシュボードを洗練させる</h3>
+                    
+                    <div class="step">
+                        <p>レポートの背景色を設定します：</p>
+                        <ul>
+                            <li>キャンバスの空白部分をクリックして何も選択していない状態にする</li>
+                            <li>「視覚化」ペインの「フォーマット」タブをクリック</li>
+                            <li>「ページの背景」を展開</li>
+                            <li>「背景」の色設定をクリック</li>
+                            <li>好みの色を選択（薄い色がおすすめ）</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>テーマの適用：</p>
+                        <ul>
+                            <li>「表示」タブをクリック</li>
+                            <li>「テーマ」ドロップダウンをクリック</li>
+                            <li>事前定義されたテーマ（「明るい」「ダーク」など）を選択</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>タイトルの追加：</p>
+                        <ul>
+                            <li>「挿入」タブをクリック</li>
+                            <li>「テキストボックス」をクリック</li>
+                            <li>キャンバスの上部をクリックして「売上分析ダッシュボード」などのタイトルを入力</li>
+                            <li>テキストを選択して、フォントサイズを「18」に、太字に設定</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>デザインのヒント：</strong> 一貫性のある色使いを心がけましょう。関連するデータには同じ色を使用し、重要な指標には目立つ色を使用します。また、情報過多にならないよう、1ページに配置するビジュアルは6～8個程度に抑えましょう。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="sharing">
+                <h2>7. レポートの保存と共有</h2>
+                
+                <section id="save-report">
+                    <h3>レポートの保存</h3>
+                    
+                    <div class="step">
+                        <p>「ファイル」タブをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「名前を付けて保存」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ファイル名（例: 「売上分析レポート」）を入力します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>保存先フォルダを選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「保存」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ファイルは「.pbix」形式で保存されます。</p>
+                    </div>
+                </section>
+                
+                <section id="export-report">
+                    <h3>レポートのエクスポート</h3>
+                    
+                    <div class="step">
+                        <p>「ファイル」タブをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「エクスポート」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>以下のいずれかの形式を選択します：</p>
+                        <ul>
+                            <li>「PDFとしてエクスポート」: PDFファイルとして保存</li>
+                            <li>「PowerPointとしてエクスポート」: PowerPointプレゼンテーションとして保存</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ダイアログが表示されたら、エクスポート設定を確認します：</p>
+                        <ul>
+                            <li>「現在のページ」または「すべてのページ」を選択</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「エクスポート」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>ファイルの保存先を選択して「保存」をクリックします。</p>
+                    </div>
+                </section>
+                
+                <section id="service-sharing">
+                    <h3>Power BI Serviceでの共有（制限あり）</h3>
+                    
+                    <div class="step">
+                        <p>Microsoftアカウントでサインインします（まだしていない場合）。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「ファイル」タブから「発行」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「Power BI Service」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>アップロード先のワークスペースを選択します（Free版では「マイワークスペース」のみ）。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「発行」ボタンをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>発行が完了したら「Power BI Serviceでレポートを開く」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>Web版のPower BIが開き、レポートが表示されます。</p>
+                    </div>
+                    
+                    <div class="warning">
+                        <p><strong>注意：</strong> Free版では他のユーザーと直接共有することはできません。共有機能を利用するにはPro版へのアップグレードが必要です。</p>
+                    </div>
+                    
+                    <h4>公開(注意して使用)</h4>
+                    <div class="step">
+                        <p>「ファイル」タブをクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>「Webに公開」を選択します。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>警告メッセージを確認します（誰でも閲覧可能になる点に注意）。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>続行する場合は「発行」をクリックします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>生成されたリンクとHTMLコードをコピーします。</p>
+                    </div>
+                    
+                    <div class="step">
+                        <p>このリンクを持つ誰でもレポートにアクセス可能になります。</p>
+                    </div>
+                    
+                    <div class="warning">
+                        <p><strong>警告：</strong> 「Webに公開」オプションを使用すると、レポートが一般公開されます。機密情報や社内データを含むレポートには使用しないでください。</p>
+                    </div>
+                </section>
+            </section>
+            
+            <section id="example">
+                <h2>8. 実践：サンプルデータでの分析シナリオ</h2>
+                
+                <h3>小売分析の例</h3>
+                <p>Financial Sampleデータセットを使った例：</p>
+                
+                <h4>1. データの取得</h4>
+                <ul>
+                    <li>「ホーム」タブの「データの取得」→「Excel」</li>
+                    <li>ダウンロードした「Financial Sample.xlsx」を選択</li>
+                    <li>「financials」テーブルを選択して「読み込み」</li>
+                </ul>
+                
+                <h4>2. 基本的なダッシュボード作成</h4>
+                <ul>
+                    <li><strong>売上カード</strong>: 
+                        <ul>
+                            <li>「視覚化」ペインでカードを選択</li>
+                            <li>「Sales」フィールドをドラッグ</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>国別売上グラフ</strong>:
+                        <ul>
+                            <li>「視覚化」ペインで横棒グラフを選択</li>
+                            <li>「Country」フィールドを「軸」にドラッグ</li>
+                            <li>「Sales」フィールドを「値」にドラッグ</li>
+                            <li>「フォーマット」で「データラベル」をオンに設定</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>月別売上トレンド</strong>:
+                        <ul>
+                            <li>「視覚化」ペインで折れ線グラフを選択</li>
+                            <li>「Month Name」を「軸」にドラッグ</li>
+                            <li>「Sales」を「値」にドラッグ</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>製品セグメント別の売上構成</strong>:
+                        <ul>
+                            <li>「視覚化」ペインでドーナツチャートを選択</li>
+                            <li>「Segment」を「凡例」にドラッグ</li>
+                            <li>「Sales」を「値」にドラッグ</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4>3. フィルターの追加</h4>
+                <ul>
+                    <li>スライサービジュアルを追加</li>
+                    <li>「Year」フィールドをドラッグ</li>
+                    <li>もう一つスライサーを追加し「Segment」フィールドをドラッグ</li>
+                </ul>
+                
+                <h4>4. ビジュアル間のインタラクション</h4>
+                <ul>
+                    <li>国別売上グラフを選択</li>
+                    <li>「形式」タブ→「インタラクション」</li>
+                    <li>すべてのビジュアルに対して「フィルター」に設定</li>
+                </ul>
+                
+                <div class="tip">
+                    <p><strong>分析のヒント：</strong> データを探索する際は、まず全体像を把握し、次に詳細を掘り下げていく「ドリルダウン」アプローチが効果的です。例えば、国別→地域別→製品別などの順に分析を進めます。</p>
+                </div>
+            </section>
+            
+            <section id="troubleshooting">
+                <h2>9. トラブルシューティング</h2>
+                
+                <h3>よくあるエラーと解決法</h3>
+                
+                <h4>データの読み込みエラー</h4>
+                <div class="note">
+                    <p><strong>エラーメッセージ:</strong> 「データソースの資格情報が無効です」</p>
+                    <p><strong>解決法:</strong> 「データソース設定」→該当するデータソースを選択→「資格情報の編集」</p>
+                </div>
+                
+                <h4>グラフが表示されない</h4>
+                <div class="note">
+                    <p><strong>問題:</strong> フィールドをドラッグしてもグラフに何も表示されない</p>
+                    <p><strong>解決法:</strong></p>
+                    <ul>
+                        <li>データに値が含まれているか確認</li>
+                        <li>適切なビジュアルタイプを選択しているか確認</li>
+                        <li>フィルターが適用されていないか確認</li>
+                    </ul>
+                </div>
+                
+                <h4>パフォーマンスの問題</h4>
+                <div class="note">
+                    <p><strong>問題:</strong> レポートの動作が遅い</p>
+                    <p><strong>解決法:</strong></p>
+                    <ul>
+                        <li>不要なビジュアルを削除</li>
+                        <li>使用しないフィールドをフィルターで除外</li>
+                        <li>計算を簡略化</li>
+                    </ul>
+                </div>
+                
+                <h3>クラッシュした場合の対処</h3>
+                <p>Power BIが応答しなくなった場合：</p>
+                <ol>
+                    <li>タスクマネージャーでPower BIプロセスを終了</li>
+                    <li>Power BIを再起動</li>
+                    <li>自動回復されたファイルを開く、または保存済みの最新バージョンを開く</li>
+                </ol>
+                
+                <div class="tip">
+                    <p><strong>安全策:</strong> 定期的に作業を保存しましょう。複雑な変更を加える前には、ファイルのコピーを作成しておくことをお勧めします。</p>
+                </div>
+            </section>
+            
+            <section id="faq">
+                <h2>10. よくある質問</h2>
+                
+                <div class="note">
+                    <p><strong>Q: Power BI FreeとProの主な違いは何ですか？</strong></p>
+                    <p>A: Free版は個人利用に限定され、共有機能が制限されています。Pro版はチーム共有、自動更新などの機能が利用できます。主な違いは:</p>
+                    <ul>
+                        <li>データ共有と共同作業: Pro版のみ</li>
+                        <li>自動データ更新: Pro版は毎日8回まで、Free版は手動のみ</li>
+                        <li>ストレージ容量: Pro版は10GB、Free版は1GB</li>
+                        <li>レポートとダッシュボードの共有: Pro版のみ完全サポート</li>
+                    </ul>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Q: Power BI Desktopは何のOSで動作しますか？</strong></p>
+                    <p>A: Windows専用です。MacOSでは直接実行できません（仮想マシンやブラウザ版のPower BI Serviceを使用する必要があります）。必要なシステム要件:</p>
+                    <ul>
+                        <li>Windows 8.1または10以降</li>
+                        <li>.NET Framework 4.6.2以降</li>
+                        <li>インターネット接続</li>
+                    </ul>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Q: データの更新頻度はどれくらいですか？</strong></p>
+                    <p>A: Free版では手動更新のみ可能です。手動更新の手順:</p>
+                    <ol>
+                        <li>「ホーム」タブの「最新の情報に更新」ボタンをクリック</li>
+                        <li>または、データソースを右クリックして「最新の情報に更新」を選択</li>
+                    </ol>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Q: Power BIは日本語に対応していますか？</strong></p>
+                    <p>A: はい、インターフェースと機能は日本語に完全対応しています。言語設定の変更方法:</p>
+                    <ol>
+                        <li>「ファイル」→「オプションと設定」→「オプション」</li>
+                        <li>「グローバル」→「言語」</li>
+                        <li>表示言語を選択して「OK」</li>
+                    </ol>
+                </div>
+            </section>
+            
+            <section id="resources">
+                <h2>11. 参考リソース</h2>
+                
+                <ul>
+                    <li><a href="https://learn.microsoft.com/ja-jp/power-bi/" target="_blank">Power BI公式ラーニングセンター</a> - 公式ドキュメントとチュートリアル</li>
+                    <li><a href="https://community.powerbi.com/" target="_blank">Power BIコミュニティ</a> - 質問や情報共有のフォーラム</li>
+                    <li><a href="https://powerbi.microsoft.com/ja-jp/blog/" target="_blank">Power BIブログ</a> - 最新情報や使用例</li>
+                    <li><a href="https://learn.microsoft.com/ja-jp/training/powerplatform/power-bi" target="_blank">Microsoft Learn Power BIコース</a> - 無料のオンライン学習コース</li>
+                </ul>
+                
+                <div class="tip">
+                    <p><strong>学習のコツ：</strong> このチュートリアルを実践しながら、データの可視化と分析の基本スキルを身につけましょう。Power BIの操作に慣れるには、実際にデータを使って試行錯誤することが最も効果的です。質問があれば、Power BIコミュニティで質問するか、公式ドキュメントを参照してください。</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <a href="#" class="back-to-top">↑</a>
+    
+    <footer>
+        <div class="container">
+            <p>Power BI Free 入門チュートリアル</p>
+            <p><small>このチュートリアルは入門者向けに作成されています。より詳細な情報は<a href="https://powerbi.microsoft.com/ja-jp/" target="_blank">Microsoft Power BI公式サイト</a>をご覧ください。</small></p>
+        </div>
+    </footer>
+    
+    <script>
+        // ナビゲーションの切り替え
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            document.getElementById('main-nav').classList.toggle('active');
+        });
+        
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                    
+                    // モバイルメニューが開いている場合は閉じる
+                    document.getElementById('main-nav').classList.remove('active');
+                }
+            });
+        });
+        
+        // Back to topボタンの表示・非表示
+        window.addEventListener('scroll', function() {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

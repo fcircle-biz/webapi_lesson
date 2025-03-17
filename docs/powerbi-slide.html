@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    .slide {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 30px;
+      background-color: #f8fafc;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    
+    .title-container {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .title {
+      font-size: 32px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #2563EB 0%, #1e40af 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0;
+      line-height: 1.2;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      color: #475569;
+      margin-top: 5px;
+    }
+    
+    .date {
+      font-size: 14px;
+      color: #475569;
+      text-align: right;
+    }
+    
+    .content {
+      display: flex;
+      flex: 1;
+      gap: 25px;
+    }
+    
+    .column-left {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .column-right {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+    }
+    
+    .section-title {
+      font-size: 18px;
+      color: #1e40af;
+      font-weight: bold;
+      margin: 0 0 15px 0;
+      display: flex;
+      align-items: center;
+    }
+    
+    .section-title i {
+      margin-right: 8px;
+      font-size: 20px;
+    }
+    
+    .content-text {
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.4;
+      margin: 0;
+    }
+    
+    .key-point {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    
+    .key-point-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background-color: #2563EB;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .comparison-table th {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 2px solid #2563EB;
+      color: #1e40af;
+      font-weight: bold;
+    }
+    
+    .comparison-table td {
+      padding: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    
+    .license-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .license-table th {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 2px solid #2563EB;
+      color: #1e40af;
+      font-weight: bold;
+    }
+    
+    .license-table td {
+      padding: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .priority-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .priority-high {
+      background-color: #ef4444;
+    }
+    
+    .priority-medium {
+      background-color: #f59e0b;
+    }
+    
+    .priority-low {
+      background-color: #10b981;
+    }
+    
+    .highlight-text {
+      color: #2563EB;
+      font-weight: bold;
+    }
+    
+    .highlight-box {
+      border: 1px dashed #2563EB;
+      border-radius: 6px;
+      padding: 8px;
+      margin-top: 10px;
+    }
+    
+    .feature-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .feature-item {
+      background-color: #f1f5f9;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: #334155;
+      display: flex;
+      align-items: center;
+    }
+    
+    .feature-item::before {
+      content: "✓";
+      color: #2563EB;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #475569;
+    }
+    
+    .footer-left {
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-logo {
+      height: 20px;
+      margin-right: 10px;
+      background-color: #2563EB;
+      width: 20px;
+      border-radius: 4px;
+      position: relative;
+    }
+    
+    .footer-logo::before {
+      content: "C";
+      color: white;
+      position: absolute;
+      left: 5px;
+      top: 1px;
+      font-weight: bold;
+    }
+    
+    .diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    .diagram-container {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      position: relative;
+    }
+    
+    .diagram-item {
+      text-align: center;
+      width: 100px;
+      z-index: 1;
+    }
+    
+    .diagram-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563EB 0%, #1e40af 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      margin: 0 auto 10px;
+    }
+    
+    .diagram-text {
+      font-size: 12px;
+      color: #334155;
+      font-weight: bold;
+    }
+    
+    .connector {
+      position: absolute;
+      height: 2px;
+      background-color: #2563EB;
+      top: 30px;
+      z-index: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="slide">
+    <div class="header">
+      <div class="title-container">
+        <h1 class="title">Microsoft Power BI 導入概要</h1>
+        <p class="subtitle">データ分析・可視化ソリューションの戦略的活用</p>
+      </div>
+      <div class="date">2025年3月17日</div>
+    </div>
+    
+    <div class="content">
+      <div class="column-left">
+        <div class="card">
+          <h2 class="section-title"><i class="fas fa-info-circle"></i>Power BI 概要</h2>
+          <p class="content-text">
+            Power BI は Microsoft が提供するビジネスインテリジェンスツールであり、
+            組織内の様々なデータソースを統合して<span class="highlight-text">インタラクティブな可視化</span>を実現します。
+          </p>
+          
+          <div class="feature-list">
+            <div class="feature-item">データの接続と統合</div>
+            <div class="feature-item">カスタム視覚化</div>
+            <div class="feature-item">リアルタイム分析</div>
+            <div class="feature-item">AI 機能</div>
+            <div class="feature-item">セルフサービス BI</div>
+            <div class="feature-item">クラウド/オンプレミス</div>
+          </div>
+          
+          <div class="diagram">
+            <div class="diagram-container">
+              <div class="diagram-item">
+                <div class="diagram-icon"><i class="fas fa-database"></i></div>
+                <div class="diagram-text">データ収集</div>
+              </div>
+              <div class="diagram-item">
+                <div class="diagram-icon"><i class="fas fa-cogs"></i></div>
+                <div class="diagram-text">変換・モデル化</div>
+              </div>
+              <div class="diagram-item">
+                <div class="diagram-icon"><i class="fas fa-chart-bar"></i></div>
+                <div class="diagram-text">視覚化</div>
+              </div>
+              <div class="diagram-item">
+                <div class="diagram-icon"><i class="fas fa-share-alt"></i></div>
+                <div class="diagram-text">共有・連携</div>
+              </div>
+              <div class="connector" style="width: 80%; left: 10%;"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h2 class="section-title"><i class="fas fa-exchange-alt"></i>Power BI と Power BI Desktop の違い</h2>
+          <table class="comparison-table">
+            <tr>
+              <th style="width: 30%">機能・特性</th>
+              <th style="width: 35%">Power BI Service</th>
+              <th style="width: 35%">Power BI Desktop</th>
+            </tr>
+            <tr>
+              <td><b>主な用途</b></td>
+              <td>レポート・ダッシュボードの<span class="highlight-text">閲覧</span>・共有</td>
+              <td>レポート・データセットの<span class="highlight-text">作成</span>・開発</td>
+            </tr>
+            <tr>
+              <td><b>実行環境</b></td>
+              <td>クラウドベース（SaaS）</td>
+              <td>PC にインストール（Windows）</td>
+            </tr>
+            <tr>
+              <td><b>データ処理</b></td>
+              <td>制限あり</td>
+              <td>高度なデータ変換・モデリング</td>
+            </tr>
+            <tr>
+              <td><b>コラボレーション</b></td>
+              <td>共有・アクセス管理・アラート</td>
+              <td>限定的（ファイル共有のみ）</td>
+            </tr>
+            <tr>
+              <td><b>導入形態</b></td>
+              <td>ブラウザベース</td>
+              <td>アプリケーション</td>
+            </tr>
+          </table>
+          
+          <div class="highlight-box">
+            <div class="key-point">
+              <div class="key-point-icon">!</div>
+              <p class="content-text">
+                <b>利用フロー：</b> 一般的に Power BI Desktop でコンテンツを作成し、Power BI Service へ発行後にエンドユーザーと共有するワークフローが標準
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="column-right">
+        <div class="card">
+          <h2 class="section-title"><i class="fas fa-key"></i>ライセンス構成</h2>
+          <table class="license-table">
+            <tr>
+              <th>種類</th>
+              <th>月額費用</th>
+              <th>優先度</th>
+            </tr>
+            <tr>
+              <td><b>Power BI Free</b><br>個人利用向け基本機能</td>
+              <td>無料</td>
+              <td><span class="priority-tag priority-low">低</span></td>
+            </tr>
+            <tr>
+              <td><b>Power BI Pro</b><br>共有・コラボレーション</td>
+              <td>$9.99/ユーザー</td>
+              <td><span class="priority-tag priority-high">高</span></td>
+            </tr>
+            <tr>
+              <td><b>Power BI Premium (容量)</b><br>専用リソース・大容量</td>
+              <td>$4,995~/月</td>
+              <td><span class="priority-tag priority-medium">中</span></td>
+            </tr>
+            <tr>
+              <td><b>Power BI Premium Per User</b><br>Premium機能をユーザー単位</td>
+              <td>$20/ユーザー</td>
+              <td><span class="priority-tag priority-medium">中</span></td>
+            </tr>
+            <tr>
+              <td><b>Power BI Embedded</b><br>アプリケーション埋込み型</td>
+              <td>従量課金制</td>
+              <td><span class="priority-tag priority-low">低</span></td>
+            </tr>
+          </table>
+        </div>
+        
+        <div class="card">
+          <h2 class="section-title"><i class="fas fa-lightbulb"></i>導入時の主な検討ポイント</h2>
+          
+          <div class="key-point">
+            <div class="key-point-icon">1</div>
+            <div>
+              <p class="content-text"><b>組織規模と利用者数：</b> 部門単位か全社導入か</p>
+            </div>
+          </div>
+          
+          <div class="key-point">
+            <div class="key-point-icon">2</div>
+            <div>
+              <p class="content-text"><b>データ規模と更新頻度：</b> Premium が必要かどうか</p>
+            </div>
+          </div>
+          
+          <div class="key-point">
+            <div class="key-point-icon">3</div>
+            <div>
+              <p class="content-text"><b>既存 Microsoft 製品との統合：</b> Office 365 連携</p>
+            </div>
+          </div>
+          
+          <div class="key-point">
+            <div class="key-point-icon">4</div>
+            <div>
+              <p class="content-text"><b>セキュリティ要件：</b> データ保護・アクセス制御</p>
+            </div>
+          </div>
+          
+          <div class="key-point">
+            <div class="key-point-icon">5</div>
+            <div>
+              <p class="content-text"><b>コスト最適化：</b> Pro vs Premium のバランス</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h2 class="section-title"><i class="fas fa-chart-line"></i>導入メリット</h2>
+          
+          <div class="key-point">
+            <div class="key-point-icon"><i class="fas fa-bolt" style="font-size: 10px;"></i></div>
+            <p class="content-text"><b>意思決定の迅速化：</b> リアルタイムデータ分析</p>
+          </div>
+          
+          <div class="key-point">
+            <div class="key-point-icon"><i class="fas fa-users" style="font-size: 10px;"></i></div>
+            <p class="content-text"><b>全社データ活用：</b> 部門を超えたデータ統合</p>
+          </div>
+          
+          <div class="key-point">
+            <div class="key-point-icon"><i class="fas fa-cog" style="font-size: 10px;"></i></div>
+            <p class="content-text"><b>TCO削減：</b> 統合ツールによる運用コスト最適化</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <div class="footer-left">
+        <div class="footer-logo"></div>
+        <span>コンサルティング CONFIDENTIAL</span>
+      </div>
+      <div>出典: Microsoft 公式資料を基に作成 | © 2025</div>
+    </div>
+  </div>
+</body>
+</html>

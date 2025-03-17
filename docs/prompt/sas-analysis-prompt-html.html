@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SASコード解析・説明用プロンプト</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    pre {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      white-space: pre-wrap;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>SASコード解析・説明用プロンプト</h1>
+  
+  <button onclick="copyToClipboard()">プロンプトをコピー</button>
+  
+  <pre><code id="promptText">以下のSASコードを詳細に解析し、わかりやすく説明してください。コードの目的、構造、主要な機能、および実行結果について包括的な説明が必要です。
+
+## 解析の観点
+
+1. **全体的な目的**
+   - このコードが何を達成しようとしているのか
+   - どのようなビジネス問題や分析課題に対応しているのか
+
+2. **データ処理フロー**
+   - 入力データの性質と構造
+   - データ変換ステップの流れ
+   - 最終的な出力データの形式と内容
+
+3. **SAS言語要素の説明**
+   - 使用されているPROC（プロシージャ）の目的と機能
+   - DATA ステップの処理内容
+   - マクロ変数と条件分岐の使用方法
+   - 特殊なSAS関数の説明
+
+4. **統計的手法と分析手法**
+   - 適用されている統計モデルや分析手法の説明
+   - モデルのパラメータや設定の意味
+   - 分析結果の解釈方法
+
+5. **コードの最適化と効率性**
+   - パフォーマンス上の懸念点
+   - より効率的な代替アプローチの提案
+   - メモリ使用量やプロセッシング時間に関する考慮事項
+
+6. **エラー処理とロバスト性**
+   - エラーハンドリングの仕組み
+   - 潜在的な問題点や改善の余地
+
+## 出力形式
+
+1. **要約**
+   - 3-5文でコードの全体的な目的と機能を簡潔に説明
+
+2. **コード構造分析**
+   - 主要なセクションごとの詳細な説明
+   - セクション間の関連性と依存関係
+
+3. **技術的詳細**
+   - 使用されているSAS特有の機能や関数の解説
+   - 複雑な処理ロジックの説明とフローチャート
+
+4. **実行結果の解釈**
+   - 予想される出力結果
+   - 結果の統計的および実務的解釈
+
+5. **改善提案**
+   - コードの最適化やベストプラクティスの提案
+   - 代替アプローチや拡張の可能性
+
+以下に対象のSASコードを貼り付けてください：
+
+```sas
+[ここにSASコードを挿入]
+```</code></pre>
+
+  <script>
+    function copyToClipboard() {
+      const textToCopy = document.getElementById('promptText').textContent;
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => alert('プロンプトがコピーされました'))
+        .catch(err => console.error('コピーに失敗しました:', err));
+    }
+  </script>
+</body>
+</html>

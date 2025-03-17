@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VBAコード解析・説明用プロンプト</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    pre {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      white-space: pre-wrap;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>VBAコード解析・説明用プロンプト</h1>
+  
+  <button onclick="copyToClipboard()">プロンプトをコピー</button>
+  
+  <pre><code id="promptText">以下のVBAコードを詳細に解析し、わかりやすく説明してください。コードの目的、構造、主要な機能、および実行結果について包括的な説明が必要です。
+
+## 解析の観点
+
+1. **全体的な目的**
+   - このコードが何を達成しようとしているのか
+   - どのようなビジネス問題や自動化タスクに対応しているのか
+   - Excelやその他のOfficeアプリケーションとの連携方法
+
+2. **コード構造とフロー**
+   - プロシージャ（Sub/Function）の役割と相互関係
+   - モジュール構成と名前空間の使用方法
+   - 処理の流れと制御構造（条件分岐、ループなど）
+
+3. **VBA言語要素の説明**
+   - 変数宣言と型の使用（Dim, As, Variant など）
+   - 特殊なVBA関数やメソッドの説明
+   - オブジェクトモデルの活用方法（Workbooks, Sheets, Cells など）
+   - エラーハンドリング機構（On Error、Try/Catch など）
+
+4. **データ操作**
+   - セル範囲やデータの読み取り/書き込み方法
+   - 配列やコレクションの活用
+   - データ検索や変換のアルゴリズム
+
+5. **ユーザーインターフェース要素**
+   - フォームやコントロールの使用方法
+   - ユーザー入力の処理と検証
+   - メッセージボックスやダイアログの活用
+
+6. **パフォーマンスとベストプラクティス**
+   - 実行速度に関する考慮事項（Screen Updating、Calculation など）
+   - メモリ使用の最適化
+   - コード可読性と保守性
+
+7. **セキュリティ面の考慮**
+   - マクロセキュリティとの関連
+   - 潜在的なセキュリティリスクと対策
+
+## 出力形式
+
+1. **要約**
+   - 3-5文でコードの全体的な目的と機能を簡潔に説明
+
+2. **コード構造分析**
+   - 主要なプロシージャごとの詳細な説明
+   - モジュール間の関連性と呼び出し階層
+
+3. **技術的詳細**
+   - 使用されているVBA特有の機能や関数の解説
+   - 複雑な処理ロジックの説明とフローチャート
+
+4. **実行結果の解釈**
+   - 予想される動作と出力
+   - ユーザー体験の観点からの解説
+
+5. **改善提案**
+   - コードの最適化やベストプラクティスの提案
+   - エラーハンドリングの改善点
+   - 代替アプローチや拡張の可能性
+
+以下に対象のVBAコードを貼り付けてください：
+
+```vba
+[ここにVBAコードを挿入]
+```</code></pre>
+
+  <script>
+    function copyToClipboard() {
+      const textToCopy = document.getElementById('promptText').textContent;
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => alert('プロンプトがコピーされました'))
+        .catch(err => console.error('コピーに失敗しました:', err));
+    }
+  </script>
+</body>
+</html>

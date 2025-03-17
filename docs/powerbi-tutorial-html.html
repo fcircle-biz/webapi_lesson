@@ -52,11 +52,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-top: 0;
+            padding-bottom: 0;
         }
         
         header h1 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin: 0;
+            white-space: nowrap;
+            display: block;
+            visibility: visible !important;
+            color: white;
         }
         
         header .nav-toggle {
@@ -71,9 +77,10 @@
         nav a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 0.75rem;
+            padding: 0.3rem 0.5rem;
             border-radius: 4px;
             transition: background-color 0.3s;
+            font-size: 0.85rem;
         }
         
         nav a:hover {
@@ -343,7 +350,7 @@
 <body>
     <header>
         <div class="container">
-            <h1>Power BI Free 入門</h1>
+            <h1>Power BI Free 入門チュートリアル</h1>
             <button class="nav-toggle">☰</button>
             <nav id="main-nav">
                 <a href="#intro">はじめに</a>

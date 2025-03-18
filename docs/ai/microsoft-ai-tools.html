@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft環境で利用できるAIツール</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Yomogi&family=Zen+Kurenaido&family=Kaisei+Decol&display=swap');
+        
+        :root {
+            --fashion-1: #593C47;
+            --fashion-2: #F2E63D;
+            --fashion-3: #F2C53D;
+            --fashion-4: #F25C05;
+            --fashion-5: #F24405;
+            --bg-light: #fdf6f9;
+            --ms-blue: #0078D4;
+            --ms-light-blue: #50d9ff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Zen Kurenaido', sans-serif;
+            background: var(--bg-light);
+            color: #334155;
+            line-height: 1.4;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* ヘッダースタイル */
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed var(--fashion-1);
+            position: relative;
+            background: linear-gradient(to right, rgba(0, 120, 212, 0.1), rgba(0, 120, 212, 0.05));
+        }
+        
+        .title {
+            font-family: 'Kaisei Decol', serif;
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--ms-blue), var(--fashion-5));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            position: relative;
+        }
+        
+        .title::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,1.5 C5,0.5 10,2.5 15,1.5 C20,0.5 25,2.5 30,1.5 C35,0.5 40,2.5 45,1.5 C50,0.5 55,2.5 60,1.5 C65,0.5 70,2.5 75,1.5 C80,0.5 85,2.5 90,1.5 C95,0.5 100,2.5 105,1.5' stroke='%23F25C05' stroke-width='2' fill='none'/%3E%3C/svg%3E") repeat-x;
+        }
+        
+        .date {
+            font-family: 'Yomogi', cursive;
+            font-size: 14px;
+            color: #475569;
+        }
+        
+        /* コンテンツレイアウト */
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        
+        .column {
+            width: 33.333%;
+            padding: 10px;
+        }
+        
+        /* カードスタイル */
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(89, 60, 71, 0.1);
+            position: relative;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, var(--fashion-2), var(--fashion-4)) 1;
+            backdrop-filter: blur(5px);
+        }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 16px;
+            height: 16px;
+            background: var(--fashion-3);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .ms-card {
+            border-image: linear-gradient(45deg, var(--ms-blue), var(--fashion-4)) 1;
+        }
+        
+        .ms-card::before {
+            background: var(--ms-blue);
+        }
+        
+        /* セクションヘッダー */
+        .section-heading {
+            font-family: 'Kaisei Decol', serif;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--fashion-1);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--fashion-4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ms-heading {
+            color: var(--ms-blue);
+            border-bottom: 2px solid var(--ms-blue);
+        }
+        
+        /* テキストスタイル */
+        .text {
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 12px;
+        }
+        
+        /* キーワードハイライト */
+        .keyword {
+            font-weight: bold;
+            position: relative;
+            padding: 0 2px;
+            z-index: 1;
+        }
+        
+        .keyword::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 6px;
+            background-color: var(--fashion-3);
+            opacity: 0.5;
+            z-index: -1;
+        }
+        
+        .ms-keyword::after {
+            background-color: var(--ms-light-blue);
+        }
+        
+        /* 手書き風要素 */
+        .hand-drawn-box {
+            border: 2px solid var(--fashion-1);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        .hand-drawn-box::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid var(--fashion-1);
+            border-radius: 10px;
+            opacity: 0.3;
+            z-index: -1;
+            transform: rotate(-0.5deg);
+        }
+        
+        .ms-box {
+            border: 2px solid var(--ms-blue);
+        }
+        
+        .ms-box::before {
+            border: 2px solid var(--ms-blue);
+        }
+        
+        /* 矢印 */
+        .arrow {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .arrow svg {
+            width: 40px;
+            height: 25px;
+        }
+        
+        /* 吹き出し */
+        .speech-bubble {
+            position: relative;
+            background: var(--fashion-2);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        
+        .speech-bubble::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 30px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: var(--fashion-2) transparent;
+        }
+        
+        .ms-bubble {
+            background: var(--ms-light-blue);
+        }
+        
+        .ms-bubble::after {
+            border-color: var(--ms-light-blue) transparent;
+        }
+        
+        /* アイコン */
+        .icon {
+            font-size: 20px;
+            margin-right: 5px;
+            display: inline-block;
+        }
+        
+        /* テキストバナー */
+        .banner {
+            background: linear-gradient(45deg, var(--fashion-3), var(--fashion-4));
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 5px 0;
+            font-size: 12px;
+            transform: rotate(-1deg);
+        }
+        
+        .ms-banner {
+            background: linear-gradient(45deg, var(--ms-blue), var(--ms-light-blue));
+        }
+        
+        /* リスト */
+        .hand-drawn-list {
+            list-style: none;
+            margin-left: 10px;
+        }
+        
+        .hand-drawn-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .hand-drawn-list li::before {
+            content: "✏️";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 12px;
+        }
+        
+        .ms-list li::before {
+            content: "💻";
+        }
+        
+        /* フッター */
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #64748b;
+            border-top: 2px dashed var(--fashion-1);
+        }
+        
+        /* 接続線 */
+        .connection {
+            position: absolute;
+            z-index: -1;
+            stroke: var(--fashion-4);
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+        
+        /* グラスモーフィズム効果 */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .ms-glass {
+            background: rgba(0, 120, 212, 0.1);
+            border: 1px solid rgba(0, 120, 212, 0.3);
+        }
+        
+        /* ツール特化スタイル */
+        .tool-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tool-item {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--fashion-3);
+            border-radius: 8px;
+            padding: 8px;
+            width: calc(50% - 4px);
+            text-align: center;
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .ms-tool {
+            border: 1px solid var(--ms-blue);
+        }
+        
+        .tool-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .tool-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🤖 Microsoft環境で利用できるAIツール 💻</h1>
+            <p class="date">2025年3月18日作成</p>
+        </div>
+        
+        <div class="content">
+            <!-- 第1カラム -->
+            <div class="column">
+                <div class="card ms-card">
+                    <h2 class="section-heading ms-heading">
+                        <span class="icon">💬</span>ChatGPT & Microsoft Copilot
+                    </h2>
+                    <p class="text">
+                        <span class="keyword ms-keyword">ChatGPT</span>はOpenAIが開発した対話型AIで、Microsoftは戦略的パートナーとして投資しています。
+                    </p>
+                    <div class="hand-drawn-box ms-box">
+                        <p class="text">ChatGPTの特徴：</p>
+                        <ul class="hand-drawn-list ms-list">
+                            <li>自然な対話形式でAIと<span class="keyword ms-keyword">コミュニケーション</span></li>
+                            <li>質問応答、文章作成、<span class="keyword ms-keyword">コード生成</span>など多様な機能</li>
+                            <li>Microsoft製品との<span class="keyword ms-keyword">連携強化</span></li>
+                        </ul>
+                    </div>
+                    <div class="speech-bubble ms-bubble">
+                        <p class="text"><span class="keyword ms-keyword">Microsoft Copilot</span>はChatGPTを活用した統合型AIアシスタントです</p>
+                    </div>
+                </div>
+                
+                <div class="card ms-card">
+                    <h2 class="section-heading ms-heading">
+                        <span class="icon">📝</span>Microsoft 365 Copilot
+                    </h2>
+                    <p class="text">
+                        Microsoft 365アプリに統合された<span class="keyword ms-keyword">AI機能</span>で、生産性を大幅に向上させます。
+                    </p>
+                    <div class="tool-grid">
+                        <div class="tool-item ms-tool">
+                            <span class="tool-icon">📊</span>
+                            <p class="tool-name">Excel Copilot</p>
+                            <p>データ分析・可視化支援</p>
+                        </div>
+                        <div class="tool-item ms-tool">
+                            <span class="tool-icon">📄</span>
+                            <p class="tool-name">Word Copilot</p>
+                            <p>文書作成・編集支援</p>
+                        </div>
+                        <div class="tool-item ms-tool">
+                            <span class="tool-icon">📊</span>
+                            <p class="tool-name">PowerPoint Copilot</p>
+                            <p>プレゼン作成・デザイン</p>
+                        </div>
+                        <div class="tool-item ms-tool">
+                            <span class="tool-icon">📧</span>
+                            <p class="tool-name">Outlook Copilot</p>
+                            <p>メール作成・要約</p>
+                        </div>
+                    </div>
+                    <div class="speech-bubble ms-bubble">
+                        <p class="text">✅ <span class="keyword ms-keyword">Copilot Chat（エンタープライズ保護付き）</span>はMicrosoft 365契約に含まれています</p>
+                    </div>
+                    <div class="hand-drawn-box ms-box">
+                        <p class="text">Copilot Chat特徴：</p>
+                        <ul class="hand-drawn-list ms-list">
+                            <li>企業の<span class="keyword ms-keyword">セキュリティポリシー</span>準拠</li>
+                            <li>組織データの<span class="keyword ms-keyword">機密性保護</span></li>
+                            <li>Microsoft 365 E3/E5など<span class="keyword ms-keyword">特定のライセンス</span>で利用可能</li>
+                            <li>社内データに基づく<span class="keyword ms-keyword">パーソナライズ</span>された応答</li>
+                        </ul>
+                    </div>
+                    <div class="glass-effect ms-glass">
+                        <p class="text">
+                            🔑 <span class="banner ms-banner">一貫性のある体験</span> 会社全体で統一されたAI活用が可能
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第2カラム -->
+            <div class="column">
+                <div class="card ms-card">
+                    <h2 class="section-heading ms-heading">
+                        <span class="icon">⌨️</span>GitHub Copilot
+                    </h2>
+                    <p class="text">
+                        <span class="keyword ms-keyword">開発者向けAIアシスタント</span>で、コーディングの効率を劇的に向上させます。
+                    </p>
+                    <div class="hand-drawn-box ms-box">
+                        <p class="text">GitHub Copilotの機能：</p>
+                        <ul class="hand-drawn-list ms-list">
+                            <li><span class="keyword ms-keyword">コード補完</span>と提案</li>
+                            <li>自然言語から<span class="keyword ms-keyword">コード生成</span></li>
+                            <li>コメントから<span class="keyword ms-keyword">関数実装</span>を提案</li>
+                            <li>Visual Studio、VS Code、<span class="keyword ms-keyword">JetBrains</span>に対応</li>
+                        </ul>
+                    </div>
+                    <div class="arrow">
+                        <svg viewBox="0 0 40 25" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,12.5 C10,5 30,20 40,12.5 M30,12.5 L40,12.5 M30,5 L40,12.5 L30,20" stroke="#0078D4" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="speech-bubble ms-bubble">
+                        <p class="text">推定で<span class="keyword ms-keyword">開発時間の30%削減</span>が実現可能！</p>
+                    </div>
+                </div>
+                
+                <div class="card ms-card">
+                    <h2 class="section-heading ms-heading">
+                        <span class="icon">🔍</span>Microsoft Bing & Edge with AI
+                    </h2>
+                    <p class="text">
+                        Microsoftの検索エンジンと<span class="keyword ms-keyword">ブラウザにAI機能</span>を統合したサービス。
+                    </p>
+                    <div class="hand-drawn-box ms-box">
+                        <p class="text">主な機能：</p>
+                        <ul class="hand-drawn-list ms-list">
+                            <li><span class="keyword ms-keyword">ChatGPT</span>ベースの対話検索</li>
+                            <li>ウェブ情報の<span class="keyword ms-keyword">要約と分析</span></li>
+                            <li>画像生成(<span class="keyword ms-keyword">DALL-E</span>を活用)</li>
+                            <li>Edge<span class="keyword ms-keyword">サイドバーAI</span>機能</li>
+                        </ul>
+                    </div>
+                    <div class="glass-effect ms-glass">
+                        <p class="text">
+                            🔎 Bing Chatでは<span class="keyword ms-keyword">現在のウェブ情報</span>を含めた回答が可能
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第3カラム -->
+            <div class="column">
+                <div class="card ms-card">
+                    <h2 class="section-heading ms-heading">
+                        <span class="icon">🖥️</span>Windows Copilot
+                    </h2>
+                    <p class="text">
+                        Windowsに統合された<span class="keyword ms-keyword">パーソナルAIアシスタント</span>。OSレベルでAIサポートを提供します。
+                    </p>
+                    <div class="hand-drawn-box ms-box">
+                        <p class="text">Windowsでできること：</p>
+                        <ul class="hand-drawn-list ms-list">
+                            <li>システム<span class="keyword ms-keyword">設定の変更</span>支援</li>
+                            <li>アプリ間での<span class="keyword ms-keyword">情報連携</span></li>
+                            <li>画面上の情報に基づく<span class="keyword ms-keyword">コンテキスト理解</span></li>
+                            <li>日常的な<span class="keyword ms-keyword">タスク自動化</span></li>
+                        </ul>
+                    </div>
+                    <div class="speech-bubble ms-bubble">
+                        <p class="text">ショートカット：<span class="keyword ms-keyword">Win+C</span>でいつでもCopilotを呼び出せます</p>
+                    </div>
+                </div>
+                
+                <div class="card ms-card">
+                    <h2 class="section-heading ms-heading">
+                        <span class="icon">🤖</span>Microsoft AIエージェント
+                    </h2>
+                    <p class="text">
+                        特定タスクを<span class="keyword ms-keyword">自律的に実行</span>するAIシステム。Microsoft環境で多様なエージェントが利用可能です。
+                    </p>
+                    <div class="hand-drawn-box ms-box">
+                        <p class="text">主なAIエージェント：</p>
+                        <ul class="hand-drawn-list ms-list">
+                            <li>Microsoft <span class="keyword ms-keyword">Power Automate</span>のAIフロー</li>
+                            <li>Microsoft <span class="keyword ms-keyword">Copilot Studio</span>でのカスタムエージェント開発</li>
+                            <li>Teams用<span class="keyword ms-keyword">ボット</span>とエージェント</li>
+                            <li>Dynamics 365の<span class="keyword ms-keyword">セールスコピロット</span></li>
+                        </ul>
+                    </div>
+                    <div class="glass-effect ms-glass">
+                        <p class="text">
+                            🔄 <span class="banner ms-banner">業務自動化</span> 反復タスクの自動化から高度な意思決定支援まで
+                        </p>
+                    </div>
+                    <div class="speech-bubble ms-bubble">
+                        <p class="text">エージェントは<span class="keyword ms-keyword">プラグイン連携</span>で各種ツールと接続可能！</p>
+                    </div>
+                </div>
+                
+                <div class="card ms-card">
+                    <h2 class="section-heading ms-heading">
+                        <span class="icon">🚀</span>Microsoft Azure AI
+                    </h2>
+                    <p class="text">
+                        企業向けに<span class="keyword ms-keyword">クラウドベースのAI機能</span>を提供するプラットフォーム。
+                    </p>
+                    <div class="hand-drawn-box ms-box">
+                        <p class="text">Azure AIの主要サービス：</p>
+                        <ul class="hand-drawn-list ms-list">
+                            <li>Azure <span class="keyword ms-keyword">OpenAI Service</span>(GPT-4など)</li>
+                            <li>Azure <span class="keyword ms-keyword">Cognitive Services</span>(視覚、言語など)</li>
+                            <li>Azure <span class="keyword ms-keyword">Machine Learning</span></li>
+                            <li>AI <span class="keyword ms-keyword">ソリューション開発</span>基盤</li>
+                        </ul>
+                    </div>
+                    <div class="glass-effect ms-glass">
+                        <p class="text">
+                            🏢 <span class="banner ms-banner">エンタープライズ対応</span> セキュリティ、コンプライアンス、スケーラビリティを重視
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Microsoft環境で利用できるAIツール | Microsoft、OpenAI、ChatGPTは各社の商標です</p>
+        </div>
+    </div>
+</body>
+</html>

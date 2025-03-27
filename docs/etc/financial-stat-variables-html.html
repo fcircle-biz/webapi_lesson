@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金融統計学における変数分類</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #1a5276;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f7fd;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>金融統計学における変数分類</h1>
+
+    <div class="section">
+        <h2>1. 基本分類</h2>
+
+        <h3>1.1 質的変数と量的変数</h3>
+        <table>
+            <tr>
+                <th>分類</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>質的変数 (定性的変数)</strong></td>
+                <td>カテゴリーや特性を表す変数</td>
+                <td>証券タイプ (株式、債券、デリバティブ)、取引所名、格付け (AAA, AA, A)</td>
+            </tr>
+            <tr>
+                <td><strong>量的変数 (定量的変数)</strong></td>
+                <td>数値で測定できる変数</td>
+                <td>株価、金利、取引量、ROE、PER</td>
+            </tr>
+        </table>
+
+        <h3>1.2 離散変数と連続変数</h3>
+        <table>
+            <tr>
+                <th>分類</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>離散変数</strong></td>
+                <td>個別の値をとる変数</td>
+                <td>取引回数、株式の保有数、デフォルト回数</td>
+            </tr>
+            <tr>
+                <td><strong>連続変数</strong></td>
+                <td>連続的な値をとる変数</td>
+                <td>収益率、金利、インフレ率、ボラティリティ</td>
+            </tr>
+        </table>
+
+        <h3>1.3 独立変数と従属変数</h3>
+        <table>
+            <tr>
+                <th>分類</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>独立変数 (説明変数)</strong></td>
+                <td>他の変数に影響を与える変数</td>
+                <td>金利、GDP成長率、原油価格、失業率</td>
+            </tr>
+            <tr>
+                <td><strong>従属変数 (被説明変数)</strong></td>
+                <td>他の変数から影響を受ける変数</td>
+                <td>株価、債券利回り、為替レート</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>2. 測定尺度による分類</h2>
+
+        <h3>2.1 名義尺度 (Nominal Scale)</h3>
+        <p>カテゴリーを表すだけで、順序に意味がない変数</p>
+
+        <p><strong>金融例:</strong></p>
+        <ul>
+            <li>企業の業種分類（金融、IT、エネルギーなど）</li>
+            <li>証券タイプ（株式、債券、ETF）</li>
+            <li>取引市場（東証、NYSE、ナスダック）</li>
+            <li>通貨種類（円、ドル、ユーロ）</li>
+        </ul>
+
+        <p><strong>適用統計量:</strong> モード（最頻値）、頻度分析</p>
+
+        <h3>2.2 順序尺度 (Ordinal Scale)</h3>
+        <p>順序に意味があるが、間隔に一定の意味がない変数</p>
+
+        <p><strong>金融例:</strong></p>
+        <ul>
+            <li>信用格付け（AAA, AA, A, BBB...）</li>
+            <li>投資家のリスク許容度（低、中、高）</li>
+            <li>市場センチメント指標（強気、中立、弱気）</li>
+            <li>ESG評価ランク</li>
+        </ul>
+
+        <p><strong>適用統計量:</strong> 中央値、四分位数、順位相関</p>
+
+        <h3>2.3 間隔尺度 (Interval Scale)</h3>
+        <p>間隔が一定の意味を持つが、比率に意味がない変数</p>
+
+        <p><strong>金融例:</strong></p>
+        <ul>
+            <li>株価指数値</li>
+            <li>消費者物価指数（CPI）</li>
+            <li>日付（取引日、決算日）</li>
+            <li>気温データ（商品先物取引の分析用）</li>
+        </ul>
+
+        <p><strong>適用統計量:</strong> 平均値、標準偏差、相関係数</p>
+
+        <h3>2.4 比率尺度 (Ratio Scale)</h3>
+        <p>絶対的なゼロ点があり、比率が意味を持つ変数</p>
+
+        <p><strong>金融例:</strong></p>
+        <ul>
+            <li>株価、債券価格</li>
+            <li>収益率、利回り</li>
+            <li>取引量、売上高</li>
+            <li>PER、PBR、ROE、ROA</li>
+            <li>ボラティリティ、VaR</li>
+            <li>金利、インフレ率</li>
+        </ul>
+
+        <p><strong>適用統計量:</strong> 幾何平均、変動係数、あらゆる統計的処理</p>
+    </div>
+
+    <div class="section">
+        <h2>3. 金融特有の変数分類</h2>
+
+        <h3>3.1 時系列変数とクロスセクション変数</h3>
+        <table>
+            <tr>
+                <th>分類</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>時系列変数</strong></td>
+                <td>時間経過に伴う変化を表す変数</td>
+                <td>日次株価、四半期GDP、月次インフレ率</td>
+            </tr>
+            <tr>
+                <td><strong>クロスセクション変数</strong></td>
+                <td>特定時点での複数対象の違いを表す変数</td>
+                <td>業種別PER、国別金利、企業間ROE比較</td>
+            </tr>
+            <tr>
+                <td><strong>パネルデータ変数</strong></td>
+                <td>時系列とクロスセクションの両方の特性を持つ変数</td>
+                <td>複数企業の複数期間財務データ</td>
+            </tr>
+        </table>
+
+        <h3>3.2 リスク・リターン変数</h3>
+        <table>
+            <tr>
+                <th>分類</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>リターン変数</strong></td>
+                <td>投資収益を表す変数</td>
+                <td>株式リターン、配当利回り、債券利回り</td>
+            </tr>
+            <tr>
+                <td><strong>リスク変数</strong></td>
+                <td>不確実性や変動を表す変数</td>
+                <td>ボラティリティ、ベータ、VaR、最大ドローダウン</td>
+            </tr>
+        </table>
+
+        <h3>3.3 ファンダメンタル変数とテクニカル変数</h3>
+        <table>
+            <tr>
+                <th>分類</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>ファンダメンタル変数</strong></td>
+                <td>本質的価値に関連する変数</td>
+                <td>EPS、BPS、FCF、ROE、PER、PBR</td>
+            </tr>
+            <tr>
+                <td><strong>テクニカル変数</strong></td>
+                <td>価格や出来高パターンに関する変数</td>
+                <td>移動平均、RSI、MACD、ボリンジャーバンド</td>
+            </tr>
+            <tr>
+                <td><strong>マクロ経済変数</strong></td>
+                <td>経済全体に関連する変数</td>
+                <td>GDP成長率、失業率、インフレ率、マネーサプライ</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>4. 統計モデルにおける変数の役割</h2>
+
+        <h3>4.1 ファクターモデル変数</h3>
+        <table>
+            <tr>
+                <th>分類</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>共通ファクター</strong></td>
+                <td>複数の資産に影響を与える要因</td>
+                <td>市場リスク、規模ファクター、バリューファクター</td>
+            </tr>
+            <tr>
+                <td><strong>個別ファクター</strong></td>
+                <td>特定の資産に固有の要因</td>
+                <td>企業固有リスク、イディオシンクラティックリスク</td>
+            </tr>
+        </table>
+
+        <h3>4.2 確率過程変数</h3>
+        <table>
+            <tr>
+                <th>分類</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>定常過程変数</strong></td>
+                <td>時間によって統計的性質が変化しない変数</td>
+                <td>多くの金利スプレッド、一部の相対価格</td>
+            </tr>
+            <tr>
+                <td><strong>非定常過程変数</strong></td>
+                <td>時間によって統計的性質が変化する変数</td>
+                <td>株価、為替レート、絶対価格レベル</td>
+            </tr>
+            <tr>
+                <td><strong>確率的ボラティリティ変数</strong></td>
+                <td>変動性自体が確率的に変化する変数</td>
+                <td>オプション価格のインプライドボラティリティ</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>5. 実務における変数変換</h2>
+        <table>
+            <tr>
+                <th>変換方法</th>
+                <th>説明</th>
+                <th>金融例</th>
+            </tr>
+            <tr>
+                <td><strong>対数変換</strong></td>
+                <td>非線形関係を線形化、分布の正規化</td>
+                <td>株価の対数リターン、対数株価</td>
+            </tr>
+            <tr>
+                <td><strong>差分変換</strong></td>
+                <td>非定常時系列の定常化</td>
+                <td>金利の一階差分、株価変化率</td>
+            </tr>
+            <tr>
+                <td><strong>標準化</strong></td>
+                <td>異なるスケールの変数を比較可能に</td>
+                <td>Z-スコア化したPER、標準化収益率</td>
+            </tr>
+            <tr>
+                <td><strong>正規化</strong></td>
+                <td>変数を特定範囲に収める</td>
+                <td>[0,1]範囲に正規化したリスク指標</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
